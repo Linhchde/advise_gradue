@@ -4,21 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <!-- Web App Metadata -->
+  <!-- Web App Capabilities -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#060712">
   <meta name="format-detection" content="telephone=no">
 
-  <!-- SEO & Open Graph Meta Tags -->
-  <title>Thư Mời Lễ Tốt Nghiệp • Cao Hoàng Linh | Đà Nẵng 2026</title>
-  <meta name="description" content="Quyển sách Origami tương tác: Hành trình Lễ tốt nghiệp Đại học của Cao Hoàng Linh tại Đà Nẵng – Hội An (11–13/08/2026).">
+  <!-- SEO & Open Graph -->
+  <title>Thư Mời Lễ Tốt Nghiệp • Cao Hoàng Linh | 3D Origami Storybook</title>
+  <meta name="description" content="Quyển sách 3D Origami Pop-up Book: Hành trình Lễ tốt nghiệp Đại học của Cao Hoàng Linh tại Đà Nẵng – Hội An (11–13/08/2026).">
   <meta property="og:title" content="Thư Mời Lễ Tốt Nghiệp • Cao Hoàng Linh | Đà Nẵng 2026">
-  <meta property="og:description" content="Cuộn để kéo mở câu chuyện hành trình tốt nghiệp và cùng hội tụ tại Đà Nẵng.">
+  <meta property="og:description" content="Cuộn để mở cuốn sách 3D Origami và cùng bước vào hành trình Lễ tốt nghiệp tại Đà Nẵng.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="vi_VN">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&auto=format&fit=crop&q=80">
   
   <!-- Favicon SVG -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
@@ -34,16 +33,14 @@
   <!-- GSAP & ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Centralized Configuration & Services -->
+  <!-- Centralized Configuration & Helpers -->
   <script src="./invitationConfig.js"></script>
-  <script src="./rsvpService.js"></script>
   <script src="./calendarHelper.js"></script>
 
   <style>
     /* ============================================================
-       ORIGAMI PULL-TAB STORYBOOK DESIGN SYSTEM
+       3D ORIGAMI POP-UP STORYBOOK DESIGN SYSTEM
        ============================================================ */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -54,17 +51,17 @@
 
     :root {
       --bg-dark: #05060e;
-      --gold-primary: #f5d372;
+      --paper-cream: #faf6eb;
+      --paper-left: #f3edd9;
+      --paper-right: #fbf8f0;
+      --gold-primary: #d4af37;
       --gold-bright: #ffe89e;
-      --gold-dark: #b88a2e;
+      --gold-dark: #aa771c;
       --gold-gradient: linear-gradient(135deg, #fce38a 0%, #d4af37 40%, #ffdf79 70%, #aa771c 100%);
       --cyan-glow: #52e5ff;
       --purple-sunset: #7c4dff;
-      --orange-lantern: #ff7e47;
-      --border-gold: rgba(245, 211, 114, 0.35);
-      --border-cyan: rgba(82, 229, 255, 0.35);
-      --text-main: #f2f5fd;
-      --text-muted: #9ba4be;
+      --text-dark: #1b1d28;
+      --text-muted: #5e6478;
       --font-display: 'Cinzel', serif;
       --font-serif: 'Playfair Display', serif;
       --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -74,7 +71,7 @@
       width: 100%;
       min-height: 100%;
       background-color: var(--bg-dark);
-      color: var(--text-main);
+      color: #fff;
       font-family: var(--font-sans);
       overflow-x: hidden;
       -webkit-user-select: none;
@@ -86,14 +83,13 @@
       overscroll-behavior: none;
     }
 
-    /* Accessibility Focus Visible */
     :focus-visible {
       outline: 2px solid var(--cyan-glow) !important;
       outline-offset: 3px !important;
     }
 
     /* ============================================================
-       TOP HEADER & HUD BAR
+       TOP HUD & BRAND BAR
        ============================================================ */
     .top-hud {
       position: fixed;
@@ -105,7 +101,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(180deg, rgba(5, 6, 14, 0.92) 0%, rgba(5, 6, 14, 0) 100%);
+      background: linear-gradient(180deg, rgba(5, 6, 14, 0.95) 0%, rgba(5, 6, 14, 0) 100%);
       z-index: 100;
       pointer-events: none;
     }
@@ -127,7 +123,7 @@
       justify-content: center;
       color: #080914;
       font-size: 18px;
-      box-shadow: 0 0 14px rgba(245, 211, 114, 0.5);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.6);
     }
 
     .brand-title h1 {
@@ -160,7 +156,7 @@
       min-height: 36px;
       padding: 0 12px;
       border-radius: 18px;
-      border: 1px solid var(--border-gold);
+      border: 1px solid rgba(212, 175, 55, 0.4);
       background: rgba(18, 22, 44, 0.85);
       color: var(--gold-bright);
       font-size: 11.5px;
@@ -175,14 +171,14 @@
     }
 
     .btn-hud:hover {
-      background: rgba(245, 211, 114, 0.25);
+      background: rgba(212, 175, 55, 0.25);
       transform: translateY(-1px);
     }
 
     /* ============================================================
-       STORY PROGRESS THREAD (MINIMALIST ORIGAMI PROGRESS)
+       SPINE BOOKMARK PROGRESS INDICATOR
        ============================================================ */
-    .story-progress-thread {
+    .spine-bookmark-nav {
       position: fixed;
       right: 20px;
       top: 50%;
@@ -195,63 +191,56 @@
       pointer-events: auto;
     }
 
-    .progress-track-line {
+    .bookmark-ribbon-line {
       position: absolute;
-      top: 10px;
-      bottom: 10px;
+      top: 8px;
+      bottom: 8px;
       width: 2px;
-      background: rgba(245, 211, 114, 0.18);
+      background: rgba(212, 175, 55, 0.2);
       z-index: -1;
-      border-radius: 2px;
     }
 
-    .progress-fill-line {
+    .bookmark-fill-line {
       position: absolute;
-      top: 10px;
+      top: 8px;
       width: 2px;
       height: 0%;
       background: var(--gold-gradient);
       box-shadow: 0 0 8px var(--gold-primary);
       z-index: -1;
-      border-radius: 2px;
       transition: height 0.1s linear;
     }
 
-    .thread-node {
+    .bookmark-node {
       width: 26px;
       height: 26px;
       border-radius: 50%;
       background: rgba(10, 12, 26, 0.9);
-      border: 1.5px solid rgba(245, 211, 114, 0.35);
-      color: var(--text-muted);
+      border: 1.5px solid rgba(212, 175, 55, 0.35);
+      color: #9ba4be;
       font-size: 9.5px;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
       position: relative;
+      transition: all 0.3s ease;
     }
 
-    .thread-node:hover {
-      border-color: var(--gold-bright);
-      color: #fff;
-    }
-
-    .thread-node.active {
+    .bookmark-node.active {
       background: var(--gold-gradient);
       color: #080914;
       border-color: var(--gold-bright);
-      box-shadow: 0 0 12px rgba(245, 211, 114, 0.7);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
       transform: scale(1.18);
     }
 
-    .thread-tooltip {
+    .bookmark-tooltip {
       position: absolute;
       right: 34px;
       background: rgba(14, 18, 38, 0.95);
-      border: 1px solid var(--border-gold);
+      border: 1px solid rgba(212, 175, 55, 0.4);
       padding: 4px 10px;
       border-radius: 8px;
       color: var(--gold-bright);
@@ -264,52 +253,49 @@
       transition: all 0.25s ease;
     }
 
-    .thread-node:hover .thread-tooltip {
+    .bookmark-node:hover .bookmark-tooltip {
       opacity: 1;
       transform: translateX(0);
     }
 
     @media (max-width: 768px) {
-      .story-progress-thread {
+      .spine-bookmark-nav {
         right: auto;
         left: 50%;
         top: calc(58px + env(safe-area-inset-top, 0px));
         transform: translateX(-50%);
         flex-direction: row;
       }
-      .progress-track-line, .progress-fill-line {
-        display: none;
-      }
-      .thread-node {
-        width: 22px;
-        height: 22px;
-        font-size: 8.5px;
-      }
-      .thread-tooltip { display: none; }
+      .bookmark-ribbon-line, .bookmark-fill-line { display: none; }
+      .bookmark-node { width: 22px; height: 22px; font-size: 8.5px; }
+      .bookmark-tooltip { display: none; }
     }
 
     /* ============================================================
-       SCROLL CONTAINER & 100DVH STICKY CINEMATIC STAGE
+       MASTER SCROLL TRACK & 100DVH STICKY CINEMATIC STAGE
        ============================================================ */
-    .storybook-scroll-track {
+    .master-scroll-track {
       position: relative;
       width: 100%;
-      height: 620vh; /* Master Scroll Height driving the scrub timeline */
+      height: 700vh; /* Smooth scrub track */
     }
 
-    .storybook-stage {
+    .cinematic-stage {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100dvh;
       overflow: hidden;
-      perspective: 1400px;
+      perspective: 1600px;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Sky & Environment Gradient Layer */
-    .stage-environment {
+    /* Atmosphere Lighting Background */
+    .sky-atmosphere {
       position: absolute;
       inset: 0;
       background: radial-gradient(circle at 50% 30%, #151838 0%, #060712 75%);
@@ -317,452 +303,454 @@
       z-index: 0;
     }
 
-    /* Atmospheric Floating Paper Dust Canvas */
-    #paper-dust-canvas {
+    /* Ambient Gold Sparkle Dust */
+    #sparkle-canvas {
       position: absolute;
       inset: 0;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.75;
+      opacity: 0.7;
     }
 
     /* ============================================================
-       PHYSICAL ORIGAMI PULL-TAB AT BOTTOM
+       ELEMENT 1: PROLOGUE SEALED ENVELOPE (0.00 -> 0.12)
        ============================================================ */
-    .origami-pull-tab {
+    .prologue-envelope-wrapper {
       position: absolute;
-      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-      left: 50%;
-      transform: translateX(-50%) translateY(0);
-      z-index: 85;
+      z-index: 20;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    .pull-tab-handle {
-      width: 130px;
-      height: 38px;
-      border-radius: 12px 12px 20px 20px;
-      background: linear-gradient(180deg, #d4af37 0%, #aa771c 100%);
-      border: 1.5px solid rgba(255, 235, 160, 0.6);
-      box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.8),
-        0 0 15px rgba(245, 211, 114, 0.4),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 6px;
-      color: #12131a;
-      font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      text-align: center;
+      width: 90%;
+      max-width: 540px;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+
+    .envelope-3d {
+      width: 280px;
+      height: 180px;
       position: relative;
+      margin: 0 auto 18px;
+      transform-style: preserve-3d;
     }
 
-    .pull-tab-handle::after {
-      content: '';
-      position: absolute;
-      bottom: 4px;
-      width: 40px;
-      height: 3px;
-      border-radius: 2px;
-      background: rgba(0, 0, 0, 0.25);
-    }
-
-    .pull-tab-hint {
-      font-size: 11px;
-      color: var(--gold-bright);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-      animation: pulseHint 2s infinite ease-in-out;
-    }
-
-    @keyframes pulseHint {
-      0%, 100% { opacity: 0.7; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(3px); }
-    }
-
-    /* ============================================================
-       CINEMATIC SCENES & STORY MOMENTS
-       ============================================================ */
-    .scene-layer {
+    .envelope-back-plate {
       position: absolute;
       inset: 0;
+      background: linear-gradient(160deg, #1f2345 0%, #101226 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 14px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.35);
+    }
+
+    .envelope-flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: linear-gradient(180deg, #2a2f58 0%, #161a36 100%);
+      border: 2px solid var(--gold-primary);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 5;
+      transform-style: preserve-3d;
+    }
+
+    .envelope-wax-crest {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 55, 0.8);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: calc(70px + env(safe-area-inset-top, 0px)) 24px calc(70px + env(safe-area-inset-bottom, 0px));
-      pointer-events: none;
-      opacity: 0;
-      transform: scale(0.92);
-      transition: opacity 0.5s ease;
+      color: #090a14;
+      font-size: 24px;
+      z-index: 6;
     }
 
-    .scene-layer.interactive {
-      pointer-events: auto;
-    }
-
-    /* Story Caption Box */
-    .story-caption-card {
-      max-width: 640px;
-      width: 100%;
-      background: rgba(14, 18, 40, 0.88);
-      border: 1.5px solid var(--border-gold);
-      border-radius: 22px;
-      box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.85),
-        0 0 30px rgba(245, 211, 114, 0.15),
-        inset 0 0 20px rgba(245, 211, 114, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 24px 22px;
-      text-align: center;
-      position: relative;
-    }
-
-    .caption-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 14px;
+    .prologue-text-card {
+      background: rgba(14, 18, 40, 0.9);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
       border-radius: 20px;
-      background: rgba(82, 229, 255, 0.12);
-      border: 1px solid var(--border-cyan);
-      font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--cyan-glow);
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
     }
 
-    .caption-tag.gold {
-      background: rgba(245, 211, 114, 0.15);
-      border-color: var(--border-gold);
-      color: var(--gold-bright);
-    }
-
-    .caption-title {
+    .prologue-title {
       font-family: var(--font-serif);
-      font-size: clamp(20px, 4.5vw, 30px);
+      font-size: clamp(20px, 4vw, 26px);
       font-weight: 800;
-      line-height: 1.25;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
     }
 
-    .caption-text {
+    .prologue-quote {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: clamp(13px, 2.5vw, 15.5px);
-      line-height: 1.7;
-      color: #e2e7f7;
-      margin-bottom: 12px;
+      font-size: clamp(13px, 2.5vw, 15px);
+      line-height: 1.65;
+      color: #e2e8f0;
     }
 
-    .caption-meta-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(245, 211, 114, 0.2);
-    }
-
-    .meta-location {
+    /* Scroll Hint */
+    .scroll-hint-pill {
+      margin-top: 14px;
       font-size: 11.5px;
-      color: #cbd5e1;
+      color: var(--gold-bright);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: bounceHint 2s infinite ease-in-out;
+    }
+
+    @keyframes bounceHint {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* ============================================================
+       ELEMENT 2: THE HORIZONTAL 3D POP-UP BOOK (0.16 -> 1.00)
+       ============================================================ */
+    .popup-book-container {
+      position: absolute;
+      width: 82vw;
+      max-width: 960px;
+      height: 68vh;
+      max-height: 580px;
+      transform-style: preserve-3d;
+      z-index: 10;
+      opacity: 0;
+      transform: rotateX(25deg) translateY(60px) scale(0.85);
+      will-change: transform, opacity;
+    }
+
+    @media (max-width: 768px) {
+      .popup-book-container {
+        width: 94vw;
+        height: 76vh;
+        max-height: 640px;
+        transform: rotateX(15deg) translateY(40px) scale(0.95);
+      }
+    }
+
+    /* Book Hard Cover Base */
+    .book-cover-hard {
+      position: absolute;
+      inset: -12px;
+      background: linear-gradient(160deg, #1b2045 0%, #0d0f22 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 20px;
+      box-shadow: 
+        0 30px 70px rgba(0, 0, 0, 0.95),
+        0 0 45px rgba(212, 175, 55, 0.25),
+        inset 0 0 25px rgba(0, 0, 0, 0.8);
+      z-index: 1;
+    }
+
+    /* Center Book Spine Crease */
+    .book-center-spine {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 8px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(212,175,55,0.4) 50%, rgba(0,0,0,0.3) 100%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 20;
+    }
+
+    /* Two Open Paper Spreads (Left & Right) */
+    .book-pages-spread {
+      position: absolute;
+      inset: 0;
       display: flex;
+      z-index: 2;
+      transform-style: preserve-3d;
+    }
+
+    .page-sheet {
+      flex: 1;
+      height: 100%;
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: var(--text-dark);
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .page-sheet.left-page {
+      background: linear-gradient(135deg, #f0e9d6 0%, #faf6eb 100%);
+      border-radius: 14px 0 0 14px;
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .page-sheet.right-page {
+      background: linear-gradient(225deg, #faf7ee 0%, #f4eee0 100%);
+      border-radius: 0 14px 14px 0;
+      border-left: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    /* 3D Flipping Page (Turn right to left) */
+    .flipping-page-sheet {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      z-index: 15;
+      border-radius: 0 14px 14px 0;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      padding: 24px 20px;
+    }
+
+    .flip-front {
+      background: linear-gradient(225deg, #faf7ee 0%, #f4eee0 100%);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .flip-back {
+      background: linear-gradient(135deg, #f0e9d6 0%, #faf6eb 100%);
+      transform: rotateY(180deg);
+      border-radius: 14px 0 0 14px;
+    }
+
+    /* Typography on Paper Spread */
+    .paper-chapter-tag {
+      display: inline-flex;
       align-items: center;
       gap: 5px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #9c731e;
+      text-transform: uppercase;
+      margin-bottom: 4px;
     }
 
-    .btn-action-pill {
-      min-height: 36px;
+    .paper-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(17px, 2.5vw, 24px);
+      font-weight: 800;
+      line-height: 1.25;
+      color: #1a1c29;
+      margin-bottom: 6px;
+    }
+
+    .paper-lead-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(12px, 1.8vw, 14px);
+      line-height: 1.6;
+      color: #3b3f54;
+      background: rgba(212, 175, 55, 0.08);
+      border-left: 3px solid var(--gold-primary);
+      padding: 8px 12px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 8px;
+    }
+
+    .paper-schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #2c2f42;
+    }
+
+    .schedule-tag-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 5px 8px;
+      border-radius: 8px;
+    }
+
+    .schedule-time {
+      font-weight: 800;
+      color: #aa771c;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       3D POP-UP POPUP MODELS (RISING FROM CENTER/PAGES)
+       ============================================================ */
+    .popup-stage-3d {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      transform-style: preserve-3d;
+    }
+
+    .popup-model-group {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: bottom center;
+      transform-style: preserve-3d;
+      opacity: 0;
+      transform: rotateX(85deg) translateZ(0) scale(0.6);
+      transition: opacity 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    /* Chapter 1: Pop-up Hoi An Chùa Cầu & Boat */
+    .hoian-popup-art {
+      width: 80%;
+      max-width: 440px;
+      height: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .hoian-bridge-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+    }
+
+    .popup-boat-element {
+      position: absolute;
+      bottom: 20px;
+      left: 10%;
+      width: 54px;
+      height: 24px;
+      background: #e6c875;
+      clip-path: polygon(10% 0, 90% 0, 75% 100%, 25% 100%);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080914;
+      font-size: 11px;
+    }
+
+    /* Chapter 2: Pop-up FPT Alpha Building & Dragon Bridge */
+    .fpt-alpha-popup-art {
+      width: 85%;
+      max-width: 480px;
+      height: 230px;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .fpt-alpha-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.45));
+    }
+
+    .popup-cap-element {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #090a14;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+      animation: floatCap 3.5s infinite ease-in-out;
+    }
+
+    @keyframes floatCap {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
+    }
+
+    /* Chapter 3: Pop-up Han Market & APEC Kite */
+    .apec-popup-art {
+      width: 80%;
+      max-width: 440px;
+      height: 200px;
+      position: relative;
+    }
+
+    /* ============================================================
+       BUTTONS & PAPER INTERACTIONS
+       ============================================================ */
+    .paper-btn-action {
+      min-height: 38px;
       padding: 0 14px;
-      border-radius: 18px;
-      border: 1px solid var(--border-gold);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--gold-bright);
+      border-radius: 19px;
+      background: var(--gold-gradient);
+      color: #080914;
+      font-family: var(--font-sans);
       font-size: 11.5px;
-      font-weight: 600;
+      font-weight: 800;
+      border: none;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       cursor: pointer;
       text-decoration: none;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
       transition: all 0.2s ease;
     }
 
-    .btn-action-pill:hover {
-      background: rgba(245, 211, 114, 0.25);
+    .paper-btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.6);
     }
 
-    .btn-action-pill.gold {
-      background: var(--gold-gradient);
-      color: #080914;
-      font-weight: 700;
-      border: none;
-      box-shadow: 0 4px 14px rgba(245, 211, 114, 0.4);
-    }
-
-    /* ============================================================
-       SCENE 0: PROLOGUE ENVELOPE
-       ============================================================ */
-    .prologue-envelope-box {
-      width: 260px;
-      height: 170px;
-      position: relative;
-      margin: 0 auto 16px;
-      transform-style: preserve-3d;
-    }
-
-    .envelope-body {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(160deg, #1f2345 0%, #101226 100%);
-      border: 1.5px solid var(--gold-primary);
-      border-radius: 12px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 211, 114, 0.3);
-    }
-
-    .envelope-top-flap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 85px;
-      background: linear-gradient(180deg, #2a2f58 0%, #161a36 100%);
-      border: 1.5px solid var(--gold-primary);
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transform-origin: top center;
-      transition: transform 0.6s ease;
-      z-index: 5;
-    }
-
-    .envelope-wax-stamp {
-      position: absolute;
-      top: 55px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--gold-gradient);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 15px rgba(245, 211, 114, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #090a14;
-      font-size: 22px;
-      z-index: 6;
-    }
-
-    .envelope-letter-inside {
-      position: absolute;
-      inset: 8px;
-      background: linear-gradient(180deg, #fff9e6 0%, #f7df8b 100%);
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(245, 211, 114, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1c29;
-      font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      transform: translateY(0);
-      z-index: 2;
-    }
-
-    /* ============================================================
-       SCENE 1: HOI AN & DA NANG ARTWORK
-       ============================================================ */
-    .hoian-paper-scene {
-      width: 100%;
-      max-width: 580px;
-      height: 160px;
-      position: relative;
-      margin-bottom: 12px;
-      overflow: hidden;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #2b1f4d 0%, #151126 100%);
-      border: 1px solid rgba(245, 211, 114, 0.3);
-    }
-
-    .paper-sun {
-      position: absolute;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffe279 0%, #ff7e47 100%);
-      box-shadow: 0 0 30px #ff7e47;
-      top: 20px;
-      right: 60px;
-    }
-
-    .paper-rooftops {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background-image: repeating-linear-gradient(45deg, #1e1933 0, #1e1933 15px, #261f42 15px, #261f42 30px);
-      clip-path: polygon(0 100%, 0 50%, 15% 30%, 30% 50%, 50% 20%, 70% 50%, 85% 35%, 100% 50%, 100% 100%);
-    }
-
-    .paper-boat {
-      position: absolute;
-      bottom: 8px;
-      left: 20px;
-      width: 50px;
-      height: 22px;
-      background: #f5d372;
-      clip-path: polygon(10% 0, 90% 0, 75% 100%, 25% 100%);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: #0b0d18;
-    }
-
-    .lantern-cluster {
-      position: absolute;
-      top: 15px;
-      left: 30px;
-      display: flex;
-      gap: 12px;
-    }
-
-    .paper-lantern {
-      width: 14px;
-      height: 22px;
-      border-radius: 8px;
-      background: #ff5252;
-      box-shadow: 0 0 14px #ff5252;
-    }
-    .paper-lantern.gold { background: #ffd700; box-shadow: 0 0 14px #ffd700; }
-    .paper-lantern.cyan { background: #52e5ff; box-shadow: 0 0 14px #52e5ff; }
-
-    /* ============================================================
-       SCENE 2: GRADUATION CEREMONY CLIMAX
-       ============================================================ */
-    .graduation-stage-box {
-      width: 100%;
-      max-width: 580px;
-      background: linear-gradient(160deg, rgba(38, 42, 85, 0.94) 0%, rgba(16, 18, 40, 0.98) 100%);
-      border: 2px solid var(--gold-primary);
-      border-radius: 24px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.95),
-        0 0 40px rgba(245, 211, 114, 0.35);
-      padding: 24px 20px;
-      text-align: center;
-      position: relative;
-    }
-
-    .mortarboard-cap {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 10px;
-      border-radius: 50%;
-      background: var(--gold-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      color: #080914;
-      box-shadow: 0 0 25px rgba(245, 211, 114, 0.6);
-      animation: floatCap 3.5s infinite ease-in-out;
-    }
-
-    @keyframes floatCap {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(4deg); }
-    }
-
-    .graduate-name-hero {
-      font-family: var(--font-serif);
-      font-size: clamp(22px, 5vw, 32px);
-      font-weight: 800;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
-    }
-
-    .ceremony-details-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin: 12px 0;
-      text-align: left;
-    }
-
-    .ceremony-info-card {
-      background: rgba(10, 12, 26, 0.7);
-      border: 1px solid rgba(245, 211, 114, 0.2);
-      border-radius: 12px;
-      padding: 8px 12px;
+    .paper-btn-outline {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 19px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      color: #1b1d28;
       font-size: 11.5px;
-      color: #e2e8f0;
-    }
-
-    .ceremony-info-card b {
-      color: var(--gold-bright);
-      display: block;
-      margin-bottom: 2px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      text-decoration: none;
     }
 
     /* ============================================================
-       SCENE 4: EPILOGUE ASSEMBLED INVITATION & MODAL
+       SUMMARY MODAL DIALOG
        ============================================================ */
-    .epilogue-invitation-card {
-      max-width: 620px;
-      width: 100%;
-      background: linear-gradient(160deg, rgba(22, 26, 56, 0.96) 0%, rgba(10, 12, 28, 0.98) 100%);
-      border: 2px solid var(--gold-primary);
-      border-radius: 26px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.9),
-        0 0 45px rgba(245, 211, 114, 0.25);
-      backdrop-filter: blur(20px);
-      padding: 24px 20px;
-      text-align: center;
-    }
-
-    .epilogue-actions-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    /* ============================================================
-       MODAL: RSVP FORM & ITINERARY DETAILS
-       ============================================================ */
-    .modal-backdrop {
+    .summary-modal-backdrop {
       position: fixed;
       inset: 0;
       background: rgba(4, 5, 12, 0.88);
@@ -778,14 +766,14 @@
       transition: opacity 0.35s ease;
     }
 
-    .modal-backdrop.active {
+    .summary-modal-backdrop.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .modal-sheet {
+    .summary-modal-card {
       width: 100%;
-      max-width: 520px;
+      max-width: 540px;
       max-height: 90vh;
       background: linear-gradient(160deg, #181d3d 0%, #0d0f22 100%);
       border: 1.5px solid var(--gold-primary);
@@ -800,11 +788,11 @@
       overflow-y: auto;
     }
 
-    .modal-backdrop.active .modal-sheet {
+    .summary-modal-backdrop.active .summary-modal-card {
       transform: scale(1) translateY(0);
     }
 
-    .btn-close-sheet {
+    .btn-close-modal {
       position: absolute;
       top: 14px;
       right: 14px;
@@ -821,74 +809,10 @@
       font-size: 18px;
     }
 
-    /* Form Styles */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 10px;
-      text-align: left;
-    }
-
-    .form-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--gold-bright);
-    }
-
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      min-height: 44px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: rgba(10, 12, 26, 0.85);
-      border: 1px solid var(--border-gold);
-      color: #fff;
-      font-family: var(--font-sans);
-      font-size: 13px;
-      outline: none;
-    }
-
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--cyan-glow);
-      box-shadow: 0 0 12px rgba(82, 229, 255, 0.3);
-    }
-
-    .pill-radio-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-    }
-
-    .pill-radio {
-      min-height: 44px;
-      padding: 6px 8px;
-      border-radius: 12px;
-      border: 1px solid rgba(245, 211, 114, 0.25);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-    }
-
-    .pill-radio.active {
-      background: var(--gold-gradient);
-      color: #080914;
-      border-color: var(--gold-bright);
-      font-weight: 700;
-    }
-
-    /* Toast Notification */
+    /* Toast */
     .toast-box {
       position: fixed;
-      bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+      bottom: calc(50px + env(safe-area-inset-bottom, 0px));
       left: 50%;
       transform: translateX(-50%) translateY(30px);
       background: rgba(16, 20, 42, 0.98);
@@ -899,7 +823,7 @@
       font-size: 13px;
       font-weight: 600;
       z-index: 2000;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 25px rgba(245, 211, 114, 0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 25px rgba(212, 175, 55, 0.4);
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -920,320 +844,257 @@
       <div class="brand-crest" aria-hidden="true"><i class="ri-graduation-cap-fill"></i></div>
       <div class="brand-title">
         <h1>LỄ TỐT NGHIỆP 2026</h1>
-        <p id="hudUniversity">Đại học FPT Đà Nẵng</p>
+        <p id="hudUni">Đại học FPT Đà Nẵng</p>
       </div>
     </div>
 
     <div class="hud-actions">
-      <button type="button" class="btn-hud" id="btnAudio" onclick="toggleAudio()" aria-label="Bật hoặc tắt nhạc nền">
+      <button type="button" class="btn-hud" id="btnAudio" onclick="toggleAudio()" aria-label="Bật hoặc tắt nhạc">
         <i class="ri-music-2-fill" id="audioIcon" aria-hidden="true"></i>
         <span id="audioText">Bật nhạc</span>
       </button>
-      <button type="button" class="btn-hud" onclick="scrollToEpilogue()" aria-label="Bỏ qua câu chuyện và đến thẳng thông tin sự kiện">
-        <i class="ri-skip-forward-fill" aria-hidden="true"></i> <span>Bỏ qua</span>
+      <button type="button" class="btn-hud" onclick="openSummaryModal()" aria-label="Xem tóm tắt toàn bộ lịch trình">
+        <i class="ri-calendar-todo-fill" aria-hidden="true"></i> <span>Lịch trình</span>
       </button>
     </div>
   </header>
 
-  <!-- Story Progress Thread (Right / Top Stepper) -->
-  <nav class="story-progress-thread" aria-label="Tiến trình câu chuyện Storybook">
-    <div class="progress-track-line" aria-hidden="true"></div>
-    <div class="progress-fill-line" id="progressFill" aria-hidden="true"></div>
+  <!-- Bookmark Progress Thread -->
+  <nav class="spine-bookmark-nav" aria-label="Tiến trình sách Origami Pop-up">
+    <div class="bookmark-ribbon-line" aria-hidden="true"></div>
+    <div class="bookmark-fill-line" id="bookmarkFill" aria-hidden="true"></div>
 
-    <div class="thread-node active" id="node0" onclick="scrollToProgress(0.02)" aria-label="Prologue: Mở lá thư">
+    <div class="bookmark-node active" id="node0" onclick="scrollToRatio(0.02)" aria-label="Prologue: Lá thư">
       <span>0</span>
-      <span class="thread-tooltip">Prologue • Lá thư</span>
+      <span class="bookmark-tooltip">Prologue • Lá Thư</span>
     </div>
-    <div class="thread-node" id="node1" onclick="scrollToProgress(0.24)" aria-label="Chương 1: Đà Nẵng và Hội An">
+    <div class="bookmark-node" id="node1" onclick="scrollToRatio(0.30)" aria-label="Chương 1: Đà Nẵng & Hội An">
       <span>1</span>
-      <span class="thread-tooltip">Chương I • Phố cổ Hội An</span>
+      <span class="bookmark-tooltip">Chương I • Hội An</span>
     </div>
-    <div class="thread-node" id="node2" onclick="scrollToProgress(0.52)" aria-label="Chương 2: Lễ tốt nghiệp">
+    <div class="bookmark-node" id="node2" onclick="scrollToRatio(0.58)" aria-label="Chương 2: Lễ Tốt Nghiệp FPT">
       <span>2</span>
-      <span class="thread-tooltip">Chương II • Lễ Tốt Nghiệp</span>
+      <span class="bookmark-tooltip">Chương II • Lễ Tốt Nghiệp</span>
     </div>
-    <div class="thread-node" id="node3" onclick="scrollToProgress(0.78)" aria-label="Chương 3: Những khoảnh khắc cuối">
+    <div class="bookmark-node" id="node3" onclick="scrollToRatio(0.80)" aria-label="Chương 3: Những khoảnh khắc cuối">
       <span>3</span>
-      <span class="thread-tooltip">Chương III • Tạm biệt</span>
+      <span class="bookmark-tooltip">Chương III • Kỷ Niệm</span>
     </div>
-    <div class="thread-node" id="node4" onclick="scrollToProgress(0.95)" aria-label="Epilogue: Lời mời và RSVP">
+    <div class="bookmark-node" id="node4" onclick="scrollToRatio(0.96)" aria-label="Epilogue: Lời cảm ơn">
       <span>4</span>
-      <span class="thread-tooltip">Epilogue • Xác nhận</span>
+      <span class="bookmark-tooltip">Epilogue • Cảm Ơn</span>
     </div>
   </nav>
 
   <!-- Master Scroll Track for GSAP Scrub -->
-  <div class="storybook-scroll-track" id="scrollTrack">
+  <div class="master-scroll-track" id="masterTrack">
 
     <!-- 100dvh Sticky Cinematic Stage -->
-    <main class="storybook-stage" id="storybookStage">
+    <main class="cinematic-stage" id="stage">
       
-      <div class="stage-environment" id="stageEnv"></div>
-      <canvas id="paper-dust-canvas"></canvas>
-
-      <!-- Physical Origami Pull-Tab -->
-      <div class="origami-pull-tab" id="pullTab">
-        <div class="pull-tab-hint" id="pullHint">
-          <i class="ri-arrow-down-double-line" aria-hidden="true"></i>
-          <span id="pullHintText">Cuộn chuột để kéo mở câu chuyện</span>
-        </div>
-        <div class="pull-tab-handle">
-          <i class="ri-drag-move-2-fill" aria-hidden="true"></i>
-          <span>PULL TAB</span>
-        </div>
-      </div>
+      <div class="sky-atmosphere" id="skyAtmosphere"></div>
+      <canvas id="sparkle-canvas"></canvas>
 
       <!-- ============================================================
-           SCENE 0: PROLOGUE — MỞ LÁ THƯ (0.00 -> 0.14)
+           ELEMENT 1: PROLOGUE SEALED ENVELOPE (0.00 -> 0.14)
            ============================================================ -->
-      <section class="scene-layer" id="scene0" aria-label="Prologue: Lá thư xuất hiện">
-        <div class="story-caption-card">
-          
-          <div class="prologue-envelope-box" id="origamiEnvelope">
-            <div class="envelope-body"></div>
-            <div class="envelope-top-flap" id="envelopeFlap"></div>
-            <div class="envelope-wax-stamp" id="waxStamp">
-              <i class="ri-mail-star-fill" aria-hidden="true"></i>
-            </div>
-            <div class="envelope-letter-inside" id="letterInside">
-              <span>VIP INVITATION</span>
-            </div>
+      <section class="prologue-envelope-wrapper" id="prologueWrapper" aria-label="Prologue: Lá thư mở đầu">
+        
+        <div class="envelope-3d" id="envelope3D">
+          <div class="envelope-back-plate"></div>
+          <div class="envelope-flap-top" id="flapTop"></div>
+          <div class="envelope-wax-crest" id="waxCrest">
+            <i class="ri-mail-star-fill" aria-hidden="true"></i>
           </div>
+        </div>
 
-          <div class="caption-tag"><i class="ri-sparkling-fill" aria-hidden="true"></i> PROLOGUE</div>
-          <h2 class="caption-title" id="prologueGuestGreeting">Gửi gia đình và những người bạn thân yêu,</h2>
-          <p class="caption-text">
+        <div class="prologue-text-card" id="prologueCard">
+          <h2 class="prologue-title" id="prologueGreeting">Gửi gia đình và những người bạn thân yêu,</h2>
+          <p class="prologue-quote">
             “Có những hành trình được bắt đầu bằng một chuyến đi.<br>
             Có những hành trình lại bắt đầu từ một lời hẹn.”
           </p>
-          <p class="caption-text" style="color: var(--gold-bright);">
-            Một hành trình đặc biệt đang chờ được mở ra tại Đà Nẵng...
+          <p class="prologue-quote" style="color: var(--gold-bright); margin-top: 6px;">
+            Một hành trình đặc biệt đang chờ được mở ra tại Đà Nẵng…
           </p>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           SCENE 1: CHAPTER I — ĐÀ NẴNG VÀ HỘI AN (0.14 -> 0.38)
-           ============================================================ -->
-      <section class="scene-layer" id="scene1" aria-label="Chương 1: Cuộc hẹn nơi phố cổ">
-        <div class="story-caption-card">
           
-          <div class="hoian-paper-scene" id="hoianArt">
-            <div class="paper-sun" id="hoianSun"></div>
-            <div class="lantern-cluster">
-              <div class="paper-lantern"></div>
-              <div class="paper-lantern gold"></div>
-              <div class="paper-lantern cyan"></div>
-            </div>
-            <div class="paper-boat" id="hoianBoat">
-              <i class="ri-sailboat-fill"></i>
-            </div>
-            <div class="paper-rooftops"></div>
-          </div>
-
-          <div class="caption-tag"><i class="ri-ancient-gate-fill" aria-hidden="true"></i> CHƯƠNG I • 11/08/2026</div>
-          <h2 class="caption-title">CUỘC HẸN NƠI PHỐ CỔ</h2>
-          <p class="caption-text" id="quoteChapter1">
-            “Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau tại thành phố biển.<br>
-            Con đường đầu tiên sẽ đưa mọi người đến những mái nhà nhuốm màu thời gian.”
-          </p>
-
-          <div class="caption-meta-bar">
-            <span class="meta-location"><i class="ri-map-pin-2-fill" aria-hidden="true"></i> Đà Nẵng – Phố cổ Hội An (11:30–21:00)</span>
-            <button type="button" class="btn-action-pill" onclick="openItineraryModal(0)" aria-label="Xem chi tiết lịch trình ngày 1">
-              <i class="ri-list-check-2" aria-hidden="true"></i> Xem lịch trình
-            </button>
+          <div class="scroll-hint-pill">
+            <i class="ri-arrow-down-double-line" aria-hidden="true"></i>
+            <span id="scrollHintText">Cuộn để kéo mở câu chuyện</span>
           </div>
         </div>
+
       </section>
 
       <!-- ============================================================
-           SCENE 2: CHAPTER II — LỄ TỐT NGHIỆP (0.38 -> 0.70)
+           ELEMENT 2: HORIZONTAL 3D POP-UP BOOK (0.16 -> 1.00)
            ============================================================ -->
-      <section class="scene-layer interactive" id="scene2" aria-label="Chương 2: Đại Lễ Tốt Nghiệp và Tiệc Mừng">
-        <div class="graduation-stage-box">
-          <div class="mortarboard-cap" id="mortarboardCap">
-            <i class="ri-graduation-cap-fill" aria-hidden="true"></i>
+      <div class="popup-book-container" id="popupBook">
+        
+        <!-- Book Hard Cover -->
+        <div class="book-cover-hard"></div>
+        <div class="book-center-spine"></div>
+
+        <!-- 3D Pop-up Models Layer (Rises from center spine) -->
+        <div class="popup-stage-3d" id="popupStage3D">
+          
+          <!-- Chapter 1 Model: Chùa Cầu Hội An & Thuyền Sông Hoài -->
+          <div class="popup-model-group" id="modelChapter1">
+            <div class="hoian-popup-art">
+              <!-- Origami Chùa Cầu SVG -->
+              <svg class="hoian-bridge-svg" viewBox="0 0 440 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Distant sunset sun -->
+                <circle cx="340" cy="50" r="32" fill="#ffd700" opacity="0.85"/>
+                <!-- Roof layers -->
+                <polygon points="120,70 320,70 300,50 140,50" fill="#aa771c"/>
+                <polygon points="140,50 300,50 280,30 160,30" fill="#d4af37"/>
+                <polygon points="160,30 280,30 220,10" fill="#fce38a"/>
+                <!-- Bridge body -->
+                <rect x="80" y="70" width="280" height="40" fill="#2b2038" rx="6"/>
+                <!-- Bridge Arches -->
+                <path d="M110,110 A30,30 0 0,1 170,110" fill="#151126"/>
+                <path d="M190,110 A30,30 0 0,1 250,110" fill="#151126"/>
+                <path d="M270,110 A30,30 0 0,1 330,110" fill="#151126"/>
+                <!-- Lanterns hanging -->
+                <circle cx="140" cy="85" r="7" fill="#ff4d4f"/>
+                <circle cx="220" cy="85" r="7" fill="#ffd700"/>
+                <circle cx="300" cy="85" r="7" fill="#52e5ff"/>
+              </svg>
+              <!-- Pop-up Floating Boat -->
+              <div class="popup-boat-element" id="hoianBoat">
+                <i class="ri-sailboat-fill"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="caption-tag gold"><i class="ri-sparkling-fill" aria-hidden="true"></i> CHƯƠNG II • CAO TRÀO (12/08/2026)</div>
-          <h2 class="graduate-name-hero" id="heroGraduateName">Cao Hoàng Linh</h2>
-          <p style="font-size: 13px; color: var(--gold-bright); margin-bottom: 8px;" id="heroUniMajor">Đại học FPT Đà Nẵng • Kỹ thuật Phần mềm</p>
-
-          <p class="caption-text">
-            “Sau những năm tháng học tập, những lần vấp ngã và không ngừng cố gắng…<br>
-            Ngày mà chúng ta chờ đợi cuối cùng cũng đã đến.”
-          </p>
-
-          <div class="ceremony-details-grid">
-            <div class="ceremony-info-card">
-              <b>Thời gian chính lễ:</b>
-              <span id="heroCeremonyTime">07:30–11:30 (Đón khách: 07:00)</span>
-            </div>
-            <div class="ceremony-info-card">
-              <b>Địa điểm tổ chức:</b>
-              <span id="heroCeremonyVenue">Hội trường Trống Đồng – ĐH FPT</span>
+          <!-- Chapter 2 Model: Tòa nhà Alpha FPT & Cầu Rồng -->
+          <div class="popup-model-group" id="modelChapter2">
+            <div class="fpt-alpha-popup-art">
+              <!-- Origami FPT Alpha Building Papercraft SVG -->
+              <svg class="fpt-alpha-svg" viewBox="0 0 480 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Layer 1: Ground Base -->
+                <rect x="40" y="190" width="400" height="20" fill="#1b2045" rx="4"/>
+                <!-- Layer 2: Main Facade Blocks -->
+                <polygon points="80,190 200,190 180,60 100,60" fill="#d4af37" opacity="0.9"/>
+                <polygon points="200,190 280,190 280,40 200,40" fill="#fce38a"/>
+                <polygon points="280,190 400,190 380,60 300,60" fill="#aa771c" opacity="0.9"/>
+                <!-- Distinctive Alpha geometric cutouts -->
+                <rect x="115" y="80" width="50" height="25" fill="#0d0f22" rx="3"/>
+                <rect x="115" y="115" width="50" height="25" fill="#0d0f22" rx="3"/>
+                <rect x="115" y="150" width="50" height="25" fill="#0d0f22" rx="3"/>
+                <rect x="215" y="60" width="50" height="30" fill="#0d0f22" rx="3"/>
+                <rect x="215" y="100" width="50" height="35" fill="#0d0f22" rx="3"/>
+                <rect x="215" y="145" width="50" height="35" fill="#0d0f22" rx="3"/>
+                <rect x="315" y="80" width="50" height="25" fill="#0d0f22" rx="3"/>
+                <rect x="315" y="115" width="50" height="25" fill="#0d0f22" rx="3"/>
+                <rect x="315" y="150" width="50" height="25" fill="#0d0f22" rx="3"/>
+              </svg>
+              <!-- Floating Mortarboard Cap -->
+              <div class="popup-cap-element">
+                <i class="ri-graduation-cap-fill"></i>
+              </div>
             </div>
           </div>
 
-          <div class="caption-meta-bar">
-            <span class="meta-location"><i class="ri-calendar-event-fill" aria-hidden="true"></i> Thứ Tư, 12/08/2026</span>
-            <div style="display: flex; gap: 6px;">
-              <a id="heroMapLink" href="https://maps.google.com/?q=Đại+học+FPT+Đà+Nẵng" target="_blank" rel="noopener noreferrer" class="btn-action-pill" aria-label="Mở Google Maps chỉ đường đến trường">
-                <i class="ri-map-2-line" aria-hidden="true"></i> Bản đồ
+          <!-- Chapter 3 Model: Chợ Hàn & APEC Kite -->
+          <div class="popup-model-group" id="modelChapter3">
+            <div class="apec-popup-art">
+              <svg viewBox="0 0 440 200" fill="none" style="width:100%; height:100%;">
+                <!-- APEC Kite Curved Wings -->
+                <path d="M60,160 Q220,10 380,160 Q220,90 60,160 Z" fill="#d4af37" opacity="0.85"/>
+                <path d="M120,160 Q220,40 320,160 Q220,105 120,160 Z" fill="#fce38a"/>
+                <!-- Specialty Paper tokens -->
+                <circle cx="120" cy="140" r="18" fill="#ff7e47"/>
+                <circle cx="220" cy="140" r="20" fill="#ffd700"/>
+                <circle cx="320" cy="140" r="18" fill="#52e5ff"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Open Book Pages (Left & Right Spreads) -->
+        <div class="book-pages-spread">
+          
+          <!-- LEFT SPREAD SHEET -->
+          <div class="page-sheet left-page" id="leftPage">
+            
+            <div id="leftContent">
+              <div class="paper-chapter-tag" id="leftTag">CHƯƠNG I • 11/08/2026</div>
+              <h3 class="paper-heading" id="leftHeading">ĐÀ NẴNG & HỘI AN</h3>
+              <p class="paper-leadQuote" id="leftQuote">
+                “Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau tại thành phố biển.”
+              </p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 10.5px; color: #71788f; font-weight: 700;">TRANG TRÁI</span>
+              <a id="mapLinkLeft" href="https://maps.google.com/?q=Đại+học+FPT+Đà+Nẵng" target="_blank" rel="noopener noreferrer" class="paper-btn-outline">
+                <i class="ri-map-2-line" aria-hidden="true"></i> Mở bản đồ
               </a>
-              <button type="button" class="btn-action-pill gold" onclick="openItineraryModal(1)" aria-label="Xem chi tiết lịch trình ngày 2">
-                <i class="ri-information-fill" aria-hidden="true"></i> Chi tiết
-              </button>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- ============================================================
-           SCENE 3: CHAPTER III — NHỮNG KHOẢNH KHẮC CUỐI (0.70 -> 0.86)
-           ============================================================ -->
-      <section class="scene-layer" id="scene3" aria-label="Chương 3: Những khoảnh khắc cuối">
-        <div class="story-caption-card">
-          <div class="caption-tag"><i class="ri-gift-fill" aria-hidden="true"></i> CHƯƠNG III • 13/08/2026</div>
-          <h2 class="caption-title">NHỮNG KHOẢNH KHẮC CUỐI</h2>
-          <p class="caption-text">
-            “Mọi chuyến đi rồi cũng đến lúc khép lại.<br>
-            Trước khi nói lời tạm biệt, hãy cùng nhau giữ thêm một vài ký ức về Đà Nẵng.”
-          </p>
-          <p class="caption-text" style="color: var(--cyan-glow);">
-            “Ba ngày có thể trôi qua rất nhanh, nhưng những khoảnh khắc được sẻ chia sẽ ở lại lâu hơn.”
-          </p>
-
-          <div class="caption-meta-bar">
-            <span class="meta-location"><i class="ri-store-2-line" aria-hidden="true"></i> Bún chả cá, Chợ Hàn & Công viên APEC</span>
-            <button type="button" class="btn-action-pill" onclick="openItineraryModal(2)" aria-label="Xem chi tiết lịch trình ngày 3">
-              <i class="ri-list-check-2" aria-hidden="true"></i> Xem chi tiết
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           SCENE 4: EPILOGUE — GHÉP LẠI LỜI MỜI (0.86 -> 1.00)
-           ============================================================ -->
-      <section class="scene-layer interactive" id="scene4" aria-label="Epilogue: Lời mời và Xác nhận tham dự">
-        <div class="epilogue-invitation-card">
-          
-          <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--gold-gradient); color: #080914; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 28px; box-shadow: 0 0 20px rgba(245, 211, 114, 0.6);">
-            <i class="ri-mail-check-fill" aria-hidden="true"></i>
           </div>
 
-          <div class="caption-tag gold"><i class="ri-vip-crown-2-fill" aria-hidden="true"></i> LỜI MỜI CHÍNH THỨC</div>
-          <h2 class="caption-title" style="font-size: 22px;">HẸN GẶP BẠN TẠI ĐÀ NẴNG</h2>
-          
-          <p class="caption-text" style="font-size: 13px; text-align: left; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 12px; border-left: 3px solid var(--gold-primary);">
-            “Cảm ơn bạn đã đi đến cuối hành trình này.<br><br>
-            Sự hiện diện của bạn sẽ là mảnh ghép cuối cùng để ngày hôm ấy trở nên trọn vẹn.”
-          </p>
+          <!-- RIGHT SPREAD SHEET -->
+          <div class="page-sheet right-page" id="rightPage">
+            
+            <div id="rightContent">
+              <div class="paper-chapter-tag" id="rightTag">LỊCH TRÌNH CHI TIẾT</div>
+              <div class="paper-schedule-list" id="rightSchedule">
+                <!-- Hydrated dynamically -->
+              </div>
+            </div>
 
-          <div class="epilogue-actions-grid">
-            <button type="button" class="btn-action-pill gold" style="min-height: 44px; justify-content: center;" onclick="openRSVPModal()" aria-label="Mở bảng xác nhận tham dự">
-              <i class="ri-checkbox-circle-fill" aria-hidden="true"></i> <span>XÁC NHẬN THAM DỰ</span>
-            </button>
-            <button type="button" class="btn-action-pill" style="min-height: 44px; justify-content: center;" onclick="addGoogleCalendar()" aria-label="Thêm sự kiện vào Google Calendar">
-              <i class="ri-calendar-check-fill" aria-hidden="true"></i> <span>LƯU LỊCH TRÌNH</span>
-            </button>
-          </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button type="button" class="paper-btn-action" onclick="openSummaryModal()">
+                <i class="ri-list-check-2" aria-hidden="true"></i> Toàn bộ lịch
+              </button>
+              <span style="font-size: 10.5px; color: #71788f; font-weight: 700;">TRANG PHẢI</span>
+            </div>
 
-          <div style="display: flex; gap: 8px; margin-top: 10px;">
-            <button type="button" class="btn-action-pill" style="flex: 1; min-height: 38px; justify-content: center; font-size: 11px;" onclick="copyScheduleText()" aria-label="Sao chép toàn bộ lịch trình">
-              <i class="ri-file-copy-line" aria-hidden="true"></i> <span>Sao chép lịch</span>
-            </button>
-            <button type="button" class="btn-action-pill" style="flex: 1; min-height: 38px; justify-content: center; font-size: 11px;" onclick="scrollToTopStory()" aria-label="Xem lại câu chuyện từ đầu">
-              <i class="ri-replay-10-line" aria-hidden="true"></i> <span>Xem lại từ đầu</span>
-            </button>
           </div>
 
         </div>
-      </section>
+
+        <!-- 3D FLIPPING PAGE (FLIPS FROM RIGHT TO LEFT) -->
+        <div class="flipping-page-sheet" id="flipSheet">
+          <div class="flip-face flip-front" id="flipFront"></div>
+          <div class="flip-face flip-back" id="flipBack"></div>
+        </div>
+
+      </div>
 
     </main>
   </div>
 
   <!-- ============================================================
-       MODAL 1: RSVP MODAL
+       MODAL: FULL ITINERARY SUMMARY (NO RSVP)
        ============================================================ -->
-  <div class="modal-backdrop" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle">
-    <div class="modal-sheet">
-      <button type="button" class="btn-close-sheet" onclick="closeRSVPModal()" aria-label="Đóng bảng xác nhận">
+  <div class="summary-modal-backdrop" id="summaryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="summary-modal-card">
+      <button type="button" class="btn-close-modal" onclick="closeSummaryModal()" aria-label="Đóng lịch trình">
         <i class="ri-close-line" aria-hidden="true"></i>
       </button>
 
-      <div style="text-align: center; margin-bottom: 12px;">
-        <h3 id="rsvpTitle" style="font-family: var(--font-serif); font-size: 20px; color: var(--gold-bright);">XÁC NHẬN THAM DỰ</h3>
-        <p style="font-size: 11.5px; color: var(--text-muted);">Sự hiện diện của bạn là niềm vinh hạnh to lớn</p>
+      <div style="text-align: center; margin-bottom: 14px;">
+        <h3 id="modalTitle" style="font-family: var(--font-serif); font-size: 20px; color: var(--gold-bright);">
+          TÓM TẮT LỊCH TRÌNH 3 NGÀY
+        </h3>
+        <p style="font-size: 12px; color: #9ba4be;">Đà Nẵng – Phố cổ Hội An (11–13/08/2026)</p>
       </div>
 
-      <form id="rsvpForm" onsubmit="handleRSVPSubmit(event)">
-        <div class="form-group">
-          <label for="rsvpName" class="form-label">Họ và tên của bạn: *</label>
-          <input type="text" id="rsvpName" class="form-input" placeholder="Nhập họ và tên..." required>
-        </div>
+      <div id="modalSummaryBody" style="display: flex; flex-direction: column; gap: 12px; font-size: 12.5px; line-height: 1.55; color: #e2e8f0;">
+        <!-- Hydrated dynamically from invitationConfig.itinerarySummary -->
+      </div>
 
-        <div class="form-group">
-          <label for="rsvpPhone" class="form-label">Số điện thoại liên hệ: *</label>
-          <input type="tel" id="rsvpPhone" class="form-input" placeholder="Ví dụ: 0905 123 456" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Trạng thái tham dự: *</label>
-          <div class="pill-radio-group">
-            <div class="pill-radio active" id="radioYes" onclick="setAttendance('yes')">
-              <i class="ri-check-line" aria-hidden="true"></i> Chắc chắn
-            </div>
-            <div class="pill-radio" id="radioTentative" onclick="setAttendance('tentative')">
-              <i class="ri-time-line" aria-hidden="true"></i> Chưa chắc
-            </div>
-            <div class="pill-radio" id="radioNo" onclick="setAttendance('no')">
-              <i class="ri-close-line" aria-hidden="true"></i> Rất tiếc
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="rsvpGuests" class="form-label">Số lượng người tham dự:</label>
-          <select id="rsvpGuests" class="form-select">
-            <option value="1">Đi 1 mình</option>
-            <option value="2">Đi 2 người</option>
-            <option value="3">Đi 3 người</option>
-            <option value="4">Đi 4 người</option>
-            <option value="5">Đoàn 5 người trở lên</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="rsvpNotes" class="form-label">Lời chúc hoặc lưu ý đặc biệt:</label>
-          <textarea id="rsvpNotes" class="form-textarea" rows="2" placeholder="Gửi lời chúc mừng đến tân cử nhân..."></textarea>
-        </div>
-
-        <button type="submit" id="btnSubmitForm" class="btn-action-pill gold" style="width: 100%; min-height: 44px; justify-content: center; margin-top: 6px;">
-          <i class="ri-send-plane-fill" aria-hidden="true"></i> <span>GỬI XÁC NHẬN NGAY</span>
+      <div style="display: flex; gap: 8px; margin-top: 16px;">
+        <button type="button" class="paper-btn-action" style="flex: 1; justify-content: center;" onclick="addGoogleCalendar()">
+          <i class="ri-google-fill" aria-hidden="true"></i> Lưu vào lịch
         </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       MODAL 2: ITINERARY DETAILS MODAL
-       ============================================================ */ -->
-  <div class="modal-backdrop" id="itineraryModal" role="dialog" aria-modal="true" aria-labelledby="itineraryTitle">
-    <div class="modal-sheet">
-      <button type="button" class="btn-close-sheet" onclick="closeItineraryModal()" aria-label="Đóng lịch trình">
-        <i class="ri-close-line" aria-hidden="true"></i>
-      </button>
-
-      <h3 id="itineraryTitle" style="font-family: var(--font-serif); font-size: 19px; color: var(--gold-bright); margin-bottom: 12px; text-align: center;">
-        CHI TIẾT LỊCH TRÌNH
-      </h3>
-
-      <div id="itineraryModalBody" style="display: flex; flex-direction: column; gap: 12px; font-size: 12.5px; line-height: 1.6; color: #d1d5db;">
-        <!-- Hydrated dynamically -->
+        <button type="button" class="paper-btn-outline" style="flex: 1; justify-content: center; background: rgba(255,255,255,0.1); color:#fff;" onclick="copyScheduleText()">
+          <i class="ri-file-copy-line" aria-hidden="true"></i> Sao chép
+        </button>
       </div>
     </div>
   </div>
@@ -1243,133 +1104,227 @@
 
   <script>
     /* ============================================================
-       GSAP SCROLL-DRIVEN STORYBOOK TIMELINE ENGINE
+       3D POP-UP STORYBOOK SCROLL ENGINE (GSAP SCRUB)
        ============================================================ */
     gsap.registerPlugin(ScrollTrigger);
 
-    let selectedAttendance = 'yes';
     let isAudioPlaying = false;
     let audioContext = null;
 
-    // Lấy tên khách cá nhân hóa từ query string
     const urlParams = new URLSearchParams(window.location.search);
     const guestParam = urlParams.get('guest') || urlParams.get('to') || invitationConfig.guestName;
     const resolvedGuest = guestParam ? guestParam.trim() : "Gia đình và những người bạn thân yêu";
 
     document.addEventListener('DOMContentLoaded', () => {
       hydrateDOM();
-      initPaperDustCanvas();
-      initScrollTimeline();
-      initKeyboardControls();
+      initSparkleCanvas();
+      initScrollAnimationTimeline();
+      initKeyboardNavigation();
 
-      // Phục hồi âm thanh
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.getElementById('scrollHintText').innerText = "Vuốt lên để kéo mở câu chuyện";
+      }
+
       if (sessionStorage.getItem('graduation_audio_on') === 'true') {
         toggleAudio(true);
       }
-
-      // Ẩn pull hint sau 4s
-      setTimeout(() => {
-        const hint = document.getElementById('pullHint');
-        if (hint) hint.style.opacity = '0.3';
-      }, 4000);
     });
 
     function hydrateDOM() {
-      document.getElementById('hudUniversity').innerText = invitationConfig.universityName;
-      document.getElementById('prologueGuestGreeting').innerText = `Gửi ${resolvedGuest},`;
-      document.getElementById('heroGraduateName').innerText = invitationConfig.graduateName;
-      document.getElementById('heroUniMajor').innerText = `${invitationConfig.universityName} • ${invitationConfig.major}`;
-      document.getElementById('heroCeremonyTime').innerText = `${invitationConfig.ceremonyStartTime}–${invitationConfig.ceremonyEndTime} (Đón khách: ${invitationConfig.guestArrivalTime})`;
-      document.getElementById('heroCeremonyVenue').innerText = invitationConfig.ceremonyVenue;
-      document.getElementById('heroMapLink').href = invitationConfig.ceremonyMapUrl;
-      document.getElementById('rsvpName').value = resolvedGuest !== "Gia đình và những người bạn thân yêu" ? resolvedGuest : "";
+      document.getElementById('hudUni').innerText = invitationConfig.universityName;
+      document.getElementById('prologueGreeting').innerText = `Gửi ${resolvedGuest},`;
       
-      // Update mobile hint text
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.getElementById('pullHintText').innerText = "Vuốt lên để kéo mở câu chuyện";
-      }
+      // Render Modal Body
+      const modalBody = document.getElementById('modalSummaryBody');
+      modalBody.innerHTML = invitationConfig.itinerarySummary.map(item => `
+        <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 10px 14px;">
+          <b style="color: var(--gold-bright); font-size: 13px; display: block; margin-bottom: 4px;">${item.title} (${item.date})</b>
+          <ul style="padding-left: 16px; margin: 0;">
+            ${item.details.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
     }
 
-    function initScrollTimeline() {
-      const stageEnv = document.getElementById('stageEnv');
-      const pullTab = document.getElementById('pullTab');
-      const progressFill = document.getElementById('progressFill');
-
-      // Master ScrollTrigger Scrub Timeline
+    /* ============================================================
+       GSAP MASTER SCRUB TIMELINE
+       ============================================================ */
+    function initScrollAnimationTimeline() {
       const masterTL = gsap.timeline({
         scrollTrigger: {
-          trigger: "#scrollTrack",
+          trigger: "#masterTrack",
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.8, // Smooth physical drag synchronization
+          scrub: 0.8,
           onUpdate: (self) => {
             const p = self.progress;
             
-            // Update fill line & node states
-            if (progressFill) progressFill.style.height = `${p * 100}%`;
-            updateNodeState(p);
+            // Update Bookmark Indicator
+            document.getElementById('bookmarkFill').style.height = `${p * 100}%`;
+            updateBookmarkNodes(p);
 
-            // Pull Tab physical movement
-            if (pullTab) {
-              pullTab.style.transform = `translateX(-50%) translateY(${Math.min(p * 80, 50)}px)`;
-            }
-
-            // Audio chord modulation per scene
-            if (p < 0.14) triggerSoundTheme(0);
-            else if (p < 0.38) triggerSoundTheme(1);
-            else if (p < 0.70) triggerSoundTheme(2);
-            else if (p < 0.86) triggerSoundTheme(3);
-            else triggerSoundTheme(4);
+            // Update Page Content & Popups dynamically based on scroll progress
+            updateStoryContentAtProgress(p);
           }
         }
       });
 
       // -------------------------------------------------------------
-      // 0.00 -> 0.14: PROLOGUE (LÁ THƯ XUẤT HIỆN & MỞ RA)
+      // 1. 0.00 -> 0.12: PROLOGUE ENVELOPE (LÁ THƯ)
       // -------------------------------------------------------------
-      masterTL.to("#scene0", { opacity: 1, scale: 1, duration: 0.04 }, 0.00);
-      masterTL.to("#envelopeFlap", { rotateX: 180, duration: 0.06 }, 0.03);
-      masterTL.to("#waxStamp", { y: -20, opacity: 0, duration: 0.04 }, 0.04);
-      masterTL.to("#letterInside", { y: -35, duration: 0.06 }, 0.05);
-      masterTL.to("#scene0", { opacity: 0, scale: 1.1, duration: 0.04 }, 0.11);
+      masterTL.to("#prologueWrapper", { opacity: 1, scale: 1, duration: 0.04 }, 0.00);
+      masterTL.to("#flapTop", { rotateX: 180, duration: 0.06 }, 0.02);
+      masterTL.to("#waxCrest", { y: -25, opacity: 0, duration: 0.04 }, 0.03);
 
       // -------------------------------------------------------------
-      // 0.14 -> 0.38: CHAPTER I (ĐÀ NẴNG & HỘI AN)
+      // 2. 0.12 -> 0.20: MORPH ENVELOPE TO HORIZONTAL 3D BOOK
       // -------------------------------------------------------------
-      masterTL.to(stageEnv, { background: "radial-gradient(circle at 70% 40%, #3d2258 0%, #150f29 75%)", duration: 0.1 }, 0.14);
-      masterTL.to("#scene1", { opacity: 1, scale: 1, duration: 0.06 }, 0.14);
-      masterTL.fromTo("#hoianSun", { y: -20, opacity: 0.6 }, { y: 25, opacity: 1, duration: 0.18 }, 0.14);
-      masterTL.fromTo("#hoianBoat", { x: -30 }, { x: 380, duration: 0.20 }, 0.14);
-      masterTL.to("#scene1", { opacity: 0, scale: 0.95, duration: 0.05 }, 0.35);
+      masterTL.to("#prologueWrapper", { scale: 0.7, opacity: 0, y: -40, duration: 0.06 }, 0.12);
+      masterTL.to("#popupBook", { opacity: 1, rotateX: 20, y: 0, scale: 1, duration: 0.08 }, 0.14);
 
       // -------------------------------------------------------------
-      // 0.38 -> 0.70: CHAPTER II (LỄ TỐT NGHIỆP - CAO TRÀO)
+      // 3. 0.20 -> 0.42: CHAPTER I (ĐÀ NẴNG & HỘI AN)
       // -------------------------------------------------------------
-      masterTL.to(stageEnv, { background: "radial-gradient(circle at 50% 30%, #2e264f 0%, #0c0a1a 75%)", duration: 0.1 }, 0.38);
-      masterTL.to("#scene2", { opacity: 1, scale: 1, duration: 0.08 }, 0.38);
-      masterTL.fromTo("#mortarboardCap", { y: 40, scale: 0.8 }, { y: -15, scale: 1.15, duration: 0.22 }, 0.40);
-      masterTL.to("#scene2", { opacity: 0, scale: 0.95, duration: 0.06 }, 0.66);
+      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 65% 40%, #3e245c 0%, #100b22 75%)", duration: 0.1 }, 0.20);
+      masterTL.to("#modelChapter1", { opacity: 1, rotateX: 0, scale: 1, duration: 0.08 }, 0.20);
+      masterTL.fromTo("#hoianBoat", { x: 20 }, { x: 320, duration: 0.18 }, 0.22);
+      masterTL.to("#modelChapter1", { opacity: 0, rotateX: 85, scale: 0.7, duration: 0.05 }, 0.38);
 
       // -------------------------------------------------------------
-      // 0.70 -> 0.86: CHAPTER III (NHỮNG KHOẢNH KHẮC CUỐI)
+      // 4. 0.40 -> 0.44: 3D PAGE FLIP 1 -> 2 (RIGHT TO LEFT)
       // -------------------------------------------------------------
-      masterTL.to(stageEnv, { background: "radial-gradient(circle at 30% 30%, #162842 0%, #070d18 75%)", duration: 0.08 }, 0.70);
-      masterTL.to("#scene3", { opacity: 1, scale: 1, duration: 0.06 }, 0.70);
-      masterTL.to("#scene3", { opacity: 0, scale: 0.95, duration: 0.05 }, 0.83);
+      masterTL.fromTo("#flipSheet", 
+        { rotateY: 0, opacity: 1 }, 
+        { rotateY: -180, opacity: 1, duration: 0.06, ease: "power1.inOut" }, 
+        0.39
+      );
 
       // -------------------------------------------------------------
-      // 0.86 -> 1.00: EPILOGUE (LỜI MỜI & XÁC NHẬN THAM DỰ)
+      // 5. 0.44 -> 0.74: CHAPTER II (LỄ TỐT NGHIỆP & TIỆC MỪNG - CLIMAX)
       // -------------------------------------------------------------
-      masterTL.to(stageEnv, { background: "radial-gradient(circle at 50% 40%, #271f45 0%, #060712 80%)", duration: 0.08 }, 0.86);
-      masterTL.to("#scene4", { opacity: 1, scale: 1, duration: 0.08 }, 0.86);
+      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 30%, #2f2552 0%, #080816 75%)", duration: 0.1 }, 0.44);
+      masterTL.to("#modelChapter2", { opacity: 1, rotateX: 0, scale: 1, duration: 0.08 }, 0.44);
+      masterTL.to("#modelChapter2", { opacity: 0, rotateX: 85, scale: 0.7, duration: 0.06 }, 0.70);
+
+      // -------------------------------------------------------------
+      // 6. 0.72 -> 0.76: 3D PAGE FLIP 2 -> 3
+      // -------------------------------------------------------------
+      masterTL.fromTo("#flipSheet", 
+        { rotateY: 0 }, 
+        { rotateY: -180, duration: 0.06, ease: "power1.inOut" }, 
+        0.72
+      );
+
+      // -------------------------------------------------------------
+      // 7. 0.76 -> 0.88: CHAPTER III (NHỮNG KHOẢNH KHẮC CUỐI)
+      // -------------------------------------------------------------
+      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 35% 30%, #152640 0%, #060b14 75%)", duration: 0.08 }, 0.76);
+      masterTL.to("#modelChapter3", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.76);
+      masterTL.to("#modelChapter3", { opacity: 0, rotateX: 85, scale: 0.7, duration: 0.05 }, 0.86);
+
+      // -------------------------------------------------------------
+      // 8. 0.88 -> 1.00: EPILOGUE (LỜI CẢM ƠN & KẾT THÚC)
+      // -------------------------------------------------------------
+      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 40%, #261e46 0%, #05060e 80%)", duration: 0.08 }, 0.88);
+      masterTL.to("#popupBook", { rotateX: 10, scale: 0.96, duration: 0.08 }, 0.88);
     }
 
-    function updateNodeState(p) {
+    /* Update dynamic text on the Left & Right pages */
+    let currentActiveScene = -1;
+    function updateStoryContentAtProgress(p) {
+      let sceneIdx = 0;
+      if (p < 0.14) sceneIdx = 0;
+      else if (p < 0.42) sceneIdx = 1;
+      else if (p < 0.74) sceneIdx = 2;
+      else if (p < 0.88) sceneIdx = 3;
+      else sceneIdx = 4;
+
+      if (sceneIdx === currentActiveScene) return;
+      currentActiveScene = sceneIdx;
+
+      const leftTag = document.getElementById('leftTag');
+      const leftHeading = document.getElementById('leftHeading');
+      const leftQuote = document.getElementById('leftQuote');
+      const rightTag = document.getElementById('rightTag');
+      const rightSchedule = document.getElementById('rightSchedule');
+      const mapLinkLeft = document.getElementById('mapLinkLeft');
+
+      if (sceneIdx === 1) {
+        // Chương 1
+        const ch1 = invitationConfig.timeline.chapter1;
+        leftTag.innerText = ch1.title;
+        leftHeading.innerText = "ĐÀ NẴNG & HỘI AN";
+        leftQuote.innerText = `“${ch1.leadQuote}”`;
+        rightTag.innerText = `LỊCH TRÌNH • ${ch1.dateFormatted}`;
+        rightSchedule.innerHTML = ch1.scheduleItems.map(item => `
+          <div class="schedule-tag-item">
+            <span class="schedule-time">${item.time}</span>
+            <span>${item.text}</span>
+          </div>
+        `).join('');
+        mapLinkLeft.href = "https://maps.google.com/?q=Phố+cổ+Hội+An";
+        playChime(1);
+      } 
+      else if (sceneIdx === 2) {
+        // Chương 2: Cao trào
+        const ch2 = invitationConfig.timeline.chapter2;
+        leftTag.innerText = ch2.title;
+        leftHeading.innerText = "LỄ TỐT NGHIỆP & TIỆC MỪNG";
+        leftQuote.innerText = `“${ch2.leadQuote}”`;
+        rightTag.innerText = `LỊCH TRÌNH • ${ch2.dateFormatted}`;
+        rightSchedule.innerHTML = ch2.beats.map(beat => `
+          <div class="schedule-tag-item" style="flex-direction:column; gap:2px;">
+            <b style="color:#aa771c; font-size:11.5px;">${beat.period}: ${beat.title}</b>
+            <span style="font-size:11px; color:#474d63;">${beat.desc}</span>
+          </div>
+        `).join('');
+        mapLinkLeft.href = invitationConfig.ceremonyMapUrl;
+        playChime(2);
+      } 
+      else if (sceneIdx === 3) {
+        // Chương 3
+        const ch3 = invitationConfig.timeline.chapter3;
+        leftTag.innerText = ch3.title;
+        leftHeading.innerText = "NHỮNG KHOẢNH KHẮC CUỐI";
+        leftQuote.innerText = `“${ch3.leadQuote}”`;
+        rightTag.innerText = `LỊCH TRÌNH • ${ch3.dateFormatted}`;
+        rightSchedule.innerHTML = ch3.scheduleItems.map(item => `
+          <div class="schedule-tag-item">
+            <span class="schedule-time">${item.time}</span>
+            <span>${item.text}</span>
+          </div>
+        `).join('');
+        mapLinkLeft.href = "https://maps.google.com/?q=Chợ+Hàn,+Đà+Nẵng";
+        playChime(3);
+      } 
+      else if (sceneIdx === 4) {
+        // Epilogue
+        const ep = invitationConfig.timeline.epilogue;
+        leftTag.innerText = ep.title;
+        leftHeading.innerText = "HẸN GẶP BẠN TẠI ĐÀ NẴNG";
+        leftQuote.innerText = `“${ep.quote}”`;
+        rightTag.innerText = "THÔNG TIN CHÍNH";
+        rightSchedule.innerHTML = `
+          <div class="schedule-tag-item" style="flex-direction:column;">
+            <b style="color:#aa771c;">07:30–11:30 | Thứ Tư, 12/08/2026</b>
+            <span>Tòa nhà Alpha – Đại học FPT Đà Nẵng</span>
+          </div>
+          <div class="schedule-tag-item" style="flex-direction:column;">
+            <b style="color:#aa771c;">Tiệc liên hoan: 11:30–14:00</b>
+            <span>Nhà hàng Hải sản Bé Mặn (Võ Nguyên Giáp)</span>
+          </div>
+        `;
+        mapLinkLeft.href = invitationConfig.ceremonyMapUrl;
+        playChime(4);
+      }
+    }
+
+    function updateBookmarkNodes(p) {
       const nodes = [
         { id: 'node0', max: 0.14 },
-        { id: 'node1', max: 0.38 },
-        { id: 'node2', max: 0.70 },
-        { id: 'node3', max: 0.86 },
+        { id: 'node1', max: 0.42 },
+        { id: 'node2', max: 0.74 },
+        { id: 'node3', max: 0.88 },
         { id: 'node4', max: 1.00 }
       ];
 
@@ -1377,10 +1332,10 @@
         const el = document.getElementById(n.id);
         if (!el) return;
         if ((idx === 0 && p < 0.14) || 
-            (idx === 1 && p >= 0.14 && p < 0.38) ||
-            (idx === 2 && p >= 0.38 && p < 0.70) ||
-            (idx === 3 && p >= 0.70 && p < 0.86) ||
-            (idx === 4 && p >= 0.86)) {
+            (idx === 1 && p >= 0.14 && p < 0.42) ||
+            (idx === 2 && p >= 0.42 && p < 0.74) ||
+            (idx === 3 && p >= 0.74 && p < 0.88) ||
+            (idx === 4 && p >= 0.88)) {
           el.classList.add('active');
         } else {
           el.classList.remove('active');
@@ -1388,112 +1343,26 @@
       });
     }
 
-    /* ============================================================
-       SCROLL JUMP / NAVIGATION HELPERS
-       ============================================================ */
-    function scrollToProgress(targetProgress) {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      window.scrollTo({
-        top: totalScroll * targetProgress,
-        behavior: 'smooth'
-      });
+    function scrollToRatio(ratio) {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({ top: maxScroll * ratio, behavior: 'smooth' });
     }
 
-    function scrollToEpilogue() {
-      scrollToProgress(0.96);
-    }
-
-    function scrollToTopStory() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function initKeyboardControls() {
+    function initKeyboardNavigation() {
       window.addEventListener('keydown', (e) => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-        if (e.key === 'Escape') {
-          closeRSVPModal();
-          closeItineraryModal();
-        }
+        if (e.key === 'Escape') closeSummaryModal();
       });
     }
 
-    /* ============================================================
-       MODAL CONTROLLERS (RSVP & ITINERARY)
-       ============================================================ */
-    function openRSVPModal() {
-      document.getElementById('rsvpModal').classList.add('active');
+    /* Modal */
+    function openSummaryModal() {
+      document.getElementById('summaryModal').classList.add('active');
+    }
+    function closeSummaryModal() {
+      document.getElementById('summaryModal').classList.remove('active');
     }
 
-    function closeRSVPModal() {
-      document.getElementById('rsvpModal').classList.remove('active');
-    }
-
-    function openItineraryModal(dayIndex) {
-      const modal = document.getElementById('itineraryModal');
-      const body = document.getElementById('itineraryModalBody');
-      const data = invitationConfig.itineraryDetails[dayIndex];
-
-      body.innerHTML = `
-        <div style="background: rgba(245, 211, 114, 0.1); border: 1px solid var(--border-gold); padding: 10px 14px; border-radius: 12px; margin-bottom: 8px;">
-          <b style="color: var(--gold-bright); font-size: 13px;">${data.day}: ${data.title}</b>
-        </div>
-        <ul style="padding-left: 18px; display: flex; flex-direction: column; gap: 8px;">
-          ${data.items.map(item => `<li>${item}</li>`).join('')}
-        </ul>
-      `;
-      modal.classList.add('active');
-    }
-
-    function closeItineraryModal() {
-      document.getElementById('itineraryModal').classList.remove('active');
-    }
-
-    function setAttendance(status) {
-      selectedAttendance = status;
-      document.getElementById('radioYes').classList.toggle('active', status === 'yes');
-      document.getElementById('radioTentative').classList.toggle('active', status === 'tentative');
-      document.getElementById('radioNo').classList.toggle('active', status === 'no');
-    }
-
-    async function handleRSVPSubmit(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnSubmitForm');
-      const name = document.getElementById('rsvpName').value.trim();
-      const phone = document.getElementById('rsvpPhone').value.trim();
-      const guestsCount = document.getElementById('rsvpGuests').value;
-      const notes = document.getElementById('rsvpNotes').value.trim();
-
-      btn.disabled = true;
-      btn.innerHTML = `<i class="ri-loader-4-line ri-spin" aria-hidden="true"></i> Đang gửi xác nhận...`;
-
-      const res = await rsvpService.submitRSVP({
-        name,
-        phone,
-        attendance: selectedAttendance,
-        guestsCount,
-        notes
-      });
-
-      btn.disabled = false;
-      btn.innerHTML = `<i class="ri-send-plane-fill" aria-hidden="true"></i> GỬI XÁC NHẬN NGAY`;
-
-      if (res.success) {
-        closeRSVPModal();
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#f5d372', '#ffe89e', '#52e5ff', '#ffffff']
-        });
-        showToast(`✨ ${res.message}`);
-      } else {
-        showToast(`⚠️ ${res.error}`);
-      }
-    }
-
-    /* ============================================================
-       CALENDAR & CLIPBOARD HELPERS
-       ============================================================ */
+    /* Calendar & Copy */
     function addGoogleCalendar() {
       const url = calendarHelper.getGoogleCalendarUrl({
         title: `Lễ Tốt Nghiệp Đại Học – ${invitationConfig.graduateName}`,
@@ -1505,29 +1374,20 @@
 
     async function copyScheduleText() {
       const ok = await calendarHelper.copyScheduleToClipboard();
-      if (ok) {
-        showToast('📋 Đã sao chép toàn bộ lịch trình vào bộ nhớ tạm!');
-      } else {
-        showToast('✨ Vui lòng chia sẻ đường dẫn này tới bạn bè!');
-      }
+      if (ok) showToast('📋 Đã sao chép toàn bộ lịch trình!');
+      else showToast('✨ Vui lòng chia sẻ liên kết này!');
     }
 
-    /* ============================================================
-       WEB AUDIO API CHIME MODULATION
-       ============================================================ */
-    let lastTheme = -1;
-    function triggerSoundTheme(themeIdx) {
-      if (themeIdx === lastTheme) return;
-      lastTheme = themeIdx;
+    /* Audio Synthesizer */
+    function playChime(themeIdx) {
       if (!isAudioPlaying) return;
-
       try {
         if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let chord = [523.25, 659.25, 783.99]; // C5 E5 G5
-        if (themeIdx === 1) chord = [587.33, 739.99, 880.00]; // Warm sunset
-        if (themeIdx === 2) chord = [659.25, 830.61, 987.77, 1318.51]; // Royal Gold
-        if (themeIdx === 3) chord = [523.25, 698.46, 880.00]; // Sea breeze
-        if (themeIdx === 4) chord = [523.25, 659.25, 783.99, 1046.50]; // Celebration
+        let chord = [523.25, 659.25, 783.99];
+        if (themeIdx === 1) chord = [587.33, 739.99, 880.00];
+        if (themeIdx === 2) chord = [659.25, 830.61, 987.77, 1318.51];
+        if (themeIdx === 3) chord = [523.25, 698.46, 880.00];
+        if (themeIdx === 4) chord = [523.25, 659.25, 783.99, 1046.50];
 
         chord.forEach((freq, i) => {
           const osc = audioContext.createOscillator();
@@ -1556,8 +1416,8 @@
       if (isAudioPlaying) {
         audioIcon.className = "ri-volume-up-fill";
         audioText.innerText = "Tắt nhạc";
-        triggerSoundTheme(lastTheme >= 0 ? lastTheme : 0);
-        showToast("✨ Âm thanh câu chuyện đã kích hoạt!");
+        playChime(currentActiveScene >= 0 ? currentActiveScene : 1);
+        showToast("✨ Âm thanh Origami đã kích hoạt!");
       } else {
         audioIcon.className = "ri-volume-mute-fill";
         audioText.innerText = "Bật nhạc";
@@ -1572,11 +1432,9 @@
       setTimeout(() => box.classList.remove('show'), 3500);
     }
 
-    /* ============================================================
-       PAPER DUST PARTICLES CANVAS
-       ============================================================ */
-    function initPaperDustCanvas() {
-      const canvas = document.getElementById('paper-dust-canvas');
+    /* Ambient Sparkle Canvas */
+    function initSparkleCanvas() {
+      const canvas = document.getElementById('sparkle-canvas');
       const ctx = canvas.getContext('2d');
       let particles = [];
 
@@ -1587,12 +1445,12 @@
       window.addEventListener('resize', resize);
       resize();
 
-      class Dust {
+      class Sparkle {
         constructor() { this.reset(); }
         reset() {
           this.x = Math.random() * canvas.width;
           this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2 + 0.6;
+          this.size = Math.random() * 2 + 0.8;
           this.speedY = Math.random() * -0.4 - 0.1;
           this.speedX = (Math.random() - 0.5) * 0.3;
           this.opacity = Math.random() * 0.7 + 0.2;
@@ -1605,12 +1463,12 @@
         draw() {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(245, 211, 114, ${this.opacity})`;
+          ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
           ctx.fill();
         }
       }
 
-      for (let i = 0; i < 35; i++) particles.push(new Dust());
+      for (let i = 0; i < 30; i++) particles.push(new Sparkle());
 
       function loop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
