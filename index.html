@@ -571,59 +571,52 @@
     }
 
     /* ============================================================
-       ORTHOGONAL FLOATING TEXT (COMPLETELY UPRIGHT LIKE HUD BAR)
+       DEDICATED 2D STORY OVERLAY (ZERO 3D TILT • 100% UPRIGHT TEXT)
        ============================================================ */
-    #leftContentWrap {
-      transform: rotateX(-40deg) translateZ(80px);
-      transform-origin: center center;
-      background: transparent;
-      border: none;
-      padding: 0;
-      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.4));
-      transform-style: preserve-3d;
-      color: var(--text-dark);
-      animation: floatTextLeft 3.5s infinite ease-in-out;
-    }
-
-    #rightContentWrap {
-      transform: rotateX(-40deg) translateZ(80px);
-      transform-origin: center center;
-      background: transparent;
-      border: none;
-      padding: 0;
-      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.4));
-      transform-style: preserve-3d;
-      color: var(--text-dark);
-      animation: floatTextRight 3.5s infinite ease-in-out 0.5s;
-    }
-
-    @keyframes floatTextLeft {
-      0%, 100% { transform: rotateX(-40deg) translateZ(75px) translateY(0); }
-      50% { transform: rotateX(-40deg) translateZ(95px) translateY(-6px); }
-    }
-
-    @keyframes floatTextRight {
-      0%, 100% { transform: rotateX(-40deg) translateZ(75px) translateY(0); }
-      50% { transform: rotateX(-40deg) translateZ(95px) translateY(-6px); }
+    .story-overlay-viewport {
+      position: absolute;
+      width: 86vw;
+      max-width: 1000px;
+      height: 72vh;
+      max-height: 600px;
+      display: flex;
+      z-index: 25;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(45px) scale(0.92);
+      will-change: transform, opacity;
     }
 
     @media (max-width: 768px) {
-      #leftContentWrap {
-        transform: rotateX(-25deg) translateZ(50px);
-        animation: floatTextMobileLeft 3.5s infinite ease-in-out;
+      .story-overlay-viewport {
+        width: 96vw;
+        height: 78vh;
+        max-height: 650px;
+        transform: translateY(30px) scale(0.98);
       }
-      #rightContentWrap {
-        transform: rotateX(-25deg) translateZ(50px);
-        animation: floatTextMobileRight 3.5s infinite ease-in-out 0.5s;
-      }
-      @keyframes floatTextMobileLeft {
-        0%, 100% { transform: rotateX(-25deg) translateZ(50px) translateY(0); }
-        50% { transform: rotateX(-25deg) translateZ(65px) translateY(-5px); }
-      }
-      @keyframes floatTextMobileRight {
-        0%, 100% { transform: rotateX(-25deg) translateZ(50px) translateY(0); }
-        50% { transform: rotateX(-25deg) translateZ(65px) translateY(-5px); }
-      }
+    }
+
+    .story-overlay-page {
+      flex: 1;
+      height: 100%;
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    #leftContentWrap, #rightContentWrap {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--text-dark);
+      pointer-events: auto;
+    }
+
+    .story-overlay-page .paper-btn-subtle,
+    .story-overlay-page .paper-btn-gold {
+      pointer-events: auto;
     }
 
     /* 3D Flipping Page Sheet */
@@ -1167,50 +1160,69 @@
 
         </div>
 
-        <!-- Open Book Pages (Left Spread & Right Spread) -->
+        <!-- Open Book Pages (Left Spread & Right Spread Paper Surface) -->
         <div class="book-spread-container">
-          
-          <!-- LEFT SPREAD -->
+          <!-- LEFT SPREAD PAPER -->
           <div class="book-page left" id="leftPage">
-            <div id="leftContentWrap">
-              <div class="page-tag-badge" id="leftTag">CHƯƠNG I • 11/08/2026</div>
-              <h3 class="page-title-heading" id="leftTitle">ĐÀ NẴNG & HỘI AN</h3>
-              <p class="page-quote-block" id="leftQuote">
-                “Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau tại thành phố biển.”
-              </p>
-            </div>
-
+            <div></div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 10px; color: #8c93a8; font-weight: 700;">TRANG TRÁI</span>
-              <a id="btnMapLeft" href="https://maps.google.com/?q=Đại+học+FPT+Đà+Nẵng" target="_blank" rel="noopener noreferrer" class="paper-btn-subtle">
-                <i class="ri-map-2-line" aria-hidden="true"></i> Bản đồ
-              </a>
             </div>
           </div>
 
-          <!-- RIGHT SPREAD -->
+          <!-- RIGHT SPREAD PAPER -->
           <div class="book-page right" id="rightPage">
-            <div id="rightContentWrap">
-              <div class="page-tag-badge" id="rightTag">LỊCH TRÌNH CHI TIẾT</div>
-              <div class="page-story-text" id="rightStory">
-                <!-- Hydrated dynamically -->
-              </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <button type="button" class="paper-btn-gold" onclick="openSummaryModal()">
-                <i class="ri-calendar-todo-fill" aria-hidden="true"></i> Tóm tắt 3 ngày
-              </button>
+            <div></div>
+            <div style="display: flex; justify-content: flex-end; align-items: center;">
               <span style="font-size: 10px; color: #8c93a8; font-weight: 700;">TRANG PHẢI</span>
             </div>
           </div>
-
         </div>
 
         <!-- 3D FLIPPING PAGE SHEET (TURNS RIGHT TO LEFT) -->
         <div class="flipping-page-3d" id="flippingPageSheet">
           <div class="flip-page-face front" id="flipPageFront"></div>
           <div class="flip-page-face back" id="flipPageBack"></div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           3. DEDICATED 2D STORY OVERLAY (100% UPRIGHT & RAZOR-SHARP TEXT)
+           ============================================================ -->
+      <div class="story-overlay-viewport" id="storyOverlayViewport">
+        
+        <!-- LEFT STORY OVERLAY -->
+        <div class="story-overlay-page left">
+          <div id="leftContentWrap">
+            <div class="page-tag-badge" id="leftTag">CHƯƠNG I • 11/08/2026</div>
+            <h3 class="page-title-heading" id="leftTitle">ĐÀ NẴNG & HỘI AN</h3>
+            <p class="page-quote-block" id="leftQuote">
+              “Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau tại thành phố biển.”
+            </p>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a id="btnMapLeft" href="https://maps.google.com/?q=Đại+học+FPT+Đà+Nẵng" target="_blank" rel="noopener noreferrer" class="paper-btn-subtle">
+              <i class="ri-map-2-line" aria-hidden="true"></i> Bản đồ
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT STORY OVERLAY -->
+        <div class="story-overlay-page right">
+          <div id="rightContentWrap">
+            <div class="page-tag-badge" id="rightTag">LỊCH TRÌNH CHI TIẾT</div>
+            <div class="page-story-text" id="rightStory">
+              <!-- Hydrated dynamically -->
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-start; align-items: center;">
+            <button type="button" class="paper-btn-gold" onclick="openSummaryModal()">
+              <i class="ri-calendar-todo-fill" aria-hidden="true"></i> Tóm tắt 3 ngày
+            </button>
+          </div>
         </div>
 
       </div>
@@ -1373,6 +1385,7 @@
         masterTL.to("#envFlap", { rotateX: 0, duration: 0.03 }, 0.12);
         masterTL.to("#prologueStage", { scale: 0.6, opacity: 0, y: -30, duration: 0.04 }, 0.14);
         masterTL.to("#popupBook", { opacity: 1, rotateX: 40, rotateY: 0, rotateZ: 0, y: 0, scale: 1, duration: 0.06 }, 0.16);
+        masterTL.to("#storyOverlayViewport", { opacity: 1, y: 0, scale: 1, duration: 0.06 }, 0.16);
 
         // 0.20 -> 0.44: CHƯƠNG I (HỘI AN)
         masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 65% 35%, #3e245c 0%, #100b22 75%)", duration: 0.1 }, 0.20);
