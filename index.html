@@ -451,18 +451,18 @@
     }
 
     /* ============================================================
-       PHYSICAL 3D HORIZONTAL POP-UP BOOK (STRAIGHT Y-AXIS & PURE Z-AXIS FLOAT)
+       PHYSICAL 3D HORIZONTAL POP-UP BOOK (65° PERSPECTIVE & REALISTIC THICKNESS)
        ============================================================ */
     .popup-book-viewport {
       position: absolute;
-      width: 86vw;
-      max-width: 1000px;
+      width: 88vw;
+      max-width: 1040px;
       height: 72vh;
       max-height: 600px;
       transform-style: preserve-3d;
       z-index: 10;
       opacity: 0;
-      transform: rotateX(40deg) rotateY(0deg) rotateZ(0deg) translateY(45px) scale(0.92);
+      transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg) translateY(40px) scale(0.92);
       will-change: transform, opacity;
     }
 
@@ -471,45 +471,92 @@
         width: 96vw;
         height: 78vh;
         max-height: 650px;
-        transform: rotateX(25deg) rotateY(0deg) rotateZ(0deg) translateY(30px) scale(0.98);
+        transform: rotateX(48deg) rotateY(0deg) rotateZ(0deg) translateY(25px) scale(0.98);
       }
     }
 
-    /* Hard Cover with Thick Edges & Ambient Shadow */
+    /* Ambient Occlusion Ground Shadow */
+    .book-ambient-shadow {
+      position: absolute;
+      inset: -30px -40px -60px -40px;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 55%, transparent 75%);
+      filter: blur(24px);
+      transform: translateZ(-45px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Hard Cover with Thick Edges & Gold Filigree */
     .book-hardcover-shell {
       position: absolute;
-      inset: -16px;
-      background: linear-gradient(160deg, #1b2045 0%, #0d0f22 100%);
-      border: 3px solid var(--gold-primary);
-      border-radius: 26px;
+      inset: -20px;
+      background: linear-gradient(160deg, #181c3e 0%, #0c0e1e 100%);
+      border: 3.5px solid var(--gold-primary);
+      border-radius: 28px;
       box-shadow: 
-        0 45px 100px rgba(0, 0, 0, 0.95),
-        0 0 60px rgba(212, 175, 55, 0.4),
-        inset 0 0 35px rgba(0, 0, 0, 0.85);
+        0 55px 120px rgba(0, 0, 0, 0.98),
+        0 0 70px rgba(212, 175, 55, 0.4),
+        inset 0 0 40px rgba(0, 0, 0, 0.9);
+      transform: translateZ(-16px);
       z-index: 1;
     }
 
-    /* Stacked Paper Thickness Edges */
+    /* 3D Extruded Front/Bottom Edge (Thick Paper Stack - 38px) */
+    .book-thickness-bottom {
+      position: absolute;
+      left: -16px;
+      right: -16px;
+      bottom: -36px;
+      height: 38px;
+      background: repeating-linear-gradient(0deg, #ece4cd 0px, #ece4cd 2.5px, #c5b897 2.5px, #c5b897 5px);
+      border-radius: 0 0 20px 20px;
+      border: 2px solid var(--gold-primary);
+      border-top: none;
+      box-shadow: 
+        0 25px 40px rgba(0, 0, 0, 0.9),
+        inset 0 -5px 15px rgba(0, 0, 0, 0.5);
+      transform: translateZ(-8px);
+      z-index: 3;
+    }
+
+    /* Stacked Paper Thickness Edges (Left & Right Sides) */
     .book-paper-stack-edge {
       position: absolute;
-      inset: -6px;
-      border-radius: 18px;
+      inset: -8px;
+      border-radius: 22px;
       background: repeating-linear-gradient(0deg, #eae2cb, #eae2cb 2px, #c8bc9f 2px, #c8bc9f 4px);
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.7);
+      transform: translateZ(-6px);
       z-index: 2;
     }
 
-    /* Curved Center Spine */
+    /* Curved Center Spine with Gold Binding */
     .book-curved-spine {
       position: absolute;
-      top: 0;
-      bottom: 0;
+      top: -12px;
+      bottom: -24px;
+      left: 50%;
+      width: 20px;
+      transform: translateX(-50%) translateZ(4px);
+      background: linear-gradient(90deg, #0b0d1a 0%, #aa7c1e 30%, #ffd700 50%, #aa7c1e 70%, #0b0d1a 100%);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.9), 0 0 10px rgba(212, 175, 55, 0.5);
+      border-radius: 4px;
+      z-index: 25;
+    }
+
+    /* Silk Ribbon Bookmark Tail hanging from bottom spine */
+    .book-ribbon-tail {
+      position: absolute;
+      bottom: -60px;
       left: 50%;
       width: 14px;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(212,175,55,0.6) 50%, rgba(0,0,0,0.5) 100%);
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
-      z-index: 25;
+      height: 48px;
+      background: linear-gradient(180deg, var(--gold-bright) 0%, #b8860b 100%);
+      transform: translateX(-50%) rotate(4deg);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%);
+      z-index: 26;
     }
 
     /* Open Two-Page Spread (Left & Right) */
@@ -540,16 +587,14 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(135deg, #e4d8b6 0%, #faf6eb 55%, #ede0c2 100%);
-      border-radius: 18px 0 0 18px;
-      border-right: 1px solid rgba(0, 0, 0, 0.25);
-      border-top: 3px solid rgba(212, 175, 55, 0.5);
-      border-left: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 20px 0 0 20px;
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 3.5px solid rgba(212, 175, 55, 0.6);
+      border-left: 3px solid rgba(212, 175, 55, 0.5);
       box-shadow: 
-        inset 0 0 45px rgba(0, 0, 0, 0.14),
-        inset -10px 0 20px rgba(0, 0, 0, 0.16),
-        0 15px 35px rgba(0, 0, 0, 0.5);
-      transform: rotateY(7deg);
-      transform-origin: right center;
+        inset 0 0 50px rgba(0, 0, 0, 0.16),
+        inset -12px 0 24px rgba(0, 0, 0, 0.2),
+        0 18px 40px rgba(0, 0, 0, 0.6);
       z-index: -1;
     }
 
@@ -559,14 +604,14 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(225deg, #fbf7ee 0%, #f3ebd6 55%, #e6dac0 100%);
-      border-radius: 0 18px 18px 0;
-      border-left: 1px solid rgba(0, 0, 0, 0.25);
-      border-top: 3px solid rgba(212, 175, 55, 0.5);
-      border-right: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 0 20px 20px 0;
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 3.5px solid rgba(212, 175, 55, 0.6);
+      border-right: 3px solid rgba(212, 175, 55, 0.5);
       box-shadow: 
-        inset 0 0 45px rgba(0, 0, 0, 0.14),
-        inset 10px 0 20px rgba(0, 0, 0, 0.16),
-        0 15px 35px rgba(0, 0, 0, 0.5);
+        inset 0 0 50px rgba(0, 0, 0, 0.16),
+        inset 12px 0 24px rgba(0, 0, 0, 0.2),
+        0 18px 40px rgba(0, 0, 0, 0.6);
       z-index: -1;
     }
 
@@ -1040,9 +1085,19 @@
            ============================================================ -->
       <div class="popup-book-viewport" id="popupBook">
         
+        <!-- Ambient Ground Shadow -->
+        <div class="book-ambient-shadow" aria-hidden="true"></div>
+        
+        <!-- Thick Hardcover Leather Shell -->
         <div class="book-hardcover-shell"></div>
+        
+        <!-- 3D Extruded Thick Paper Stack Edge (Bottom & Sides) -->
+        <div class="book-thickness-bottom" aria-hidden="true"></div>
         <div class="book-paper-stack-edge"></div>
+        
+        <!-- Curved Center Spine & Hanging Silk Bookmark -->
         <div class="book-curved-spine"></div>
+        <div class="book-ribbon-tail" aria-hidden="true"></div>
 
         <!-- Floating Origami Magical Stars (Reference Image 2) -->
         <div class="floating-stars-cluster" aria-hidden="true">
@@ -1384,7 +1439,7 @@
         masterTL.to("#innerLetter", { y: 0, duration: 0.03 }, 0.11);
         masterTL.to("#envFlap", { rotateX: 0, duration: 0.03 }, 0.12);
         masterTL.to("#prologueStage", { scale: 0.6, opacity: 0, y: -30, duration: 0.04 }, 0.14);
-        masterTL.to("#popupBook", { opacity: 1, rotateX: 40, rotateY: 0, rotateZ: 0, y: 0, scale: 1, duration: 0.06 }, 0.16);
+        masterTL.to("#popupBook", { opacity: 1, rotateX: 65, rotateY: 0, rotateZ: 0, y: 0, scale: 1, duration: 0.06 }, 0.16);
         masterTL.to("#storyOverlayViewport", { opacity: 1, y: 0, scale: 1, duration: 0.06 }, 0.16);
 
         // 0.20 -> 0.44: CHƯƠNG I (HỘI AN)
