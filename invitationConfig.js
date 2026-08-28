@@ -39,7 +39,7 @@ const invitationConfig = {
 
   // 10 Story Spreads trên trục cuộn thời gian
   storySpreads: [
-    // 0. Prologue (0.00 - 0.10)
+    // 0. Prologue (0.00 - 0.12)
     {
       id: "prologue",
       title: "Prologue • Lá Thư Mở Đầu",
@@ -140,6 +140,43 @@ const invitationConfig = {
       id: "epilogue",
       title: "Epilogue • Lời Cảm Ơn",
       quote: "Cảm ơn bạn đã cùng tôi mở từng trang của hành trình này.\n\nMột chặng đường đã khép lại, nhưng những kỷ niệm đẹp chỉ vừa được viết nên.\n\nHẹn gặp nhau tại Đà Nẵng."
+    }
+  ],
+
+  // Tóm tắt lịch trình 3 ngày phục vụ Modal tra cứu
+  itinerarySummary: [
+    {
+      date: "Thứ Ba, 11/08/2026",
+      title: "Ngày 1: Đón đoàn & Phố cổ Hội An",
+      details: [
+        "11:30–13:30: Đón đoàn về khách sạn nhận phòng, ăn trưa nhẹ đặc sản bánh tráng cuốn thịt heo / mì Quảng.",
+        "15:30: Xe xuất phát đi Hội An (~40 phút).",
+        "16:30: Dạo phố cổ, check-in Chùa Cầu, giàn hoa giấy, uống nước Mót.",
+        "18:00: Ăn tối đặc sản cơm gà, cao lầu, bánh bao bánh vạc.",
+        "19:00: Thuyền sông Hoài, thả hoa đăng lung linh ngắm phố đèn lồng.",
+        "21:00: Xe đưa đoàn về lại khách sạn Đà Nẵng nghỉ ngơi."
+      ]
+    },
+    {
+      date: "Thứ Tư, 12/08/2026 (Chính)",
+      title: "Ngày 2: Đại Lễ Tốt Nghiệp & Tiệc Mừng",
+      details: [
+        "07:00: Đón tiếp Quý khách tại Tòa nhà Alpha – Đại học FPT Đà Nẵng.",
+        "07:30–11:30: Đại Lễ Trao Bằng Tốt Nghiệp trang trọng và chụp ảnh kỷ niệm.",
+        "11:30–14:00: Tiệc liên hoan mừng tốt nghiệp cùng gia đình & bạn bè (12–17 người) tại nhà hàng ấm cúng.",
+        "15:30–17:30: Viếng Chùa Linh Ứng Bãi Bụt (Sơn Trà), tắm biển Mỹ Khê ngắm hoàng hôn.",
+        "18:30–21:30: Ăn tối hải sản, dạo mát Sông Hàn, check-in Cầu Tình Yêu, xem Cầu Rồng và Chợ đêm."
+      ]
+    },
+    {
+      date: "Thứ Năm, 13/08/2026",
+      title: "Ngày 3: Đặc Sản & Tạm Biệt",
+      details: [
+        "08:00: Điểm tâm sáng bún chả cá Đà Nẵng.",
+        "09:00: Tham quan và mua sắm quà đặc sản tại Chợ Hàn (chả bò, tré, mực rim, bánh khô mè).",
+        "10:00: Check-in Công viên APEC bên bờ sông Hàn.",
+        "10:30: Trả phòng khách sạn, tiễn đoàn ra sân bay / ga tàu. Kết thúc chuyến đi!"
+      ]
     }
   ]
 };

@@ -319,19 +319,19 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 90%;
-      max-width: 580px;
-      height: 480px;
+      width: 92%;
+      max-width: 620px;
+      height: 520px;
       transform-style: preserve-3d;
       will-change: transform, opacity;
     }
 
     .prologue-envelope-3d {
-      width: 320px;
-      height: 210px;
+      width: clamp(340px, 80vw, 460px);
+      height: clamp(230px, 50vw, 290px);
       position: relative;
       transform-style: preserve-3d;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .env-back {
@@ -339,24 +339,24 @@
       inset: 0;
       background: linear-gradient(160deg, #1f2345 0%, #101226 100%);
       border: 2px solid var(--gold-primary);
-      border-radius: 14px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.35);
+      border-radius: 16px;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.95), 0 0 30px rgba(212, 175, 55, 0.4);
     }
 
     /* Inner Letter Sheet sliding upwards out of envelope */
     .env-letter-sheet {
       position: absolute;
-      inset: 10px;
+      inset: 12px;
       background: linear-gradient(180deg, #fffdf5 0%, #f7ecd5 100%);
       border: 1.5px solid var(--gold-primary);
-      border-radius: 10px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 20px;
       color: var(--text-dark);
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
       transform: translateY(0);
       z-index: 3;
       will-change: transform;
@@ -364,38 +364,38 @@
 
     .letter-greeting {
       font-family: var(--font-display);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 800;
       color: #9c731e;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .letter-title {
       font-family: var(--font-serif);
-      font-size: 19px;
+      font-size: clamp(18px, 3.5vw, 22px);
       font-weight: 800;
       color: #1a1c29;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .letter-body-quote {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: clamp(12.5px, 2.2vw, 14px);
+      line-height: 1.65;
       color: #3b3f54;
     }
 
     .env-front-pocket {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, transparent 40%, #161a36 100%);
+      background: linear-gradient(180deg, transparent 35%, #161a36 100%);
       border: 2px solid var(--gold-primary);
       border-top: none;
-      border-radius: 0 0 14px 14px;
-      clip-path: polygon(0 40%, 50% 70%, 100% 40%, 100% 100%, 0 100%);
+      border-radius: 0 0 16px 16px;
+      clip-path: polygon(0 35%, 50% 70%, 100% 35%, 100% 100%, 0 100%);
       z-index: 5;
     }
 
@@ -404,7 +404,7 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 105px;
+      height: 135px;
       background: linear-gradient(180deg, #2a2f58 0%, #161a36 100%);
       border: 2px solid var(--gold-primary);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
@@ -415,19 +415,19 @@
 
     .env-wax-seal {
       position: absolute;
-      top: 70px;
+      top: 90px;
       left: 50%;
       transform: translateX(-50%);
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: var(--gold-gradient);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 55, 0.8);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 55, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #090a14;
-      font-size: 24px;
+      font-size: 26px;
       z-index: 7;
     }
 
@@ -438,10 +438,11 @@
       align-items: center;
       gap: 6px;
       animation: bounceHint 2s infinite ease-in-out;
-      background: rgba(14, 18, 40, 0.8);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      padding: 6px 14px;
-      border-radius: 20px;
+      background: rgba(14, 18, 40, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 8px 18px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     @keyframes bounceHint {
@@ -1114,185 +1115,234 @@
 
   <script>
     /* ============================================================
-       3D POP-UP STORYBOOK SCROLL ENGINE (GSAP SCRUB)
+       3D POP-UP STORYBOOK SCROLL ENGINE (MODULAR & ROBUST)
        ============================================================ */
     gsap.registerPlugin(ScrollTrigger);
 
     let isAudioPlaying = false;
     let audioContext = null;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const guestParam = urlParams.get('guest') || urlParams.get('to') || invitationConfig.guestName;
-    const resolvedGuest = guestParam ? guestParam.trim() : "Gia đình và những người bạn thân yêu";
+    let resolvedGuest = "Gia đình và những người bạn thân yêu";
 
     document.addEventListener('DOMContentLoaded', () => {
-      hydrateDOM();
-      initSparkleCanvas();
-      initScrollTimeline();
-      initKeyboardNavigation();
-
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.getElementById('scrollHintText').innerText = "Vuốt lên để kéo mở câu chuyện";
-      }
-
-      if (sessionStorage.getItem('graduation_audio_on') === 'true') {
-        toggleAudio(true);
+      try {
+        validateStoryConfig();
+        hydratePrologue();
+        hydrateBook();
+        hydratePages();
+        hydrateModels();
+        initializeScrollTimeline();
+        initializeNavigation();
+        initializeAudio();
+        initializeScheduleDialog();
+      } catch (err) {
+        console.error("Critical initialization failure:", err);
       }
     });
 
-    function hydrateDOM() {
-      document.getElementById('hudUni').innerText = invitationConfig.universityName;
-      document.getElementById('letterGreeting').innerText = `GỬI ${resolvedGuest.toUpperCase()},`;
-      
-      // Render Modal Body
-      const modalBody = document.getElementById('itineraryModalBody');
-      modalBody.innerHTML = invitationConfig.itinerarySummary.map(item => `
-        <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 10px 14px;">
-          <b style="color: var(--gold-bright); font-size: 13px; display: block; margin-bottom: 4px;">${item.title} (${item.date})</b>
-          <ul style="padding-left: 16px; margin: 0;">
-            ${item.details.map(d => `<li>${d}</li>`).join('')}
-          </ul>
-        </div>
-      `).join('');
+    /* Step 1: Validate Config */
+    function validateStoryConfig() {
+      if (typeof invitationConfig === 'undefined') {
+        throw new Error("invitationConfig is not loaded.");
+      }
+      if (!Array.isArray(invitationConfig.storySpreads) || invitationConfig.storySpreads.length === 0) {
+        console.warn("storySpreads is missing or empty. Creating fallback.");
+        invitationConfig.storySpreads = [{
+          id: "prologue",
+          title: "Lá Thư",
+          quote: "Một hành trình đặc biệt đang chờ được mở ra tại Đà Nẵng…"
+        }];
+      }
+      if (!Array.isArray(invitationConfig.itinerarySummary)) {
+        invitationConfig.itinerarySummary = [];
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const guestParam = urlParams.get('guest') || urlParams.get('to') || invitationConfig.guestName;
+      if (guestParam && guestParam.trim()) {
+        resolvedGuest = guestParam.trim();
+      }
     }
 
-    /* ============================================================
-       GSAP MASTER SCRUB TIMELINE (10 MULTI-SPREADS)
-       ============================================================ */
-    function initScrollTimeline() {
-      const masterTL = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#masterTrack",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.8,
-          onUpdate: (self) => {
-            const p = self.progress;
-            document.getElementById('bookmarkFill').style.height = `${p * 100}%`;
-            updateBookmarkNodes(p);
-            updateSpreadContentAtProgress(p);
-          }
+    /* Step 2: Hydrate Prologue */
+    function hydratePrologue() {
+      try {
+        const hudUni = document.getElementById('hudUni');
+        if (hudUni && invitationConfig.universityName) {
+          hudUni.innerText = invitationConfig.universityName;
         }
-      });
 
-      // -------------------------------------------------------------
-      // 1. 0.00 -> 0.12: PROLOGUE ENVELOPE (LÁ THƯ TRƯỢT LÊN TRỰC TIẾP)
-      // -------------------------------------------------------------
-      masterTL.to("#prologueStage", { opacity: 1, scale: 1, duration: 0.03 }, 0.00);
-      masterTL.to("#envFlap", { rotateX: 180, duration: 0.04 }, 0.01);
-      masterTL.to("#envSeal", { y: -30, opacity: 0, duration: 0.03 }, 0.02);
-      masterTL.to("#innerLetter", { y: -85, duration: 0.06 }, 0.03);
+        const letterGreeting = document.getElementById('letterGreeting');
+        if (letterGreeting) {
+          letterGreeting.innerText = `GỬI ${resolvedGuest.toUpperCase()},`;
+        }
 
-      // -------------------------------------------------------------
-      // 2. 0.12 -> 0.20: MORPH ENVELOPE INTO 3D HORIZONTAL BOOK
-      // -------------------------------------------------------------
-      masterTL.to("#innerLetter", { y: 0, duration: 0.03 }, 0.11);
-      masterTL.to("#envFlap", { rotateX: 0, duration: 0.03 }, 0.12);
-      masterTL.to("#prologueStage", { scale: 0.6, opacity: 0, y: -30, duration: 0.04 }, 0.14);
-      masterTL.to("#popupBook", { opacity: 1, rotateX: 22, y: 0, scale: 1, duration: 0.06 }, 0.16);
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+          const hint = document.getElementById('scrollHintText');
+          if (hint) hint.innerText = "Vuốt lên để kéo mở câu chuyện";
+        }
+      } catch (e) {
+        console.error("Error in hydratePrologue:", e);
+      }
+    }
 
-      // -------------------------------------------------------------
-      // 3. 0.20 -> 0.44: CHƯƠNG I (3 SPREADS HỘI AN)
-      // -------------------------------------------------------------
-      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 65% 35%, #3e245c 0%, #100b22 75%)", duration: 0.1 }, 0.20);
-      masterTL.to("#modelChuaCau", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.22);
-      masterTL.to("#modelChuaCau", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.42);
+    /* Step 3: Hydrate Book */
+    function hydrateBook() {
+      // Safe placeholder if needed
+    }
 
-      // -------------------------------------------------------------
-      // 4. 0.43 -> 0.46: 3D PAGE FLIP 1 -> 2 (RIGHT TO LEFT)
-      // -------------------------------------------------------------
-      masterTL.fromTo("#flippingPageSheet", 
-        { rotateY: 0, opacity: 1 }, 
-        { rotateY: -180, opacity: 1, duration: 0.04, ease: "power1.inOut" }, 
-        0.43
-      );
+    /* Step 4: Hydrate Pages */
+    function hydratePages() {
+      try {
+        updateSpreadContentAtProgress(0.20);
+      } catch (e) {
+        console.error("Error in hydratePages:", e);
+      }
+    }
 
-      // -------------------------------------------------------------
-      // 5. 0.46 -> 0.76: CHƯƠNG II (4 SPREADS ĐẠI LỄ FPT CLIMAX)
-      // -------------------------------------------------------------
-      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 30%, #2f2552 0%, #080816 75%)", duration: 0.08 }, 0.46);
-      masterTL.to("#modelFptAlpha", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.47);
-      masterTL.to("#modelFptAlpha", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.55);
+    /* Step 5: Hydrate Models */
+    function hydrateModels() {
+      initSparkleCanvas();
+    }
 
-      // Banquet table pop-up
-      masterTL.to("#modelBanquet", { opacity: 1, rotateX: 0, scale: 1, duration: 0.05 }, 0.56);
-      masterTL.to("#modelBanquet", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.63);
+    /* Step 6: Initialize Scroll Timeline (GSAP Scrub) */
+    function initializeScrollTimeline() {
+      try {
+        const masterTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#masterTrack",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.8,
+            onUpdate: (self) => {
+              const p = self.progress;
+              const fill = document.getElementById('bookmarkFill');
+              if (fill) fill.style.height = `${p * 100}%`;
+              updateBookmarkNodes(p);
+              updateSpreadContentAtProgress(p);
+            }
+          }
+        });
 
-      // Dragon bridge pop-up
-      masterTL.to("#modelDragonBridge", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.68);
-      masterTL.to("#modelDragonBridge", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.78);
+        // 0.00 -> 0.12: PROLOGUE ENVELOPE (LÁ THƯ TRƯỢT LÊN TRỰC TIẾP)
+        masterTL.to("#prologueStage", { opacity: 1, scale: 1, duration: 0.03 }, 0.00);
+        masterTL.to("#envFlap", { rotateX: 180, duration: 0.04 }, 0.01);
+        masterTL.to("#envSeal", { y: -30, opacity: 0, duration: 0.03 }, 0.02);
+        masterTL.to("#innerLetter", { y: -85, duration: 0.06 }, 0.03);
 
-      // -------------------------------------------------------------
-      // 6. 0.77 -> 0.80: 3D PAGE FLIP 2 -> 3
-      // -------------------------------------------------------------
-      masterTL.fromTo("#flippingPageSheet", 
-        { rotateY: 0 }, 
-        { rotateY: -180, duration: 0.04, ease: "power1.inOut" }, 
-        0.77
-      );
+        // 0.12 -> 0.20: MORPH ENVELOPE INTO 3D HORIZONTAL BOOK
+        masterTL.to("#innerLetter", { y: 0, duration: 0.03 }, 0.11);
+        masterTL.to("#envFlap", { rotateX: 0, duration: 0.03 }, 0.12);
+        masterTL.to("#prologueStage", { scale: 0.6, opacity: 0, y: -30, duration: 0.04 }, 0.14);
+        masterTL.to("#popupBook", { opacity: 1, rotateX: 22, y: 0, scale: 1, duration: 0.06 }, 0.16);
 
-      // -------------------------------------------------------------
-      // 7. 0.80 -> 0.94: CHƯƠNG III (2 SPREADS ĐẶC SẢN & TẠM BIỆT)
-      // -------------------------------------------------------------
-      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 35% 30%, #152640 0%, #060b14 75%)", duration: 0.08 }, 0.80);
-      masterTL.to("#modelHanMarket", { opacity: 1, rotateX: 0, scale: 1, duration: 0.05 }, 0.81);
-      masterTL.to("#modelHanMarket", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.92);
+        // 0.20 -> 0.44: CHƯƠNG I (HỘI AN)
+        masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 65% 35%, #3e245c 0%, #100b22 75%)", duration: 0.1 }, 0.20);
+        masterTL.to("#modelChuaCau", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.22);
+        masterTL.to("#modelChuaCau", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.42);
 
-      // -------------------------------------------------------------
-      // 8. 0.94 -> 1.00: EPILOGUE (LỜI CẢM ƠN & KẾT THÚC)
-      // -------------------------------------------------------------
-      masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 40%, #261e46 0%, #05060e 80%)", duration: 0.06 }, 0.94);
-      masterTL.to("#popupBook", { rotateX: 10, scale: 0.96, duration: 0.06 }, 0.95);
+        // 0.43 -> 0.46: 3D PAGE FLIP 1 -> 2
+        masterTL.fromTo("#flippingPageSheet", 
+          { rotateY: 0, opacity: 1 }, 
+          { rotateY: -180, opacity: 1, duration: 0.04, ease: "power1.inOut" }, 
+          0.43
+        );
+
+        // 0.46 -> 0.76: CHƯƠNG II (ĐẠI LỄ FPT CLIMAX)
+        masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 30%, #2f2552 0%, #080816 75%)", duration: 0.08 }, 0.46);
+        masterTL.to("#modelFptAlpha", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.47);
+        masterTL.to("#modelFptAlpha", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.55);
+
+        masterTL.to("#modelBanquet", { opacity: 1, rotateX: 0, scale: 1, duration: 0.05 }, 0.56);
+        masterTL.to("#modelBanquet", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.63);
+
+        masterTL.to("#modelDragonBridge", { opacity: 1, rotateX: 0, scale: 1, duration: 0.06 }, 0.68);
+        masterTL.to("#modelDragonBridge", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.78);
+
+        // 0.77 -> 0.80: 3D PAGE FLIP 2 -> 3
+        masterTL.fromTo("#flippingPageSheet", 
+          { rotateY: 0 }, 
+          { rotateY: -180, duration: 0.04, ease: "power1.inOut" }, 
+          0.77
+        );
+
+        // 0.80 -> 0.94: CHƯƠNG III (ĐẶC SẢN & TẠM BIỆT)
+        masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 35% 30%, #152640 0%, #060b14 75%)", duration: 0.08 }, 0.80);
+        masterTL.to("#modelHanMarket", { opacity: 1, rotateX: 0, scale: 1, duration: 0.05 }, 0.81);
+        masterTL.to("#modelHanMarket", { opacity: 0, rotateX: 85, scale: 0.6, duration: 0.04 }, 0.92);
+
+        // 0.94 -> 1.00: EPILOGUE (LỜI CẢM ƠN)
+        masterTL.to("#skyAtmosphere", { background: "radial-gradient(circle at 50% 40%, #261e46 0%, #05060e 80%)", duration: 0.06 }, 0.94);
+        masterTL.to("#popupBook", { rotateX: 10, scale: 0.96, duration: 0.06 }, 0.95);
+
+      } catch (e) {
+        console.error("Error in initializeScrollTimeline:", e);
+      }
     }
 
     /* Update dynamic text on the Left & Right pages across 10 spreads */
     let currentSpreadIndex = -1;
     function updateSpreadContentAtProgress(p) {
-      let spreadIdx = 0;
-      if (p < 0.14) spreadIdx = 0;
-      else if (p < 0.26) spreadIdx = 1; // Ch1 Spread 1: Đón đoàn
-      else if (p < 0.36) spreadIdx = 2; // Ch1 Spread 2: Chùa Cầu
-      else if (p < 0.46) spreadIdx = 3; // Ch1 Spread 3: Sông Hoài
-      else if (p < 0.56) spreadIdx = 4; // Ch2 Spread 1: Đại Lễ Tòa Alpha FPT
-      else if (p < 0.64) spreadIdx = 5; // Ch2 Spread 2: Tiệc Mừng
-      else if (p < 0.72) spreadIdx = 6; // Ch2 Spread 3: Sơn Trà & Mỹ Khê
-      else if (p < 0.80) spreadIdx = 7; // Ch2 Spread 4: Cầu Rồng Sông Hàn
-      else if (p < 0.88) spreadIdx = 8; // Ch3 Spread 1: Bún chả cá & Chợ Hàn
-      else if (p < 0.94) spreadIdx = 9; // Ch3 Spread 2: APEC & Tạm biệt
-      else spreadIdx = 10; // Epilogue
+      try {
+        let spreadIdx = 0;
+        if (p < 0.14) spreadIdx = 0;
+        else if (p < 0.26) spreadIdx = 1; // Ch1 Spread 1: Đón đoàn
+        else if (p < 0.36) spreadIdx = 2; // Ch1 Spread 2: Chùa Cầu
+        else if (p < 0.46) spreadIdx = 3; // Ch1 Spread 3: Sông Hoài
+        else if (p < 0.56) spreadIdx = 4; // Ch2 Spread 1: Đại Lễ Tòa Alpha FPT
+        else if (p < 0.64) spreadIdx = 5; // Ch2 Spread 2: Tiệc Mừng
+        else if (p < 0.72) spreadIdx = 6; // Ch2 Spread 3: Sơn Trà & Mỹ Khê
+        else if (p < 0.80) spreadIdx = 7; // Ch2 Spread 4: Cầu Rồng Sông Hàn
+        else if (p < 0.88) spreadIdx = 8; // Ch3 Spread 1: Bún chả cá & Chợ Hàn
+        else if (p < 0.94) spreadIdx = 9; // Ch3 Spread 2: APEC & Tạm biệt
+        else spreadIdx = 10; // Epilogue
 
-      if (spreadIdx === currentSpreadIndex) return;
-      currentSpreadIndex = spreadIdx;
+        if (spreadIdx === currentSpreadIndex) return;
+        currentSpreadIndex = spreadIdx;
 
-      const leftTag = document.getElementById('leftTag');
-      const leftTitle = document.getElementById('leftTitle');
-      const leftQuote = document.getElementById('leftQuote');
-      const rightTag = document.getElementById('rightTag');
-      const rightStory = document.getElementById('rightStory');
-      const btnMapLeft = document.getElementById('btnMapLeft');
+        const leftTag = document.getElementById('leftTag');
+        const leftTitle = document.getElementById('leftTitle');
+        const leftQuote = document.getElementById('leftQuote');
+        const rightTag = document.getElementById('rightTag');
+        const rightStory = document.getElementById('rightStory');
+        const btnMapLeft = document.getElementById('btnMapLeft');
 
-      if (spreadIdx === 0) return;
+        if (spreadIdx === 0) return;
 
-      const spreadData = invitationConfig.storySpreads[spreadIdx];
-      if (!spreadData) return;
+        const spreads = invitationConfig.storySpreads || [];
+        const spreadData = spreads[spreadIdx] || spreads[0];
+        if (!spreadData) return;
 
-      leftTag.innerText = spreadData.chapter || "LỄ TỐT NGHIỆP 2026";
-      leftTitle.innerText = spreadData.title;
-      leftQuote.innerText = `“${spreadData.quote}”`;
-      
-      rightTag.innerText = spreadData.time ? `THỜI GIAN: ${spreadData.time}` : "CHI TIẾT";
-      rightStory.innerHTML = `
-        <p style="font-size:13px; line-height:1.6; color:#2c2f42;">${spreadData.story || spreadData.quote}</p>
-      `;
+        if (leftTag) leftTag.innerText = spreadData.chapter || "LỄ TỐT NGHIỆP 2026";
+        if (leftTitle) leftTitle.innerText = spreadData.title || "";
+        if (leftQuote) leftQuote.innerText = `“${spreadData.quote || ''}”`;
+        
+        if (rightTag) rightTag.innerText = spreadData.time ? `THỜI GIAN: ${spreadData.time}` : "CHI TIẾT";
+        if (rightStory) {
+          rightStory.innerHTML = `
+            <p style="font-size:13px; line-height:1.6; color:#2c2f42;">${spreadData.story || spreadData.quote || ''}</p>
+          `;
+        }
 
-      if (spreadData.mapUrl) {
-        btnMapLeft.href = spreadData.mapUrl;
-        btnMapLeft.style.display = "inline-flex";
-      } else {
-        btnMapLeft.style.display = "none";
+        if (btnMapLeft) {
+          if (spreadData.mapUrl) {
+            btnMapLeft.href = spreadData.mapUrl;
+            btnMapLeft.style.display = "inline-flex";
+          } else {
+            btnMapLeft.style.display = "none";
+          }
+        }
+
+        playAdaptiveChime(spreadIdx);
+      } catch (e) {
+        console.error("Error in updateSpreadContentAtProgress:", e);
       }
+    }
 
-      playAdaptiveChime(spreadIdx);
+    /* Step 7: Navigation & Keyboard Controls */
+    function initializeNavigation() {
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSummaryModal();
+      });
     }
 
     function updateBookmarkNodes(p) {
@@ -1324,40 +1374,13 @@
       window.scrollTo({ top: maxScroll * ratio, behavior: 'smooth' });
     }
 
-    function initKeyboardNavigation() {
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeSummaryModal();
-      });
+    /* Step 8: Audio Module */
+    function initializeAudio() {
+      if (sessionStorage.getItem('graduation_audio_on') === 'true') {
+        toggleAudio(true);
+      }
     }
 
-    /* Modal */
-    function openSummaryModal() {
-      document.getElementById('itineraryModal').classList.add('active');
-    }
-    function closeSummaryModal() {
-      const modal = document.getElementById('itineraryModal');
-      modal.classList.remove('active');
-      const trigger = document.getElementById('btnItineraryModalTrigger');
-      if (trigger) trigger.focus();
-    }
-
-    /* Calendar & Copy */
-    function addGoogleCalendar() {
-      const url = calendarHelper.getGoogleCalendarUrl({
-        title: `Lễ Tốt Nghiệp Đại Học – ${invitationConfig.graduateName}`,
-        location: `${invitationConfig.ceremonyVenue}, ${invitationConfig.ceremonyAddress}`,
-        description: `Tham dự Lễ tốt nghiệp Đại học của ${invitationConfig.graduateName} tại ${invitationConfig.universityName}.`
-      });
-      window.open(url, '_blank');
-    }
-
-    async function copyScheduleText() {
-      const ok = await calendarHelper.copyScheduleToClipboard();
-      if (ok) showToast('📋 Đã sao chép toàn bộ lịch trình!');
-      else showToast('✨ Vui lòng chia sẻ liên kết này!');
-    }
-
-    /* Audio Synthesizer */
     function playAdaptiveChime(idx) {
       if (!isAudioPlaying) return;
       try {
@@ -1393,19 +1416,68 @@
       const audioText = document.getElementById('audioText');
 
       if (isAudioPlaying) {
-        audioIcon.className = "ri-volume-up-fill";
-        audioText.innerText = "Tắt nhạc";
+        if (audioIcon) audioIcon.className = "ri-volume-up-fill";
+        if (audioText) audioText.innerText = "Tắt nhạc";
         playAdaptiveChime(currentSpreadIndex >= 0 ? currentSpreadIndex : 1);
         showToast("✨ Âm thanh Origami đã kích hoạt!");
       } else {
-        audioIcon.className = "ri-volume-mute-fill";
-        audioText.innerText = "Bật nhạc";
+        if (audioIcon) audioIcon.className = "ri-volume-mute-fill";
+        if (audioText) audioText.innerText = "Bật nhạc";
         showToast("Đã tắt âm thanh.");
       }
     }
 
+    /* Step 9: Schedule Modal Dialog */
+    function initializeScheduleDialog() {
+      try {
+        const modalBody = document.getElementById('itineraryModalBody');
+        const summary = Array.isArray(invitationConfig.itinerarySummary) ? invitationConfig.itinerarySummary : [];
+        if (modalBody) {
+          modalBody.innerHTML = summary.map(item => `
+            <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 10px 14px;">
+              <b style="color: var(--gold-bright); font-size: 13px; display: block; margin-bottom: 4px;">${item.title || ''} (${item.date || ''})</b>
+              <ul style="padding-left: 16px; margin: 0;">
+                ${Array.isArray(item.details) ? item.details.map(d => `<li>${d}</li>`).join('') : ''}
+              </ul>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.error("Error in initializeScheduleDialog:", e);
+      }
+    }
+
+    function openSummaryModal() {
+      const modal = document.getElementById('itineraryModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeSummaryModal() {
+      const modal = document.getElementById('itineraryModal');
+      if (modal) modal.classList.remove('active');
+      const trigger = document.getElementById('btnItineraryModalTrigger');
+      if (trigger) trigger.focus();
+    }
+
+    /* Calendar & Copy */
+    function addGoogleCalendar() {
+      const url = calendarHelper.getGoogleCalendarUrl({
+        title: `Lễ Tốt Nghiệp Đại Học – ${invitationConfig.graduateName}`,
+        location: `${invitationConfig.ceremonyVenue}, ${invitationConfig.ceremonyAddress}`,
+        description: `Tham dự Lễ tốt nghiệp Đại học của ${invitationConfig.graduateName} tại ${invitationConfig.universityName}.`
+      });
+      window.open(url, '_blank');
+    }
+
+    async function copyScheduleText() {
+      const ok = await calendarHelper.copyScheduleToClipboard();
+      if (ok) showToast('📋 Đã sao chép toàn bộ lịch trình!');
+      else showToast('✨ Vui lòng chia sẻ liên kết này!');
+    }
+
     function showToast(msg) {
       const box = document.getElementById('toastBox');
+      if (!box) return;
       box.innerText = msg;
       box.classList.add('show');
       setTimeout(() => box.classList.remove('show'), 3500);
@@ -1414,7 +1486,9 @@
     /* Ambient Sparkle Canvas */
     function initSparkleCanvas() {
       const canvas = document.getElementById('sparkle-canvas');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
+      if (!ctx) return;
       let particles = [];
 
       function resize() {
