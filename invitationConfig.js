@@ -1,18 +1,18 @@
 /**
  * ==============================================================================
  * INVITATION CONFIGURATION (invitationConfig.js)
- * Trung tâm quản lý thông tin, dữ liệu sự kiện và nội dung cốt truyện (Storytelling)
+ * Trung tâm quản lý dữ liệu sự kiện, timeline và nội dung kể chuyện (Storybook)
  * ==============================================================================
  */
 
 const invitationConfig = {
   // 1. Thông tin cá nhân & Nhân vật chính
   graduateName: "Cao Hoàng Linh",
-  guestName: "", // Để trống để tự động lấy từ query string (?guest=Tên hoặc ?to=Tên), mặc định: "Gia đình và những người bạn thân yêu"
+  guestName: "", // Tự động lấy từ query string (?guest=Tên hoặc ?to=Tên), mặc định: "Gia đình và những người bạn thân yêu"
   universityName: "Đại học FPT Đà Nẵng",
   faculty: "Khoa Công nghệ Thông tin",
   major: "Kỹ thuật Phần mềm",
-  className: "K16 - Software Engineering",
+  className: "K16 - SE",
   degreeTitle: "Kỹ sư Kỹ thuật Phần mềm",
 
   // 2. Thời gian & Địa điểm Lễ Tốt Nghiệp Chính Thức
@@ -50,172 +50,96 @@ const invitationConfig = {
   // 6. Ghi chú di chuyển
   transportNotes: "Xe ô tô đưa đón gia đình và người thân được bố trí xuyên suốt lịch trình giữa khách sạn, trường đại học và các điểm tham quan.",
 
-  // 7. Cốt truyện 5 chương (Progressive Storytelling Chapters)
-  storyChapters: [
-    {
-      id: 0,
+  // 7. Cấu hình Timeline Storybook (Scroll Progress: 0.00 -> 1.00)
+  storyTimeline: {
+    prologue: {
+      range: [0.00, 0.14],
+      title: "Lá thư xuất hiện",
       code: "PROLOGUE",
-      title: "Lá thư được gửi đến",
-      subtitle: "Khởi đầu của một lời hẹn",
-      themeColor: "navy",
-      quote1: "Có những hành trình được bắt đầu bằng một chuyến đi.\nCó những hành trình lại bắt đầu từ một lời hẹn.",
-      quote2: "Một cột mốc quan trọng đang chờ được mở ra tại Đà Nẵng.\nVà trong câu chuyện ấy, tôi mong bạn sẽ có mặt.",
-      ctaText: "MỞ LÁ THƯ",
-      fragmentName: "Mảnh Giấy Khởi Đầu",
-      fragmentIcon: "ri-mail-star-fill"
+      leadText: "Gửi gia đình và những người bạn thân yêu,",
+      subText: "Một hành trình đặc biệt đang chờ được mở ra tại Đà Nẵng..."
     },
-    {
-      id: 1,
+    chapter1: {
+      range: [0.14, 0.38],
+      title: "Đà Nẵng và Hội An",
       code: "CHAPTER I",
-      title: "Cuộc hẹn nơi phố cổ",
-      subtitle: "Thứ Ba, 11/08/2026 • Đà Nẵng và Hội An",
-      themeColor: "purple",
-      leadQuote: "Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau giữa thành phố biển. Từ đó, hành trình đầu tiên sẽ đưa mọi người đến những con phố nhuốm màu thời gian.",
-      moments: [
-        {
-          tag: "11:30–13:30 • Đà Nẵng",
-          title: "Đoàn tụ tại thành phố biển",
-          story: "Đón những người thân thương từ mọi miền tại sân bay và ga Đà Nẵng, cùng thưởng thức món bánh tráng cuốn thịt heo Đại Lộc và mì Quảng thân quen trước khi nhận phòng nghỉ ngơi.",
-          location: "Bãi biển Mỹ Khê, Đà Nẵng",
-          mapUrl: "https://maps.google.com/?q=Bãi+biển+Mỹ+Khê,+Đà+Nẵng",
-          icon: "ri-hotel-bed-line"
-        },
-        {
-          tag: "15:30 • Khởi hành",
-          title: "Chuyến xe về miền di sản",
-          story: "Xe lăn bánh đưa cả nhà rời trung tâm Đà Nẵng về phía nam, băng qua cung đường biển lộng gió để đến với Phố cổ Hội An mộc mạc.",
-          location: "Cung đường Đà Nẵng – Hội An",
-          icon: "ri-car-line"
-        },
-        {
-          tag: "16:30 • Phố cổ Hội An",
-          title: "Hoàng hôn bên mái ngói rêu phong",
-          story: "Khi ánh nắng cuối ngày chạm lên những mái ngói cũ, chúng ta sẽ cùng nhau đi qua di tích Chùa Cầu, những giàn hoa giấy rực rỡ và nếm thử ly nước Mót thảo mộc thanh mát.",
-          location: "Chùa Cầu & Phố cổ Hội An",
-          mapUrl: "https://maps.google.com/?q=Phố+cổ+Hội+An,+Quảng+Nam",
-          icon: "ri-ancient-gate-line"
-        },
-        {
-          tag: "19:00 • Sông Hoài",
-          title: "Ánh hoa đăng và ngàn ngọn đèn lồng",
-          story: "Ngồi thuyền gỗ lững lờ trôi giữa dòng sông Hoài, thả những chiếc hoa đăng lung linh mang theo ước nguyện bình an, trước khi trở về khách sạn Đà Nẵng nghỉ ngơi.",
-          location: "Bến thuyền Sông Hoài, Hội An",
-          mapUrl: "https://maps.google.com/?q=Sông+Hoài,+Hội+An",
-          icon: "ri-flashlight-line"
-        }
+      dateFormatted: "Thứ Ba, 11/08/2026",
+      quotes: [
+        "Trước ngày quan trọng nhất, chúng ta sẽ gặp nhau tại thành phố biển.",
+        "Con đường đầu tiên sẽ đưa mọi người đến những mái nhà nhuốm màu thời gian.",
+        "Khi phố cổ lên đèn, hãy cùng nhau giữ lại khoảnh khắc đầu tiên của hành trình."
       ],
-      endQuote: "Nhưng hành trình này mới chỉ bắt đầu. Ngày mai là khoảnh khắc mà tất cả chúng ta đã chờ đợi.",
-      ctaText: "BƯỚC ĐẾN NGÀY QUAN TRỌNG",
-      fragmentName: "Mảnh Ký Ức Phố Cổ",
-      fragmentIcon: "ri-ancient-pavilion-fill"
+      location: "Đà Nẵng – Phố cổ Hội An (11:30–21:00)",
+      mapUrl: "https://maps.google.com/?q=Phố+cổ+Hội+An,+Quảng+Nam"
     },
-    {
-      id: 2,
+    chapter2: {
+      range: [0.38, 0.70],
+      title: "Lễ tốt nghiệp & Tiệc mừng",
       code: "CHAPTER II",
-      title: "Ngày giấc mơ thành hiện thực",
-      subtitle: "Thứ Tư, 12/08/2026 • Lễ Tốt Nghiệp và Tiệc Mừng",
-      themeColor: "gold",
-      leadQuote: "Sau những năm tháng học tập, những lần vấp ngã và những ngày không ngừng cố gắng, cuối cùng ngày ấy cũng đã đến.",
-      scenes: [
-        {
-          time: "07:00–07:30",
-          title: "Buổi sáng trước giờ khai lễ",
-          story: "Không gian Hội trường Trống Đồng ngập tràn niềm hân hoan, đón tiếp gia đình và thầy cô bước vào lễ đường trang trọng.",
-          icon: "ri-sun-line"
-        },
-        {
-          time: "07:30–10:30",
-          title: "Khoảnh khắc bước lên lễ đài",
-          story: "Giây phút xướng tên tân kỹ sư Cao Hoàng Linh, đón nhận tấm bằng tốt nghiệp trong tiếng vỗ tay chúc mừng của gia đình và bạn bè.",
-          icon: "ri-award-fill",
-          isHighlight: true
-        },
-        {
-          time: "10:30–11:30",
-          title: "Bức ảnh kỷ niệm vô giá",
-          story: "Những nụ cười rạng rỡ bên bó hoa tươi thắm, lưu lại khoảnh khắc thanh xuân trọn vẹn tại khuôn viên trường.",
-          icon: "ri-camera-fill"
-        },
-        {
-          time: "11:30–14:00",
-          title: "Bữa tiệc liên hoan ấm áp",
-          story: "Nâng ly chúc mừng cùng đại gia đình tại nhà hàng hải sản ven biển, sẻ chia những câu chuyện xúc động trong suốt chặng đường đại học.",
-          location: "Nhà hàng Hải sản Bé Mặn, Đường Võ Nguyên Giáp",
-          mapUrl: "https://maps.google.com/?q=Nhà+hàng+Bé+Mặn,+Võ+Nguyên+Giáp,+Sơn+Trà,+Đà+Nẵng",
-          icon: "ri-goblet-fill"
-        },
-        {
-          time: "15:30–21:30",
-          title: "Hoàng hôn Sơn Trà & Đêm Sông Hàn",
-          story: "Viếng Chùa Linh Ứng Bãi Bụt nhìn ra biển Đông, tắm biển Mỹ Khê và dạo mát ngắm Cầu Rồng phun lửa bên dòng Sông Hàn lung linh.",
-          location: "Chùa Linh Ứng (Sơn Trà) & Cầu Rồng Sông Hàn",
-          mapUrl: "https://maps.google.com/?q=Chùa+Linh+Ứng,+Bán+đảo+Sơn+Trà,+Đà+Nẵng",
-          icon: "ri-water-flash-fill"
-        }
+      dateFormatted: "Thứ Tư, 12/08/2026",
+      quotes: [
+        "Sau những năm tháng học tập, những lần vấp ngã và những ngày không ngừng cố gắng…",
+        "Ngày mà chúng ta đã chờ đợi cuối cùng cũng đến.",
+        "Một cột mốc sẽ chỉ thật sự trọn vẹn khi có những người thân yêu ở bên."
       ],
-      coreMessage: "Buổi lễ đánh dấu sự kết thúc của một chặng đường, nhưng sự hiện diện của những người tôi yêu quý mới là điều khiến ngày hôm ấy trở nên trọn vẹn.",
-      endQuote: "Một tấm bằng khép lại quãng đời sinh viên. Nhưng những kỷ niệm của chúng ta vẫn còn một chương nữa.",
-      ctaText: "VIẾT TIẾP HÀNH TRÌNH",
-      fragmentName: "Mảnh Vinh Quang Tốt Nghiệp",
-      fragmentIcon: "ri-graduation-cap-fill"
+      location: "Hội trường Trống Đồng – Đại học FPT Đà Nẵng",
+      mapUrl: "https://maps.google.com/?q=Đại+học+FPT+Đà+Nẵng"
     },
-    {
-      id: 3,
-      code: "CHAPTER III",
+    chapter3: {
+      range: [0.70, 0.86],
       title: "Những khoảnh khắc cuối",
-      subtitle: "Thứ Năm, 13/08/2026 • Đặc Sản, Tham Quan và Tạm Biệt",
-      themeColor: "cyan",
-      leadQuote: "Mọi chuyến đi rồi cũng đến lúc khép lại. Nhưng trước khi nói lời tạm biệt, hãy cùng nhau giữ lại thêm một vài ký ức về Đà Nẵng.",
-      moments: [
-        {
-          tag: "08:00 • Điểm tâm sáng",
-          title: "Bát bún chả cá nồng nàn vị biển",
-          story: "Bắt đầu ngày mới bằng món bún chả cá Đà Nẵng nóng hổi đậm đà hương vị miền Trung.",
-          icon: "ri-cup-line"
-        },
-        {
-          tag: "09:00 • Chợ Hàn",
-          title: "Gói ghém hương vị làm quà",
-          story: "Cùng nhau chọn những gói chả bò thơm lừng, tré Bà Đệ, mực rim me và bánh khô mè Cẩm Lệ gửi tặng người thân.",
-          location: "Chợ Hàn, Đường Trần Phú, Đà Nẵng",
-          mapUrl: "https://maps.google.com/?q=Chợ+Hàn,+Đà+Nẵng",
-          icon: "ri-store-2-line"
-        },
-        {
-          tag: "10:00 • Công viên APEC",
-          title: "Cánh diều bay cao bên bờ sông Hàn",
-          story: "Chụp tấm ảnh lưu niệm cuối cùng bên công trình kiến trúc Cánh diều APEC biểu tượng cho khát vọng vươn xa.",
-          location: "Công viên APEC, Đường 2 Tháng 9, Đà Nẵng",
-          mapUrl: "https://maps.google.com/?q=Công+viên+APEC,+Đà+Nẵng",
-          icon: "ri-flight-takeoff-line"
-        },
-        {
-          tag: "10:30 • Tạm biệt",
-          title: "Hẹn ngày tái ngộ",
-          story: "Những cái ôm ấm áp trước giờ ra sân bay và nhà ga, khép lại hành trình 3 ngày đong đầy kỷ niệm.",
-          icon: "ri-heart-2-line"
-        }
+      code: "CHAPTER III",
+      dateFormatted: "Thứ Năm, 13/08/2026",
+      quotes: [
+        "Mọi chuyến đi rồi cũng đến lúc khép lại.",
+        "Trước khi nói lời tạm biệt, hãy cùng nhau giữ thêm một vài ký ức về Đà Nẵng.",
+        "Ba ngày có thể trôi qua rất nhanh, nhưng những khoảnh khắc được sẻ chia sẽ ở lại lâu hơn."
       ],
-      endQuote: "Ba ngày có thể trôi qua rất nhanh. Nhưng những khoảnh khắc được sẻ chia sẽ ở lại lâu hơn rất nhiều.",
-      ctaText: "MỞ TRANG CUỐI",
-      fragmentName: "Mảnh Kỷ Niệm Tạm Biệt",
-      fragmentIcon: "ri-gift-fill"
+      location: "Bún chả cá, Chợ Hàn & Công viên APEC",
+      mapUrl: "https://maps.google.com/?q=Chợ+Hàn,+Đà+Nẵng"
+    },
+    epilogue: {
+      range: [0.86, 1.00],
+      title: "Lời mời và Xác nhận tham dự",
+      code: "EPILOGUE",
+      thankMessage: "Cảm ơn bạn đã đi đến cuối hành trình này.\n\nSự hiện diện của bạn sẽ là mảnh ghép cuối cùng để ngày hôm ấy trở nên trọn vẹn.\n\nHẹn gặp nhau tại Đà Nẵng."
+    }
+  },
+
+  // 8. Lịch trình chi tiết 3 ngày phục vụ Modal tra cứu
+  itineraryDetails: [
+    {
+      day: "Ngày 1 (11/08/2026)",
+      title: "Đón đoàn & Phố cổ Hội An",
+      items: [
+        "11:30–13:30: Đón đoàn tại Sân bay / Ga Đà Nẵng, nhận phòng khách sạn, ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng).",
+        "15:30: Xe xuất phát đưa đoàn đi Hội An.",
+        "16:30: Dạo bộ ngắm hoàng hôn phố cổ, check-in Chùa Cầu, hoa giấy, uống nước Mót.",
+        "18:00: Ăn tối đặc sản Hội An (cơm gà, cao lầu, bánh bao bánh vạc).",
+        "19:00: Đi thuyền sông Hoài, thả hoa đăng lung linh ngắm phố đèn lồng.",
+        "21:00: Xe đón đoàn về lại khách sạn Đà Nẵng nghỉ ngơi."
+      ]
     },
     {
-      id: 4,
-      code: "EPILOGUE",
-      title: "Hẹn gặp nhau tại Đà Nẵng",
-      subtitle: "Lời mời chính thức và Xác nhận tham dự",
-      themeColor: "rainbow",
-      thankQuote: "Cảm ơn bạn đã đi đến cuối hành trình này.\n\nSẽ thật ý nghĩa nếu trong ngày đánh dấu một chặng đường mới, tôi có thể nhìn thấy gia đình và những người bạn thân yêu ở đó.\n\nHẹn gặp bạn tại Đà Nẵng.",
-      ceremonySummary: {
-        date: "Thứ Tư, 12/08/2026",
-        time: "07:30 – 11:30 (Đón khách: 07:00)",
-        venue: "Hội trường Trống Đồng – Đại học FPT Đà Nẵng",
-        deadline: "Hạn xác nhận: 05/08/2026"
-      },
-      ctaPrimary: "XÁC NHẬN CÙNG THAM DỰ",
-      ctaSecondary: "LƯU HÀNH TRÌNH VÀO LỊCH"
+      day: "Ngày 2 (12/08/2026) - Lễ Chính",
+      title: "Đại Lễ Tốt Nghiệp & Tiệc Mừng",
+      items: [
+        "07:00: Đón tiếp Quý khách tại Hội trường Trống Đồng – Đại học FPT Đà Nẵng.",
+        "07:30–11:30: Khai mạc Đại Lễ Trao Bằng Tốt Nghiệp chính thức và chụp ảnh kỷ niệm.",
+        "11:30–14:00: Tiệc liên hoan mừng tốt nghiệp tại Nhà hàng Hải sản Bé Mặn.",
+        "15:30–17:30: Viếng Chùa Linh Ứng (Bán đảo Sơn Trà), ngắm vịnh và tắm biển Mỹ Khê.",
+        "18:30–21:30: Ăn tối hải sản, dạo mát Sông Hàn, ngắm Cầu Rồng và Chợ đêm."
+      ]
+    },
+    {
+      day: "Ngày 3 (13/08/2026)",
+      title: "Đặc Sản & Tạm Biệt Đà Nẵng",
+      items: [
+        "08:00: Điểm tâm bún chả cá Đà Nẵng truyền thống.",
+        "09:00: Tham quan và mua sắm quà lưu niệm tại Chợ Hàn (chả bò, tré, mực rim, bánh khô mè).",
+        "10:00: Check-in Công viên APEC bên bờ Sông Hàn.",
+        "10:30: Trả phòng khách sạn, tiễn đoàn ra sân bay / ga tàu. Kết thúc chuyến đi!"
+      ]
     }
   ]
 };
