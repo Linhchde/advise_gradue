@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <!-- Web App Capabilities (Zalo, Safari, Chrome Fullscreen) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0b0b0f">
+  <meta name="format-detection" content="telephone=no">
+
+  <title>VIP Invitation • Lễ Tốt Nghiệp & Hành Trình Kỷ Niệm</title>
+
+  <!-- Google Fonts: Luxury Editorial Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Remix Icons for crisp UI icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ============================================================
+       RESET & BASE CONFIGURATION
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg-dark: #090a0f;
+      --bg-card: #12131a;
+      --bg-glass: rgba(22, 24, 34, 0.78);
+      --gold-primary: #d4af37;
+      --gold-light: #fbe69e;
+      --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+      --gold-gradient-soft: linear-gradient(135deg, #d4af37, #f7df8b, #c4962c);
+      --gold-border: rgba(212, 175, 55, 0.35);
+      --text-main: #f0f0f5;
+      --text-muted: #9ba1b6;
+      --accent-rose: #ff758c;
+      --font-display: 'Cinzel', serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body {
+      touch-action: pan-y;
+      overscroll-behavior: none;
+    }
+
+    /* Background Ambient Canvas & Glow */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ============================================================
+       SCROLL CONTAINER & PIN VIEWPORT
+       ============================================================ */
+    .scroll-track {
+      position: relative;
+      width: 100%;
+      height: 280vh; /* Provides scroll space for scrub */
+    }
+
+    .pin-viewport {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
+      perspective: 1200px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Master Card Stage (Mobile Aspect Ratio & Frame) */
+    .card-stage {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 90dvh;
+      max-height: 780px;
+      border-radius: 28px;
+      pointer-events: auto;
+      transform-style: preserve-3d;
+    }
+
+    /* ============================================================
+       LAYER 1: VIP INVITATION CONTENT (UNDERNEATH)
+       ============================================================ */
+    .invitation-card {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, #1c1d28 0%, #101118 70%, #0a0b10 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.7),
+        0 0 35px rgba(212, 175, 55, 0.12),
+        inset 0 0 20px rgba(212, 175, 55, 0.05);
+      opacity: 0;
+      transform: scale(0.92) translateZ(0);
+      will-change: transform, opacity;
+      z-index: 10;
+    }
+
+    /* Card Luxury Header Banner */
+    .card-header {
+      position: relative;
+      padding: 24px 20px 14px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      flex-shrink: 0;
+    }
+
+    .vip-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 50px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .main-title {
+      font-family: var(--font-serif);
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 1.25;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .sub-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .gold-divider {
+      width: 50px;
+      height: 2px;
+      margin: 10px auto 2px;
+      background: var(--gold-gradient);
+      border-radius: 2px;
+    }
+
+    /* Scrollable Itinerary Inside Card */
+    .card-body {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212,175,55,0.3) transparent;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .card-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    .card-body::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.3);
+      border-radius: 10px;
+    }
+
+    /* Itinerary Day Section */
+    .day-block {
+      background: rgba(24, 26, 36, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 18px;
+      padding: 16px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: border-color 0.3s ease;
+    }
+
+    .day-block:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+    }
+
+    .day-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(212, 175, 55, 0.2);
+    }
+
+    .day-badge-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .day-badge-title i {
+      color: var(--gold-primary);
+      font-size: 15px;
+    }
+
+    .guest-count {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffd285;
+      font-weight: 600;
+    }
+
+    /* Timeline items */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(212, 175, 55, 0.1) 100%);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      box-shadow: 0 0 8px var(--gold-primary);
+    }
+
+    .time-slot {
+      font-size: 11px;
+      font-weight: 700;
+      color: #f7df8b;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .time-detail {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: #e4e7ec;
+    }
+
+    .sub-steps {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-left: 6px;
+    }
+
+    .sub-step {
+      font-size: 11.5px;
+      color: #bcc3d4;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .sub-step i {
+      color: var(--gold-primary);
+      margin-right: 4px;
+      font-size: 11px;
+    }
+
+    /* Highlight pill for graduation */
+    .highlight-glow {
+      background: radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.15) 0%, rgba(24, 26, 36, 0.95) 70%);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+
+    .grad-star {
+      color: #ffd700;
+      animation: pulseStar 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseStar {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+
+    /* Bottom Action Bar */
+    .card-footer {
+      padding: 12px 18px 16px;
+      background: linear-gradient(0deg, rgba(10, 11, 16, 0.95) 0%, rgba(10, 11, 16, 0) 100%);
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-gold {
+      background: var(--gold-gradient);
+      color: #121318;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-gold:active {
+      transform: scale(0.97);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.06);
+      color: #f0f0f5;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-outline:active {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* ============================================================
+       LAYER 2: PAPER COVER (SLIDING OVERLAY WITH SHADOW)
+       ============================================================ */
+    .paper-cover {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      background: linear-gradient(160deg, #1f202b 0%, #15161f 50%, #0d0e14 100%);
+      border: 1.5px solid rgba(212, 175, 55, 0.4);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 24px 28px;
+      text-align: center;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(212, 175, 55, 0.15),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transform-origin: top center;
+      will-change: transform, box-shadow;
+      overflow: hidden;
+    }
+
+    /* Gold foil border inner */
+    .cover-inner-frame {
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    .cover-corner-ornament {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid var(--gold-primary);
+    }
+    .corner-tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
+    .corner-br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
+
+    /* Cover Top Badge */
+    .cover-top {
+      position: relative;
+      z-index: 2;
+    }
+
+    .wax-seal {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd700 0%, #b8860b 60%, #8b6508 100%);
+      box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        0 0 15px rgba(212, 175, 55, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.6),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .wax-seal i {
+      font-size: 32px;
+      color: #2b1d03;
+      filter: drop-shadow(0 1px 1px rgba(255,255,255,0.4));
+    }
+
+    .cover-sub {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+
+    .cover-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.25;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .cover-desc {
+      font-size: 13px;
+      color: #a0a6bd;
+      line-height: 1.6;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .cover-destinations {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      font-size: 11.5px;
+      color: #f7df8b;
+      font-weight: 500;
+    }
+
+    /* Cover Bottom Prompt / Pull Hint */
+    .cover-bottom {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+    }
+
+    .pull-text {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      animation: pulseText 2s infinite ease-in-out;
+    }
+
+    .pull-arrow-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    .pull-arrow-wrapper i {
+      font-size: 22px;
+      color: var(--gold-light);
+      animation: bounceArrow 1.6s infinite ease-in-out;
+    }
+
+    .pull-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-primary);
+      opacity: 0.4;
+      animation: ringSpread 2s infinite ease-out;
+    }
+
+    @keyframes bounceArrow {
+      0%, 100% { transform: translateY(-4px); }
+      50% { transform: translateY(4px); }
+    }
+
+    @keyframes pulseText {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; text-shadow: 0 0 10px rgba(212, 175, 55, 0.6); }
+    }
+
+    @keyframes ringSpread {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* Fixed floating top status pill for scroll guide */
+    .scroll-guide-pill {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 12px) + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(18, 19, 26, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 11px;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: auto;
+    }
+
+    .scroll-guide-pill.fade-out {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+      pointer-events: none;
+    }
+
+    /* Toast Notification for Interactivity */
+    .toast-msg {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 16px) + 20px);
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: rgba(20, 22, 30, 0.95);
+      border: 1px solid var(--gold-primary);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.3);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animated Canvas -->
+  <canvas id="sparkle-canvas"></canvas>
+  <div class="ambient-glow"></div>
+
+  <!-- Top Floating State Pill -->
+  <div class="scroll-guide-pill" id="guidePill">
+    <i class="ri-scroll-to-bottom-line"></i>
+    <span>Cuộn màn hình để mở thiệp</span>
+  </div>
+
+  <!-- Main Scroll Track for GSAP ScrollTrigger Scrub -->
+  <div class="scroll-track">
+    <div class="pin-viewport">
+      <div class="card-stage" id="cardStage">
+
+        <!-- ============================================================
+             UNDERNEATH LAYER: VIP INVITATION DETAILS
+             ============================================================ -->
+        <div class="invitation-card" id="invitationCard">
+          
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="vip-tag">
+              <i class="ri-vip-crown-2-fill"></i> VIP INVITATION
+            </div>
+            <h1 class="main-title">LỄ TỐT NGHIỆP & CHUYẾN ĐI</h1>
+            <p class="sub-title">Đà Nẵng – Hội An • Hành Trình 3 Ngày Kỷ Niệm</p>
+            <div class="gold-divider"></div>
+          </div>
+
+          <!-- Card Body: Itinerary -->
+          <div class="card-body" id="cardBody">
+            
+            <!-- NGÀY 1 -->
+            <div class="day-block">
+              <div class="day-badge">
+                <div class="day-badge-title">
+                  <i class="ri-map-pin-2-fill"></i> NGÀY 1 (11/08): ĐÀ NẴNG – HỘI AN
+                </div>
+                <span class="guest-count"><i class="ri-group-line"></i> Đoàn 7 người</span>
+              </div>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa</div>
+                  <div class="time-detail">Đón đoàn về khách sạn nhận phòng & gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
+                </div>
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-time-line"></i> 15h30 - 21h00 • Chiều - Tối: Khám Phá Hội An</div>
+                  <div class="sub-steps">
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>15h30:</b> Xe đón đoàn 7 người xuất phát đi Hội An (~40 phút).</div>
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>16h30:</b> Dạo bộ ngắm phố cổ lúc hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</div>
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>18h00:</b> Ăn tối đặc sản Hội An (cơm gà, cao lầu, bánh bao bánh vạc).</div>
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>19h00:</b> Đi thuyền ngắm phố đèn lồng & thả hoa đăng trên sông Hoài, uống nước Mót, ăn kem ống.</div>
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>21h00:</b> Xe đón cả nhà về lại khách sạn Đà Nẵng nghỉ ngơi.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- NGÀY 2 (HIGH-LIGHT DAY) -->
+            <div class="day-block highlight-glow">
+              <div class="day-badge">
+                <div class="day-badge-title" style="color: #ffd700;">
+                  <i class="ri-graduation-cap-fill grad-star"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP & TIỆC MỪNG
+                </div>
+                <span class="guest-count" style="background: rgba(212,175,55,0.25); color: #fff;"><i class="ri-sparkling-fill"></i> Sự Kiện Chính</span>
+              </div>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="time-slot" style="color: #ffd700;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
+                  <div class="time-detail">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
+                </div>
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-restaurant-2-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Mừng Tốt Nghiệp</div>
+                  <div class="time-detail">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
+                </div>
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-sun-cloudy-line"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
+                  <div class="time-detail">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ngắm toàn cảnh vịnh ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn rực rỡ.</div>
+                </div>
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-goblet-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Phố Đêm Sông Hàn</div>
+                  <div class="sub-steps">
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>Ăn tối:</b> Thưởng thức hải sản tươi sống & ẩm thực địa phương cùng gia đình, bạn bè (12 – 17 người).</div>
+                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>Dạo mát:</b> Ngắm cảnh lung linh đôi bờ Sông Hàn, check-in Cầu Tình Yêu, chiêm ngưỡng Cầu Rồng và ghé Chợ đêm.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- NGÀY 3 -->
+            <div class="day-block">
+              <div class="day-badge">
+                <div class="day-badge-title">
+                  <i class="ri-shopping-bag-3-fill"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT
+                </div>
+                <span class="guest-count">Thư giãn</span>
+              </div>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="time-slot"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Đặc sản & Check-in</div>
+                  <div class="time-detail">Ăn sáng bún chả cá Đà Nẵng trứ danh ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng thân yêu!</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Card Footer Actions -->
+          <div class="card-footer">
+            <button class="btn-action btn-gold" id="btnConfirm" onclick="showToast('✨ Đã lưu thiệp mời vào danh sách của bạn!')">
+              <i class="ri-checkbox-circle-fill"></i> Xác nhận tham dự
+            </button>
+            <button class="btn-action btn-outline" id="btnShare" onclick="copySchedule()">
+              <i class="ri-share-forward-line"></i> Chia sẻ
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ============================================================
+             OVERLAY LAYER: SHADOW EVENT PULL-TAB / PAPER COVER
+             ============================================================ -->
+        <div class="paper-cover" id="paperCover" onclick="tapToToggle()">
+          
+          <div class="cover-inner-frame"></div>
+          <div class="cover-corner-ornament corner-tl"></div>
+          <div class="cover-corner-ornament corner-tr"></div>
+          <div class="cover-corner-ornament corner-bl"></div>
+          <div class="cover-corner-ornament corner-br"></div>
+
+          <!-- Cover Header / Monogram -->
+          <div class="cover-top">
+            <div class="wax-seal">
+              <i class="ri-graduation-cap-fill"></i>
+            </div>
+            <div class="cover-sub">GRADUATION CEREMONY</div>
+            <h2 class="cover-title">THƯ MỜI DANH DỰ</h2>
+            <p class="cover-desc">Trân trọng kính mời Quý Gia Đình & Bạn Bè cùng tề tựu chung vui trong khoảnh khắc ý nghĩa.</p>
+            <div class="cover-destinations">
+              <i class="ri-map-pin-line"></i> Đà Nẵng – Hội An (11 - 13/08)
+            </div>
+          </div>
+
+          <!-- Cover Bottom Pull Tab / Animated Arrow -->
+          <div class="cover-bottom">
+            <div class="pull-text">Vuốt xuống để mở thiệp</div>
+            <div class="pull-arrow-wrapper">
+              <div class="pull-ring"></div>
+              <i class="ri-arrow-down-double-line"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification element -->
+  <div class="toast-msg" id="toastMsg">Thông báo</div>
+
+  <script>
+    // Register GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // DOM Elements
+    const paperCover = document.getElementById('paperCover');
+    const invitationCard = document.getElementById('invitationCard');
+    const guidePill = document.getElementById('guidePill');
+    const toastMsg = document.getElementById('toastMsg');
+    let isOpenedManually = false;
+
+    /* ============================================================
+       GSAP SCROLL-DRIVEN TIMELINE (SCRUB)
+       ============================================================ */
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".scroll-track",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1, // Smooth scrub matching finger speed
+        onUpdate: (self) => {
+          if (self.progress > 0.08) {
+            guidePill.classList.add('fade-out');
+          } else {
+            guidePill.classList.remove('fade-out');
+          }
+        }
+      }
+    });
+
+    // 1. Physical paper cover elevates, tilts, expands shadow, and slides upwards away
+    tl.to(paperCover, {
+      yPercent: -108,
+      scale: 0.96,
+      rotateX: 14,
+      boxShadow: "0 60px 100px rgba(0, 0, 0, 0.95), 0 25px 45px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.4)",
+      ease: "power2.out",
+      duration: 1
+    }, 0);
+
+    // 2. Underlying VIP Card scales up from 0.92 to 1 and fades in smoothly
+    tl.to(invitationCard, {
+      opacity: 1,
+      scale: 1,
+      ease: "power2.out",
+      duration: 0.85
+    }, 0.15);
+
+    // 3. Stagger animate the day blocks inside the card as it opens
+    tl.from(".day-block", {
+      y: 25,
+      opacity: 0,
+      stagger: 0.1,
+      ease: "power2.out",
+      duration: 0.6
+    }, 0.35);
+
+    /* ============================================================
+       TAP TO TOGGLE (QUICK CLICK / TAP EXPERIENCE)
+       ============================================================ */
+    function tapToToggle() {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo({
+        top: scrollHeight * 0.9,
+        behavior: 'smooth'
+      });
+    }
+
+    function showToast(msg) {
+      toastMsg.innerText = msg;
+      toastMsg.classList.add('show');
+      setTimeout(() => {
+        toastMsg.classList.remove('show');
+      }, 3000);
+    }
+
+    function copySchedule() {
+      const text = `🎓 THƯ MỜI LỄ TỐT NGHIỆP & CHUYẾN ĐI ĐÀ NẴNG - HỘI AN\n` +
+        `📅 Ngày 11 - 13/08\n` +
+        `📍 Ngày 1 (11/08): Đón đoàn, Check-in, Phố cổ Hội An\n` +
+        `📍 Ngày 2 (12/08): Lễ Tốt Nghiệp, Tiệc Mừng, Sơn Trà & Sông Hàn\n` +
+        `📍 Ngày 3 (13/08): Chợ Hàn đặc sản, APEC Park, Tạm biệt Đà Nẵng!`;
+      
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("📋 Đã sao chép lịch trình chi tiết!");
+        }).catch(() => {
+          showToast("✨ Hãy chụp ảnh màn hình hoặc gửi link này nhé!");
+        });
+      } else {
+        showToast("✨ Hãy chia sẻ link Web App này!");
+      }
+    }
+
+    /* ============================================================
+       FLOATING GOLDEN SPARKLES CANVAS ANIMATION
+       ============================================================ */
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Sparkle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.8;
+        this.speedY = Math.random() * -0.6 - 0.2;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.opacity = Math.random() * 0.7 + 0.2;
+        this.fadeSpeed = Math.random() * 0.008 + 0.003;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.opacity -= this.fadeSpeed;
+        if (this.opacity <= 0 || this.y < 0) {
+          this.reset();
+          this.y = canvas.height + 10;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(247, 223, 139, ${this.opacity})`;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = "#d4af37";
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 40; i++) {
+      particles.push(new Sparkle());
+    }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+  </script>
+</body>
+</html>
