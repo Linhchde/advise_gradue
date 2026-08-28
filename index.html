@@ -571,58 +571,58 @@
     }
 
     /* ============================================================
-       ORGANIC FLOATING TEXT (NO ROTATE • PURE Z-AXIS ELEVATION)
+       ORTHOGONAL FLOATING TEXT (COMPLETELY UPRIGHT LIKE HUD BAR)
        ============================================================ */
     #leftContentWrap {
-      transform: translateZ(95px);
+      transform: rotateX(-40deg) translateZ(80px);
       transform-origin: center center;
       background: transparent;
       border: none;
       padding: 0;
-      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.4));
       transform-style: preserve-3d;
       color: var(--text-dark);
       animation: floatTextLeft 3.5s infinite ease-in-out;
     }
 
     #rightContentWrap {
-      transform: translateZ(95px);
+      transform: rotateX(-40deg) translateZ(80px);
       transform-origin: center center;
       background: transparent;
       border: none;
       padding: 0;
-      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.4));
       transform-style: preserve-3d;
       color: var(--text-dark);
       animation: floatTextRight 3.5s infinite ease-in-out 0.5s;
     }
 
     @keyframes floatTextLeft {
-      0%, 100% { transform: translateZ(95px) translateY(0); }
-      50% { transform: translateZ(120px) translateY(-8px); }
+      0%, 100% { transform: rotateX(-40deg) translateZ(75px) translateY(0); }
+      50% { transform: rotateX(-40deg) translateZ(95px) translateY(-6px); }
     }
 
     @keyframes floatTextRight {
-      0%, 100% { transform: translateZ(95px) translateY(0); }
-      50% { transform: translateZ(120px) translateY(-8px); }
+      0%, 100% { transform: rotateX(-40deg) translateZ(75px) translateY(0); }
+      50% { transform: rotateX(-40deg) translateZ(95px) translateY(-6px); }
     }
 
     @media (max-width: 768px) {
       #leftContentWrap {
-        transform: translateZ(65px);
+        transform: rotateX(-25deg) translateZ(50px);
         animation: floatTextMobileLeft 3.5s infinite ease-in-out;
       }
       #rightContentWrap {
-        transform: translateZ(65px);
+        transform: rotateX(-25deg) translateZ(50px);
         animation: floatTextMobileRight 3.5s infinite ease-in-out 0.5s;
       }
       @keyframes floatTextMobileLeft {
-        0%, 100% { transform: translateZ(65px) translateY(0); }
-        50% { transform: translateZ(85px) translateY(-6px); }
+        0%, 100% { transform: rotateX(-25deg) translateZ(50px) translateY(0); }
+        50% { transform: rotateX(-25deg) translateZ(65px) translateY(-5px); }
       }
       @keyframes floatTextMobileRight {
-        0%, 100% { transform: translateZ(65px) translateY(0); }
-        50% { transform: translateZ(85px) translateY(-6px); }
+        0%, 100% { transform: rotateX(-25deg) translateZ(50px) translateY(0); }
+        50% { transform: rotateX(-25deg) translateZ(65px) translateY(-5px); }
       }
     }
 
