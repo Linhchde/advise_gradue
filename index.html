@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <!-- Web App Metadata -->
+  <!-- Web App Fullscreen Meta -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#080914">
+  <meta name="theme-color" content="#060711">
   <meta name="format-detection" content="telephone=no">
 
-  <title>Hành Trình Vinh Quang • Lễ Tốt Nghiệp & Du Ngoạn Đà Nẵng - Hội An</title>
+  <title>3D VIP Invitation • Lễ Tốt Nghiệp & Du Ngoạn Đà Nẵng - Hội An</title>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Luxury Editorial Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Remix Icons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-  <!-- GSAP & Canvas Confetti -->
+  <!-- Three.js + GSAP + Canvas Confetti CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     /* ============================================================
-       HOYOVERSE / MIHOYO LUXURY SCI-FI FANTASY THEME DESIGN SYSTEM
+       HOYOVERSE / MIHOYO 3D THEME DESIGN SYSTEM
        ============================================================ */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -37,16 +38,12 @@
     }
 
     :root {
-      --bg-dark: #06070f;
-      --bg-card: rgba(14, 16, 28, 0.85);
-      --bg-panel: rgba(20, 24, 44, 0.7);
+      --bg-dark: #05060d;
       --gold-primary: #f5d372;
       --gold-bright: #ffe89e;
       --gold-dark: #b88a2e;
       --gold-gradient: linear-gradient(135deg, #fce38a 0%, #d4af37 40%, #ffdf79 70%, #aa771c 100%);
-      --gold-gradient-glow: linear-gradient(135deg, #ffe279, #d4af37, #996515);
       --cyan-lumina: #52e5ff;
-      --indigo-lumina: #7c4dff;
       --border-gold: rgba(245, 211, 114, 0.35);
       --border-cyan: rgba(82, 229, 255, 0.4);
       --text-main: #f0f3fc;
@@ -58,64 +55,52 @@
 
     html, body {
       width: 100%;
-      min-height: 100vh;
+      height: 100%;
       background-color: var(--bg-dark);
       color: var(--text-main);
       font-family: var(--font-sans);
-      overflow-x: hidden;
+      overflow: hidden;
       -webkit-user-select: none;
       user-select: none;
     }
 
-    /* Ambient Background Animated Galaxy & Shimmer Grid */
-    #ambient-canvas {
+    /* Three.js Fullscreen Canvas */
+    #webgl-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      pointer-events: none;
       z-index: 1;
+      outline: none;
     }
 
+    /* Background Ambient Gradients */
     .bg-nebula {
       position: fixed;
       inset: 0;
       background: 
-        radial-gradient(circle at 20% 20%, rgba(124, 77, 255, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(82, 229, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .bg-cyber-grid {
-      position: fixed;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(245, 211, 114, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(245, 211, 114, 0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
-      -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+        radial-gradient(circle at 15% 15%, rgba(124, 77, 255, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(82, 229, 255, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 65%);
       pointer-events: none;
       z-index: 0;
     }
 
     /* ============================================================
-       TOP NAVIGATION & EVENT CONTROLS
+       TOP HEADER & AUDIO CONTROLS
        ============================================================ */
     .top-navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 68px;
-      padding: 0 28px;
+      height: 64px;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(8, 9, 20, 0.75);
+      background: rgba(6, 7, 16, 0.7);
       border-bottom: 1px solid rgba(245, 211, 114, 0.2);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -129,33 +114,31 @@
     }
 
     .brand-emblem {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--gold-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #0d0f1a;
-      font-size: 20px;
-      box-shadow: 0 0 16px rgba(245, 211, 114, 0.6);
-      position: relative;
+      font-size: 18px;
+      box-shadow: 0 0 16px rgba(245, 211, 114, 0.5);
     }
 
     .brand-text h3 {
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 2px;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.2;
     }
 
     .brand-text p {
-      font-size: 10px;
-      letter-spacing: 1.5px;
+      font-size: 9.5px;
+      letter-spacing: 1.2px;
       color: var(--cyan-lumina);
       text-transform: uppercase;
       font-weight: 600;
@@ -164,98 +147,66 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .btn-sound, .btn-claim-top {
-      height: 38px;
-      border-radius: 19px;
+    .btn-nav-action {
+      height: 36px;
+      border-radius: 18px;
       border: 1px solid var(--border-gold);
-      background: rgba(25, 29, 52, 0.8);
+      background: rgba(25, 29, 52, 0.75);
       color: var(--gold-bright);
-      font-family: var(--font-sans);
       font-size: 12px;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 0 16px;
+      gap: 6px;
+      padding: 0 14px;
       cursor: pointer;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
       transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .btn-sound:hover, .btn-claim-top:hover {
-      background: rgba(245, 211, 114, 0.2);
+    .btn-nav-action:hover {
+      background: rgba(245, 211, 114, 0.25);
       border-color: var(--gold-bright);
-      box-shadow: 0 0 20px rgba(245, 211, 114, 0.4);
+      box-shadow: 0 0 16px rgba(245, 211, 114, 0.4);
       transform: translateY(-2px);
     }
 
-    .btn-claim-top {
-      background: var(--gold-gradient);
-      color: #0b0c14;
-      font-weight: 700;
-      border: none;
-      box-shadow: 0 0 15px rgba(245, 211, 114, 0.4);
-    }
-
     /* ============================================================
-       MAIN APP CONTAINER (DESKTOP & MOBILE RESPONSIVE)
+       INTRO / CLOSED ENVELOPE UI OVERLAY
        ============================================================ */
-    .app-wrapper {
-      position: relative;
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
       z-index: 10;
-      width: 100%;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 96px 20px 60px;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 32px;
-    }
-
-    /* ============================================================
-       HERO BANNER (HOYOVERSE STYLE EVENT BANNER)
-       ============================================================ */
-    .hero-banner {
-      position: relative;
-      width: 100%;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(20, 24, 48, 0.9) 0%, rgba(10, 12, 24, 0.95) 100%);
-      border: 1.5px solid var(--border-gold);
-      padding: 40px 32px;
-      box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(245, 211, 114, 0.12),
-        inset 0 0 30px rgba(245, 211, 114, 0.05);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 30px;
       align-items: center;
-      transition: transform 0.3s ease;
+      justify-content: space-between;
+      padding: 90px 20px 40px;
+      pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s ease;
     }
 
-    /* Tech accents & corner ornaments */
-    .ornament-corner {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--gold-primary);
+    .intro-overlay.hidden {
+      opacity: 0;
+      transform: scale(0.95);
       pointer-events: none;
     }
-    .ornament-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-    .ornament-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
-    .ornament-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
-    .ornament-br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
 
-    .hero-badge-tag {
+    .intro-header {
+      text-align: center;
+      pointer-events: auto;
+      max-width: 600px;
+    }
+
+    .intro-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
+      gap: 6px;
+      padding: 5px 16px;
       border-radius: 20px;
       background: rgba(245, 211, 114, 0.12);
       border: 1px solid var(--border-gold);
@@ -265,523 +216,377 @@
       color: var(--gold-bright);
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 16px;
-      animation: glowBadge 3s infinite alternate;
+      margin-bottom: 12px;
+      box-shadow: 0 0 15px rgba(245, 211, 114, 0.25);
     }
 
-    @keyframes glowBadge {
-      0% { box-shadow: 0 0 10px rgba(245, 211, 114, 0.2); }
-      100% { box-shadow: 0 0 20px rgba(245, 211, 114, 0.6); }
-    }
-
-    .hero-title {
+    .intro-title {
       font-family: var(--font-serif);
-      font-size: clamp(28px, 4vw, 46px);
+      font-size: clamp(24px, 4.5vw, 42px);
       font-weight: 800;
-      line-height: 1.2;
+      line-height: 1.25;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 14px;
-      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
+      margin-bottom: 8px;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
     }
 
-    .hero-desc {
-      font-size: 14.5px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      max-width: 580px;
-      margin-bottom: 24px;
+    .intro-subtitle {
+      font-size: 13px;
+      color: #b0b7d3;
+      letter-spacing: 1px;
     }
 
-    .hero-stats {
+    /* Bottom Interactive Trigger Controls */
+    .intro-controls {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      pointer-events: auto;
     }
 
-    .stat-pill {
-      background: rgba(26, 31, 56, 0.8);
-      border: 1px solid rgba(82, 229, 255, 0.25);
-      border-radius: 14px;
-      padding: 10px 18px;
+    .btn-open-3d {
+      padding: 14px 34px;
+      border-radius: 30px;
+      border: none;
+      background: var(--gold-gradient);
+      color: #080914;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
-      backdrop-filter: blur(8px);
-    }
-
-    .stat-pill i {
-      font-size: 20px;
-      color: var(--cyan-lumina);
-    }
-
-    .stat-pill-info .stat-val {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .stat-pill-info .stat-lbl {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Hero Right: 3D Hologram Graduation Crest */
-    .hero-crest-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 240px;
-    }
-
-    .crest-card-3d {
-      width: 230px;
-      height: 310px;
-      border-radius: 20px;
-      background: linear-gradient(160deg, rgba(35, 40, 75, 0.9) 0%, rgba(16, 18, 35, 0.95) 100%);
-      border: 2px solid var(--gold-primary);
       box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.8),
-        0 0 35px rgba(245, 211, 114, 0.35);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.2s cubic-bezier(0.1, 0.5, 0.1, 1);
-      cursor: pointer;
+        0 10px 30px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(245, 211, 114, 0.5);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: pulseBtn 2s infinite ease-in-out;
     }
 
-    .crest-icon-box {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffe279 0%, #b88a2e 70%, #704f0d 100%);
-      box-shadow: 0 0 25px rgba(245, 211, 114, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      color: #12131f;
-      margin-bottom: 16px;
-      animation: floatBadge 3.5s infinite ease-in-out;
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 211, 114, 0.4); }
+      50% { transform: scale(1.04); box-shadow: 0 0 35px rgba(245, 211, 114, 0.8); }
     }
 
-    @keyframes floatBadge {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(3deg); }
+    .btn-open-3d:hover {
+      transform: scale(1.08) translateY(-2px);
     }
 
-    .crest-card-3d h4 {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--gold-bright);
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-
-    .crest-card-3d p {
-      font-size: 11px;
+    .hint-scroll {
+      font-size: 11.5px;
       color: var(--cyan-lumina);
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 1px;
+      opacity: 0.85;
+      animation: bounceHint 2s infinite ease-in-out;
     }
 
-    .crest-glow-ring {
-      position: absolute;
-      width: 290px;
-      height: 290px;
-      border-radius: 50%;
-      border: 1.5px dashed rgba(245, 211, 114, 0.3);
-      pointer-events: none;
-      animation: rotateRing 24s infinite linear;
-    }
-
-    @keyframes rotateRing {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes bounceHint {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
     }
 
     /* ============================================================
-       INTERACTIVE EVENT ITINERARY DASHBOARD (HOYOVERSE TABS & TILES)
+       REVEALED 3D ITINERARY MODAL / FULLSCREEN CARD
        ============================================================ */
-    .dashboard-section {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .section-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
-      padding-bottom: 14px;
-    }
-
-    .section-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .section-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: rgba(82, 229, 255, 0.15);
-      border: 1px solid var(--border-cyan);
+    .itinerary-container {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--cyan-lumina);
-      font-size: 18px;
+      padding: 76px 16px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.92) translateY(30px);
+      transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: 1px;
+    .itinerary-container.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
     }
 
-    /* Interactive Tab Switcher */
-    .day-tab-switcher {
-      display: flex;
-      gap: 8px;
-      background: rgba(14, 16, 28, 0.85);
-      padding: 4px;
-      border-radius: 14px;
-      border: 1px solid rgba(245, 211, 114, 0.2);
-    }
-
-    .tab-btn {
-      padding: 8px 18px;
-      border-radius: 10px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: var(--font-sans);
-      font-size: 12.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tab-btn.active {
-      background: var(--gold-gradient);
-      color: #0b0c16;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(245, 211, 114, 0.4);
-    }
-
-    /* Itinerary Grid Panels */
-    .itinerary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-    }
-
-    .day-panel {
-      position: relative;
-      background: linear-gradient(170deg, rgba(22, 26, 48, 0.85) 0%, rgba(13, 15, 28, 0.95) 100%);
-      border: 1px solid var(--border-gold);
-      border-radius: 22px;
-      padding: 24px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    .card-modal {
+      width: 100%;
+      max-width: 860px;
+      max-height: 86vh;
+      background: linear-gradient(160deg, rgba(20, 24, 46, 0.94) 0%, rgba(10, 12, 26, 0.98) 100%);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 28px;
+      box-shadow: 
+        0 30px 70px rgba(0, 0, 0, 0.9),
+        0 0 45px rgba(245, 211, 114, 0.25),
+        inset 0 0 30px rgba(245, 211, 114, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
     }
 
-    .day-panel:hover {
-      transform: translateY(-5px);
-      border-color: var(--gold-bright);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(245, 211, 114, 0.25);
-    }
-
-    .day-panel.highlight-event {
-      border: 1.5px solid var(--gold-bright);
-      background: linear-gradient(170deg, rgba(36, 38, 70, 0.9) 0%, rgba(16, 18, 35, 0.95) 100%);
-      box-shadow: 0 0 35px rgba(245, 211, 114, 0.25);
-    }
-
-    .panel-top-row {
+    /* Header */
+    .card-modal-header {
+      padding: 20px 24px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid rgba(245, 211, 114, 0.15);
-      padding-bottom: 12px;
-    }
-
-    .panel-date-tag {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--gold-bright);
-    }
-
-    .panel-group-badge {
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 12px;
-      background: rgba(82, 229, 255, 0.12);
-      border: 1px solid var(--border-cyan);
-      color: var(--cyan-lumina);
-    }
-
-    /* Timeline Items in Panel */
-    .panel-timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-      padding-left: 18px;
-    }
-
-    .panel-timeline::before {
-      content: '';
-      position: absolute;
-      left: 4px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(82, 229, 255, 0.3) 100%);
-    }
-
-    .time-event {
-      position: relative;
-    }
-
-    .time-event::before {
-      content: '';
-      position: absolute;
-      left: -18px;
-      top: 5px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold-primary);
-      box-shadow: 0 0 10px var(--gold-primary);
-    }
-
-    .time-header {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gold-bright);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .time-desc {
-      font-size: 13px;
-      line-height: 1.55;
-      color: #e0e4f4;
-    }
-
-    .sub-bullet-list {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding-left: 4px;
-    }
-
-    .sub-bullet {
-      font-size: 12px;
-      line-height: 1.45;
-      color: #b3bad4;
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-    }
-
-    .sub-bullet i {
-      color: var(--cyan-lumina);
-      margin-top: 2px;
+      background: rgba(14, 17, 34, 0.6);
       flex-shrink: 0;
     }
 
-    /* Location Shortcut Tags */
-    .loc-tags {
-      margin-top: auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(245, 211, 114, 0.15);
+    .header-left-title h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 800;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .loc-chip {
-      font-size: 10.5px;
-      font-weight: 500;
-      color: #ccd2eb;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 4px 10px;
+    .header-left-title p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .btn-fold-back {
+      padding: 6px 14px;
       border-radius: 20px;
-      display: inline-flex;
+      border: 1px solid var(--border-gold);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--gold-bright);
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-fold-back:hover {
+      background: rgba(245, 211, 114, 0.2);
+    }
+
+    /* Tab Filter Bar */
+    .tab-bar {
+      display: flex;
+      padding: 10px 24px;
+      gap: 8px;
+      background: rgba(10, 12, 22, 0.7);
+      border-bottom: 1px solid rgba(245, 211, 114, 0.1);
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .tab-item {
+      padding: 7px 16px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s;
+    }
+
+    .tab-item.active {
+      background: var(--gold-gradient);
+      color: #0b0d18;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(245, 211, 114, 0.35);
+    }
+
+    /* Scrollable Card Body */
+    .card-modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(245, 211, 114, 0.3) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .card-modal-body::-webkit-scrollbar {
+      width: 5px;
+    }
+    .card-modal-body::-webkit-scrollbar-thumb {
+      background: rgba(245, 211, 114, 0.3);
+      border-radius: 10px;
+    }
+
+    /* Day Blocks */
+    .day-card {
+      background: rgba(25, 30, 56, 0.75);
+      border: 1px solid rgba(245, 211, 114, 0.2);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.3s;
+    }
+
+    .day-card.highlight {
+      border: 1.5px solid var(--gold-primary);
+      background: linear-gradient(165deg, rgba(38, 42, 78, 0.9) 0%, rgba(18, 20, 40, 0.95) 100%);
+      box-shadow: 0 0 30px rgba(245, 211, 114, 0.2);
+    }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
+      padding-bottom: 8px;
+    }
+
+    .day-title {
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guest-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 10px;
+      background: rgba(82, 229, 255, 0.12);
+      color: var(--cyan-lumina);
+      border: 1px solid var(--border-cyan);
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(82, 229, 255, 0.2) 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      box-shadow: 0 0 8px var(--gold-primary);
+    }
+
+    .slot-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      margin-bottom: 3px;
+      display: flex;
       align-items: center;
       gap: 4px;
     }
 
-    .loc-chip i {
-      color: var(--gold-primary);
+    .slot-desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #e2e6f6;
     }
 
-    /* ============================================================
-       HOYOVERSE POPUP MODAL (PASS CARD / CLAIM INVITATION)
-       ============================================================ */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 5, 12, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      z-index: 1000;
+    .sub-bullets {
+      margin-top: 6px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+    .sub-bullet {
+      font-size: 11.5px;
+      color: #b8c0db;
+      line-height: 1.45;
     }
 
-    .passcard-container {
-      width: 100%;
-      max-width: 440px;
-      background: linear-gradient(160deg, #1d213d 0%, #101224 100%);
-      border: 2px solid var(--gold-primary);
-      border-radius: 28px;
-      padding: 32px 24px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.9),
-        0 0 50px rgba(245, 211, 114, 0.35);
-      position: relative;
-      transform: scale(0.9) translateY(20px);
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      text-align: center;
+    .sub-bullet i {
+      color: var(--cyan-lumina);
+      margin-right: 4px;
     }
 
-    .modal-overlay.active .passcard-container {
-      transform: scale(1) translateY(0);
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
+    /* Footer Buttons */
+    .card-modal-footer {
+      padding: 14px 24px;
+      background: rgba(10, 12, 24, 0.85);
+      border-top: 1px solid rgba(245, 211, 114, 0.15);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 16px;
+      gap: 12px;
+      flex-shrink: 0;
     }
 
-    .pass-stamp {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 12px;
-      border-radius: 50%;
-      background: var(--gold-gradient);
-      color: #0c0e18;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      box-shadow: 0 0 20px rgba(245, 211, 114, 0.6);
-    }
-
-    .passcard-title {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 800;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-
-    .passcard-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .input-guest-name {
-      width: 100%;
-      padding: 12px 18px;
-      border-radius: 14px;
-      background: rgba(9, 11, 22, 0.8);
-      border: 1px solid var(--border-gold);
-      color: #fff;
-      font-size: 14px;
-      text-align: center;
-      outline: none;
-      margin-bottom: 16px;
-      font-family: var(--font-sans);
-      transition: border-color 0.3s;
-    }
-
-    .input-guest-name:focus {
-      border-color: var(--cyan-lumina);
-      box-shadow: 0 0 15px rgba(82, 229, 255, 0.3);
-    }
-
-    .btn-modal-confirm {
-      width: 100%;
-      padding: 13px;
-      border-radius: 14px;
+    .btn-footer {
+      flex: 1;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
       border: none;
-      background: var(--gold-gradient);
-      color: #0b0d18;
-      font-size: 14px;
-      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 6px 20px rgba(245, 211, 114, 0.4);
-      transition: transform 0.2s ease;
+      gap: 6px;
+      transition: all 0.2s;
     }
 
-    .btn-modal-confirm:active {
-      transform: scale(0.97);
+    .btn-footer-gold {
+      background: var(--gold-gradient);
+      color: #0b0d16;
+      box-shadow: 0 4px 15px rgba(245, 211, 114, 0.35);
+    }
+
+    .btn-footer-outline {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      border: 1px solid var(--border-gold);
     }
 
     /* Toast */
@@ -792,10 +597,10 @@
       transform: translateX(-50%) translateY(40px);
       background: rgba(18, 22, 42, 0.96);
       border: 1px solid var(--gold-primary);
-      padding: 12px 24px;
+      padding: 10px 22px;
       border-radius: 30px;
       color: #fff;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       z-index: 2000;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(245, 211, 114, 0.4);
@@ -807,46 +612,15 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
-
-    /* ============================================================
-       RESPONSIVE ADAPTATION (DESKTOP / LAPTOP / MOBILE)
-       ============================================================ */
-    @media (max-width: 900px) {
-      .hero-banner {
-        grid-template-columns: 1fr;
-        padding: 28px 20px;
-        text-align: center;
-      }
-      .hero-desc {
-        margin: 0 auto 20px auto;
-      }
-      .hero-stats {
-        justify-content: center;
-      }
-      .hero-crest-container {
-        display: none; /* Hide heavy 3D card on compact mobile for cleaner view */
-      }
-      .section-header-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .day-tab-switcher {
-        width: 100%;
-        overflow-x: auto;
-      }
-      .tab-btn {
-        flex: 1;
-        justify-content: center;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Animated Nebula & Canvas -->
+  <!-- Ambient Glow -->
   <div class="bg-nebula"></div>
-  <div class="bg-cyber-grid"></div>
-  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Three.js Canvas -->
+  <canvas id="webgl-canvas"></canvas>
 
   <!-- Top Navbar -->
   <header class="top-navbar">
@@ -856,325 +630,417 @@
       </div>
       <div class="brand-text">
         <h3>LỄ TỐT NGHIỆP 2026</h3>
-        <p>Hành trình Đà Nẵng – Hội An</p>
+        <p>3D Web Event • Đà Nẵng - Hội An</p>
       </div>
     </div>
     <div class="nav-actions">
-      <button class="btn-sound" id="btnSound" onclick="toggleSound()">
+      <button class="btn-nav-action" onclick="toggleSound()">
         <i class="ri-volume-up-fill" id="soundIcon"></i>
         <span id="soundText">BGM Chime</span>
       </button>
-      <button class="btn-claim-top" onclick="openPassModal()">
-        <i class="ri-vip-diamond-fill"></i> Điểm Danh
+      <button class="btn-nav-action" onclick="triggerOpen3D()">
+        <i class="ri-mail-open-fill"></i> Mở Thiệp
       </button>
     </div>
   </header>
 
-  <!-- Main App Wrapper -->
-  <main class="app-wrapper">
-
-    <!-- Hero Banner: Event Spotlight (HoYoverse Aesthetic) -->
-    <section class="hero-banner" id="heroBanner">
-      <div class="ornament-corner ornament-tl"></div>
-      <div class="ornament-corner ornament-tr"></div>
-      <div class="ornament-corner ornament-bl"></div>
-      <div class="ornament-corner ornament-br"></div>
-
-      <div class="hero-content">
-        <div class="hero-badge-tag">
-          <i class="ri-sparkling-2-fill"></i> SỰ KIỆN ĐẶC BIỆT • 11 - 13/08
-        </div>
-        <h1 class="hero-title">ĐẠI LỄ TỐT NGHIỆP & CHUYẾN DU NGOẠN</h1>
-        <p class="hero-desc">
-          Trân trọng kính mời gia đình và những người bạn thân thương cùng tề tựu tại thành phố biển Đà Nẵng & Phố cổ Hội An, chia sẻ niềm vui trong cột mốc vinh quang tốt nghiệp đại học.
-        </p>
-
-        <div class="hero-stats">
-          <div class="stat-pill">
-            <i class="ri-calendar-event-fill"></i>
-            <div class="stat-pill-info">
-              <div class="stat-val">3 Ngày 2 Đêm</div>
-              <div class="stat-lbl">Thời Gian</div>
-            </div>
-          </div>
-          <div class="stat-pill">
-            <i class="ri-map-pin-2-fill"></i>
-            <div class="stat-pill-info">
-              <div class="stat-val">Đà Nẵng – Hội An</div>
-              <div class="stat-lbl">Địa Điểm</div>
-            </div>
-          </div>
-          <div class="stat-pill">
-            <i class="ri-team-fill"></i>
-            <div class="stat-pill-info">
-              <div class="stat-val">Gia Đình & Bạn Bè</div>
-              <div class="stat-lbl">Khách Mời VIP</div>
-            </div>
-          </div>
-        </div>
+  <!-- Closed 3D Envelope UI Overlay -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="intro-header">
+      <div class="intro-badge">
+        <i class="ri-vip-crown-2-fill"></i> THƯ MỜI DANH DỰ VIP
       </div>
+      <h1 class="intro-title">ĐẠI LỄ TỐT NGHIỆP</h1>
+      <p class="intro-subtitle">Hành Trình Du Ngoạn Đà Nẵng – Phố Cổ Hội An (11 - 13/08)</p>
+    </div>
 
-      <!-- Right 3D Tilt Card (Active on PC/Laptop) -->
-      <div class="hero-crest-container">
-        <div class="crest-glow-ring"></div>
-        <div class="crest-card-3d" id="crestCard" onclick="celebrateSparkles()">
-          <div class="crest-icon-box">
-            <i class="ri-award-fill"></i>
-          </div>
-          <h4>CHỨNG NHẬN VIP</h4>
-          <p>TỐT NGHIỆP DANH DỰ</p>
-          <div style="margin-top: 14px; font-size: 11px; color: var(--gold-bright); border: 1px dashed var(--border-gold); padding: 4px 10px; border-radius: 8px;">
-            Nhấp để chúc mừng 🎉
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Itinerary Dashboard -->
-    <section class="dashboard-section">
-      <div class="section-header-bar">
-        <div class="section-title-wrap">
-          <div class="section-icon"><i class="ri-route-line"></i></div>
-          <h2 class="section-title">LỊCH TRÌNH CHI TIẾT (3 NGÀY)</h2>
-        </div>
-        
-        <div class="day-tab-switcher">
-          <button class="tab-btn active" onclick="filterDay('all', this)"><i class="ri-grid-fill"></i> Tất cả</button>
-          <button class="tab-btn" onclick="filterDay('day1', this)"><i class="ri-ancient-gate-fill"></i> Ngày 1</button>
-          <button class="tab-btn" onclick="filterDay('day2', this)"><i class="ri-graduation-cap-fill"></i> Ngày 2 (Chính)</button>
-          <button class="tab-btn" onclick="filterDay('day3', this)"><i class="ri-shopping-bag-3-fill"></i> Ngày 3</button>
-        </div>
-      </div>
-
-      <!-- Day Panels -->
-      <div class="itinerary-grid">
-
-        <!-- NGÀY 1 -->
-        <article class="day-panel" data-day="day1">
-          <div class="panel-top-row">
-            <div class="panel-date-tag">
-              <i class="ri-map-pin-line"></i> NGÀY 1 (11/08): HỘI AN
-            </div>
-            <span class="panel-group-badge"><i class="ri-group-line"></i> Đoàn 7 người</span>
-          </div>
-
-          <div class="panel-timeline">
-            <div class="time-event">
-              <div class="time-header"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa</div>
-              <div class="time-desc">Đón đoàn về khách sạn nhận phòng/gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
-            </div>
-
-            <div class="time-event">
-              <div class="time-header"><i class="ri-sun-foggy-fill"></i> 15h30 - 21h00 • Chiều - Tối: Phố Cổ Hội An</div>
-              <div class="sub-bullet-list">
-                <div class="sub-bullet"><i class="ri-car-fill"></i><span><b>15h30:</b> Xe đón đoàn 7 người đi Hội An (~40 phút).</span></div>
-                <div class="sub-bullet"><i class="ri-camera-lens-fill"></i><span><b>16h30:</b> Dạo bộ ngắm hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</span></div>
-                <div class="sub-bullet"><i class="ri-restaurant-fill"></i><span><b>18h00:</b> Ăn tối đặc sản (cơm gà, cao lầu, bánh bao bánh vạc).</span></div>
-                <div class="sub-bullet"><i class="ri-sailboat-fill"></i><span><b>19h00:</b> Thuyền sông Hoài, thả hoa đăng, nước Mót, kem ống.</span></div>
-                <div class="sub-bullet"><i class="ri-hotel-bed-fill"></i><span><b>21h00:</b> Xe đón về lại khách sạn Đà Nẵng nghỉ ngơi.</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="loc-tags">
-            <span class="loc-chip"><i class="ri-building-line"></i> KS Đà Nẵng</span>
-            <span class="loc-chip"><i class="ri-ancient-gate-line"></i> Chùa Cầu</span>
-            <span class="loc-chip"><i class="ri-cup-line"></i> Nước Mót</span>
-          </div>
-        </article>
-
-        <!-- NGÀY 2: HIGHLIGHT -->
-        <article class="day-panel highlight-event" data-day="day2">
-          <div class="panel-top-row">
-            <div class="panel-date-tag" style="color: #ffe89e;">
-              <i class="ri-graduation-cap-fill" style="color: #ffd700;"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP
-            </div>
-            <span class="panel-group-badge" style="background: rgba(245, 211, 114, 0.2); color: #ffd700;">
-              <i class="ri-sparkling-fill"></i> Sự Kiện Chính
-            </span>
-          </div>
-
-          <div class="panel-timeline">
-            <div class="time-event">
-              <div class="time-header" style="color: #ffe89e;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
-              <div class="time-desc">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
-            </div>
-
-            <div class="time-event">
-              <div class="time-header"><i class="ri-goblet-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Mừng</div>
-              <div class="time-desc">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
-            </div>
-
-            <div class="time-event">
-              <div class="time-header"><i class="ri-sun-cloudy-fill"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
-              <div class="time-desc">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn biển tuyệt đẹp.</div>
-            </div>
-
-            <div class="time-event">
-              <div class="time-header"><i class="ri-moon-clear-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Cầu Rồng Sông Hàn</div>
-              <div class="sub-bullet-list">
-                <div class="sub-bullet"><i class="ri-restaurant-2-fill"></i><span>Ăn tối hải sản & ẩm thực địa phương cùng gia đình & bạn bè (12 – 17 người).</span></div>
-                <div class="sub-bullet"><i class="ri-road-map-fill"></i><span>Dạo mát Sông Hàn, check-in Cầu Tình Yêu, Cầu Rồng và Chợ đêm.</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="loc-tags">
-            <span class="loc-chip"><i class="ri-graduation-cap-line"></i> Trường ĐH</span>
-            <span class="loc-chip"><i class="ri-temp-hot-line"></i> Chùa Linh Ứng</span>
-            <span class="loc-chip"><i class="ri-water-flash-line"></i> Cầu Rồng Sông Hàn</span>
-          </div>
-        </article>
-
-        <!-- NGÀY 3 -->
-        <article class="day-panel" data-day="day3">
-          <div class="panel-top-row">
-            <div class="panel-date-tag">
-              <i class="ri-gift-line"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT
-            </div>
-            <span class="panel-group-badge">Mua sắm</span>
-          </div>
-
-          <div class="panel-timeline">
-            <div class="time-event">
-              <div class="time-header"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Đặc sản Chợ Hàn & APEC</div>
-              <div class="time-desc">Ăn sáng bún chả cá Đà Nẵng ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng!</div>
-            </div>
-          </div>
-
-          <div class="loc-tags">
-            <span class="loc-chip"><i class="ri-store-2-line"></i> Chợ Hàn</span>
-            <span class="loc-chip"><i class="ri-plant-line"></i> Công Viên APEC</span>
-            <span class="loc-chip"><i class="ri-flight-takeoff-line"></i> Sân Bay ĐN</span>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Interactive Pass Modal (Claim / RSVP) -->
-  <div class="modal-overlay" id="passModal">
-    <div class="passcard-container">
-      <button class="modal-close-btn" onclick="closePassModal()"><i class="ri-close-line"></i></button>
-      
-      <div class="pass-stamp">
-        <i class="ri-shield-star-fill"></i>
-      </div>
-      <h3 class="passcard-title">XÁC NHẬN THAM DỰ</h3>
-      <p class="passcard-sub">Nhập tên của bạn để tạo Thẻ Khách Mời Danh Dự</p>
-
-      <input type="text" id="guestNameInput" class="input-guest-name" placeholder="Ví dụ: Bác Nam / Bạn Hoàng..." />
-
-      <button class="btn-modal-confirm" onclick="confirmGuest()">
-        <i class="ri-check-double-fill"></i> Tạo Thẻ & Xác Nhận Ngay
+    <div class="intro-controls">
+      <button class="btn-open-3d" onclick="triggerOpen3D()">
+        <i class="ri-sparkling-fill"></i> MỞ THIỆP 3D NGAY
       </button>
+      <div class="hint-scroll">
+        <i class="ri-mouse-line"></i> Cuộn chuột hoặc vuốt màn hình để mở thiệp 3D
+      </div>
     </div>
   </div>
 
-  <!-- Toast Element -->
+  <!-- Revealed Itinerary Card Modal -->
+  <div class="itinerary-container" id="itineraryContainer">
+    <div class="card-modal">
+      
+      <!-- Modal Header -->
+      <div class="card-modal-header">
+        <div class="header-left-title">
+          <h2>LỄ TỐT NGHIỆP & CHUYẾN DU NGOẠN</h2>
+          <p>Hành trình 3 Ngày 2 Đêm • Đà Nẵng – Hội An</p>
+        </div>
+        <button class="btn-fold-back" onclick="triggerClose3D()">
+          <i class="ri-arrow-go-back-line"></i> Đóng Thiệp 3D
+        </button>
+      </div>
+
+      <!-- Tab Filters -->
+      <div class="tab-bar">
+        <button class="tab-item active" onclick="filterModalDay('all', this)"><i class="ri-grid-fill"></i> Tất cả lịch trình</button>
+        <button class="tab-item" onclick="filterModalDay('day1', this)"><i class="ri-ancient-gate-fill"></i> Ngày 1 (Hội An)</button>
+        <button class="tab-item" onclick="filterModalDay('day2', this)"><i class="ri-graduation-cap-fill"></i> Ngày 2 (Lễ Chính)</button>
+        <button class="tab-item" onclick="filterModalDay('day3', this)"><i class="ri-shopping-bag-3-fill"></i> Ngày 3 (Đặc sản)</button>
+      </div>
+
+      <!-- Scrollable Itinerary Body -->
+      <div class="card-modal-body">
+        
+        <!-- NGÀY 1 -->
+        <div class="day-card" data-day="day1">
+          <div class="day-header">
+            <div class="day-title"><i class="ri-map-pin-2-fill"></i> NGÀY 1 (11/08): ĐÀ NẴNG – HỘI AN</div>
+            <span class="guest-pill"><i class="ri-group-line"></i> Đoàn 7 người</span>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa: Đón đoàn & Ăn trưa</div>
+              <div class="slot-desc">Đón đoàn về khách sạn nhận phòng/gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-sun-foggy-fill"></i> 15h30 - 21h00 • Chiều - Tối: Khám phá Phố Cổ Hội An</div>
+              <div class="sub-bullets">
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>15h30:</b> Xe đón đoàn 7 người xuất phát đi Hội An (~40 phút).</div>
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>16h30:</b> Dạo bộ ngắm phố cổ hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</div>
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>18h00:</b> Ăn tối đặc sản Hội An (cơm gà, cao lầu, bánh bao bánh vạc).</div>
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>19h00:</b> Thuyền sông Hoài, thả hoa đăng lung linh, uống nước Mót, ăn kem ống.</div>
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>21h00:</b> Xe đón cả nhà về lại khách sạn Đà Nẵng nghỉ ngơi.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NGÀY 2 (HIGHLIGHT) -->
+        <div class="day-card highlight" data-day="day2">
+          <div class="day-header">
+            <div class="day-title" style="color: #ffd700;"><i class="ri-graduation-cap-fill" style="color: #ffd700;"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP & TIỆC MỪNG</div>
+            <span class="guest-pill" style="background: rgba(245, 211, 114, 0.25); color: #ffd700;"><i class="ri-sparkling-fill"></i> Sự Kiện Chính</span>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="slot-title" style="color: #ffd700;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
+              <div class="slot-desc">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-restaurant-2-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Tốt Nghiệp</div>
+              <div class="slot-desc">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-sun-cloudy-fill"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
+              <div class="slot-desc">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn biển rực rỡ.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-goblet-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Cầu Rồng Sông Hàn</div>
+              <div class="sub-bullets">
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i>Ăn tối hải sản & ẩm thực địa phương cùng gia đình & bạn bè (12 – 17 người).</div>
+                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i>Dạo mát ngắm cảnh lung linh Sông Hàn, check-in Cầu Tình Yêu, xem Cầu Rồng và ghé Chợ đêm.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NGÀY 3 -->
+        <div class="day-card" data-day="day3">
+          <div class="day-header">
+            <div class="day-title"><i class="ri-shopping-bag-3-fill"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT</div>
+            <span class="guest-pill">Mua sắm & Check-in</span>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="slot-title"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Chợ Hàn & APEC Park</div>
+              <div class="slot-desc">Ăn sáng bún chả cá Đà Nẵng ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng!</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="card-modal-footer">
+        <button class="btn-footer btn-footer-gold" onclick="confirmRSVP()">
+          <i class="ri-checkbox-circle-fill"></i> Xác Nhận Tham Dự
+        </button>
+        <button class="btn-footer btn-footer-outline" onclick="copySchedule()">
+          <i class="ri-share-forward-line"></i> Chia Sẻ Lịch Trình
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Box -->
   <div class="toast-box" id="toastBox">Thông báo</div>
 
   <script>
     /* ============================================================
-       AMBIENT PARTICLES & METEOR CANVAS (HOYOVERSE STYLE)
+       THREE.JS REAL-TIME 3D INTERACTIVE SCENE
        ============================================================ */
-    const canvas = document.getElementById('ambient-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
+    const canvas = document.getElementById('webgl-canvas');
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 8.5);
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xfff1d6, 1.2);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffd700, 2.2);
+    dirLight1.position.set(5, 8, 6);
+    scene.add(dirLight1);
+
+    const pointLight = new THREE.PointLight(0x52e5ff, 2.5, 15);
+    pointLight.position.set(-4, -2, 4);
+    scene.add(pointLight);
+
+    // 3D Metallic Materials
+    const darkPaperMaterial = new THREE.MeshStandardMaterial({
+      color: 0x141624,
+      roughness: 0.35,
+      metalness: 0.65
+    });
+
+    const goldTrimMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf5d372,
+      roughness: 0.2,
+      metalness: 0.9,
+      emissive: 0x553e10,
+      emissiveIntensity: 0.2
+    });
+
+    const waxSealMaterial = new THREE.MeshStandardMaterial({
+      color: 0xd4af37,
+      roughness: 0.15,
+      metalness: 0.95,
+      emissive: 0x664810,
+      emissiveIntensity: 0.4
+    });
+
+    // Envelope 3D Group
+    const envelopeGroup = new THREE.Group();
+    scene.add(envelopeGroup);
+
+    // 1. Envelope Back Plate
+    const envWidth = 4.2;
+    const envHeight = 2.8;
+    const backGeo = new THREE.BoxGeometry(envWidth, envHeight, 0.06);
+    const backMesh = new THREE.Mesh(backGeo, darkPaperMaterial);
+    envelopeGroup.add(backMesh);
+
+    // Gold border frame around envelope back
+    const frameGeo = new THREE.BoxGeometry(envWidth + 0.08, envHeight + 0.08, 0.04);
+    const frameMesh = new THREE.Mesh(frameGeo, goldTrimMaterial);
+    frameMesh.position.z = -0.02;
+    envelopeGroup.add(frameMesh);
+
+    // 2. Envelope Front Pouch (Lower triangle)
+    const pouchGeo = new THREE.ConeGeometry(envWidth * 0.72, envHeight * 0.6, 3);
+    const pouchMesh = new THREE.Mesh(pouchGeo, darkPaperMaterial);
+    pouchMesh.rotation.z = Math.PI;
+    pouchMesh.position.set(0, -0.4, 0.06);
+    envelopeGroup.add(pouchMesh);
+
+    // 3. Top Flap (Hinged to unfold in 3D)
+    const flapPivot = new THREE.Group();
+    flapPivot.position.set(0, envHeight / 2, 0.04);
+    envelopeGroup.add(flapPivot);
+
+    const flapGeo = new THREE.ConeGeometry(envWidth * 0.72, envHeight * 0.65, 3);
+    const flapMesh = new THREE.Mesh(flapGeo, darkPaperMaterial);
+    flapMesh.position.set(0, -envHeight * 0.3, 0);
+    flapPivot.add(flapMesh);
+
+    // 4. Golden Wax Seal on Flap
+    const sealGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.08, 32);
+    const sealMesh = new THREE.Mesh(sealGeo, waxSealMaterial);
+    sealMesh.rotation.x = Math.PI / 2;
+    sealMesh.position.set(0, -envHeight * 0.45, 0.06);
+    flapPivot.add(sealMesh);
+
+    // 5. Letter Card inside envelope
+    const letterGeo = new THREE.BoxGeometry(envWidth * 0.9, envHeight * 0.9, 0.03);
+    const letterMesh = new THREE.Mesh(letterGeo, goldTrimMaterial);
+    letterMesh.position.set(0, 0, 0.02);
+    envelopeGroup.add(letterMesh);
+
+    // 6. Floating 3D Gold Particles & Crystals
+    const particleCount = 70;
+    const particleGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const scales = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 14;
+      positions[i + 1] = (Math.random() - 0.5) * 10;
+      positions[i + 2] = (Math.random() - 0.5) * 8;
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    class StarParticle {
-      constructor() {
-        this.reset();
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xffe89e,
+      size: 0.12,
+      transparent: true,
+      opacity: 0.8
+    });
+    const starField = new THREE.Points(particleGeo, particleMat);
+    scene.add(starField);
+
+    // Responsive Canvas Resize
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      if (window.innerWidth < 768) {
+        camera.position.z = 10.5; // pull camera further on mobile
+      } else {
+        camera.position.z = 8.5;
       }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2.2 + 0.6;
-        this.speedY = Math.random() * -0.5 - 0.15;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.color = Math.random() > 0.4 ? '#f5d372' : '#52e5ff';
-        this.opacity = Math.random() * 0.8 + 0.2;
-        this.fade = Math.random() * 0.006 + 0.002;
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        this.opacity -= this.fade;
-        if (this.opacity <= 0 || this.y < 0) {
-          this.reset();
-          this.y = canvas.height + 10;
-        }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = this.color;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }
+    window.addEventListener('resize', onWindowResize);
+    onWindowResize();
 
-    for (let i = 0; i < 55; i++) {
-      particles.push(new StarParticle());
-    }
+    /* ============================================================
+       GSAP 3D UNWRAPPING & FOLDING ANIMATIONS
+       ============================================================ */
+    let isOpen = false;
+    const introOverlay = document.getElementById('introOverlay');
+    const itineraryContainer = document.getElementById('itineraryContainer');
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
+    function triggerOpen3D() {
+      if (isOpen) return;
+      isOpen = true;
+      playChime();
+
+      // Fade out intro HUD
+      introOverlay.classList.add('hidden');
+
+      // 1. Unfold Envelope Flap in 3D (Rotation X)
+      gsap.to(flapPivot.rotation, {
+        x: Math.PI,
+        duration: 1.1,
+        ease: "power2.inOut"
       });
+
+      // 2. Slide letter upwards and scale towards camera
+      gsap.to(letterMesh.position, {
+        y: 2.2,
+        z: 0.6,
+        duration: 1.2,
+        delay: 0.4,
+        ease: "power2.out"
+      });
+
+      // 3. Move envelope down and fade out into background
+      gsap.to(envelopeGroup.position, {
+        y: -1.2,
+        z: -1.5,
+        duration: 1.4,
+        ease: "power2.out"
+      });
+
+      // 4. Reveal Itinerary Glass Modal with Confetti
+      setTimeout(() => {
+        itineraryContainer.classList.add('active');
+        celebrateSparkles();
+      }, 900);
+    }
+
+    function triggerClose3D() {
+      if (!isOpen) return;
+      isOpen = false;
+      itineraryContainer.classList.remove('active');
+
+      // Fold everything back in 3D
+      gsap.to(letterMesh.position, {
+        y: 0,
+        z: 0.02,
+        duration: 0.9,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(flapPivot.rotation, {
+        x: 0,
+        duration: 1,
+        delay: 0.3,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(envelopeGroup.position, {
+        y: 0,
+        z: 0,
+        duration: 1,
+        ease: "power2.out"
+      });
+
+      setTimeout(() => {
+        introOverlay.classList.remove('hidden');
+      }, 600);
+    }
+
+    /* ============================================================
+       SCROLL & TOUCH GESTURE BINDINGS
+       ============================================================ */
+    // Mouse Wheel
+    window.addEventListener('wheel', (e) => {
+      if (e.deltaY > 25 && !isOpen) {
+        triggerOpen3D();
+      }
+    }, { passive: true });
+
+    // Touch Swipe
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const touchEndY = e.changedTouches[0].clientY;
+      if (touchStartY - touchEndY > 40 && !isOpen) {
+        triggerOpen3D();
+      }
+    }, { passive: true });
+
+    // Interactive 3D Mouse Parallax Tilt
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.6;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.6;
+    });
+
+    /* ============================================================
+       MAIN RENDER LOOP
+       ============================================================ */
+    function animate() {
       requestAnimationFrame(animate);
+
+      // Subtle float & rotation for 3D envelope
+      if (!isOpen) {
+        envelopeGroup.rotation.y = THREE.MathUtils.lerp(envelopeGroup.rotation.y, mouseX, 0.05);
+        envelopeGroup.rotation.x = THREE.MathUtils.lerp(envelopeGroup.rotation.x, mouseY, 0.05);
+        envelopeGroup.position.y = Math.sin(Date.now() * 0.002) * 0.08;
+      }
+
+      // Rotate background 3D crystals
+      starField.rotation.y += 0.001;
+      starField.rotation.x += 0.0005;
+
+      renderer.render(scene, camera);
     }
     animate();
 
     /* ============================================================
-       3D MOUSE TILT ON PC/LAPTOP FOR HERO CREST
-       ============================================================ */
-    const crestCard = document.getElementById('crestCard');
-    if (crestCard) {
-      document.addEventListener('mousemove', (e) => {
-        if (window.innerWidth < 900) return;
-        const rect = crestCard.getBoundingClientRect();
-        const cardX = rect.left + rect.width / 2;
-        const cardY = rect.top + rect.height / 2;
-        const angleX = (e.clientY - cardY) / 25;
-        const angleY = (cardX - e.clientX) / 25;
-        crestCard.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-      });
-    }
-
-    /* ============================================================
-       INTERACTIVE TAB FILTERING
-       ============================================================ */
-    function filterDay(dayKey, btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const panels = document.querySelectorAll('.day-panel');
-      panels.forEach(p => {
-        if (dayKey === 'all' || p.getAttribute('data-day') === dayKey) {
-          gsap.to(p, { display: 'flex', opacity: 1, scale: 1, duration: 0.35 });
-        } else {
-          gsap.to(p, { display: 'none', opacity: 0, scale: 0.95, duration: 0.2 });
-        }
-      });
-    }
-
-    /* ============================================================
-       SYNTHESIZED CHIME AUDIO (NO EXTERNAL AUDIO FILE NEEDED)
+       AUDIO & INTERACTIVE ACTIONS
        ============================================================ */
     let audioCtx = null;
     let isSoundOn = false;
@@ -1195,9 +1061,7 @@
           osc.start(audioCtx.currentTime + idx * 0.12);
           osc.stop(audioCtx.currentTime + idx * 0.12 + 0.9);
         });
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     }
 
     function toggleSound() {
@@ -1216,37 +1080,47 @@
       }
     }
 
-    /* ============================================================
-       CONFETTI CELEBRATION
-       ============================================================ */
     function celebrateSparkles() {
-      if (isSoundOn) playChime();
       confetti({
-        particleCount: 70,
-        spread: 80,
+        particleCount: 80,
+        spread: 90,
         origin: { y: 0.6 },
         colors: ['#f5d372', '#ffe89e', '#52e5ff', '#ffffff']
       });
-      showToast("🎉 Chúc mừng tân cử nhân! Cùng đếm ngược ngày hội tụ!");
     }
 
-    /* ============================================================
-       MODAL & RSVP GUEST REGISTRATION
-       ============================================================ */
-    const passModal = document.getElementById('passModal');
-    function openPassModal() {
-      passModal.classList.add('active');
-    }
-    function closePassModal() {
-      passModal.classList.remove('active');
+    function filterModalDay(dayKey, btn) {
+      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.day-card');
+      cards.forEach(c => {
+        if (dayKey === 'all' || c.getAttribute('data-day') === dayKey) {
+          gsap.to(c, { display: 'flex', opacity: 1, scale: 1, duration: 0.3 });
+        } else {
+          gsap.to(c, { display: 'none', opacity: 0, scale: 0.95, duration: 0.2 });
+        }
+      });
     }
 
-    function confirmGuest() {
-      const name = document.getElementById('guestNameInput').value.trim();
-      const guestName = name ? name : "Quý Khách Quý";
-      closePassModal();
+    function confirmRSVP() {
       celebrateSparkles();
-      showToast(`✨ Chào mừng [${guestName}] đã xác nhận tham dự!`);
+      showToast("🎉 Chúc mừng bạn đã xác nhận tham dự thành công!");
+    }
+
+    function copySchedule() {
+      const text = `🎓 THƯ MỜI LỄ TỐT NGHIỆP & DU NGOẠN ĐÀ NẴNG - HỘI AN (11 - 13/08)\n` +
+        `📍 Ngày 1 (11/08): Đón đoàn, Check-in KS, Phố cổ Hội An, Sông Hoài\n` +
+        `📍 Ngày 2 (12/08): Lễ Tốt Nghiệp, Tiệc mừng (12-17 người), Sơn Trà & Sông Hàn\n` +
+        `📍 Ngày 3 (13/08): Bún chả cá, Đặc sản Chợ Hàn, Check-in APEC!`;
+      
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("📋 Đã sao chép lịch trình vào bộ nhớ tạm!");
+        });
+      } else {
+        showToast("✨ Hãy chia sẻ link Web 3D này nhé!");
+      }
     }
 
     function showToast(msg) {
