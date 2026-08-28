@@ -573,29 +573,58 @@
     }
 
     /* ============================================================
-       ORGANIC FLOATING TEXT (NO DARK BOX / CLEAN FLOATING TYPOGRAPHY)
+       ORGANIC FLOATING TEXT (ELEVATED & HOVERING LIKE THE STARS)
        ============================================================ */
-    #leftContentWrap, #rightContentWrap {
-      transform: translateZ(45px) rotateX(-22deg) rotateY(4deg);
+    #leftContentWrap {
+      transform: translateZ(95px) rotateX(-38deg) rotateY(5deg);
       transform-origin: bottom center;
       background: transparent;
       border: none;
       padding: 0;
-      box-shadow: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      transition: transform 0.4s ease;
+      filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.35));
       transform-style: preserve-3d;
       color: var(--text-dark);
+      animation: floatTextLeft 3.5s infinite ease-in-out;
     }
 
     #rightContentWrap {
-      transform: translateZ(45px) rotateX(-22deg) rotateY(-4deg);
+      transform: translateZ(95px) rotateX(-38deg) rotateY(-5deg);
+      transform-origin: bottom center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.35));
+      transform-style: preserve-3d;
+      color: var(--text-dark);
+      animation: floatTextRight 3.5s infinite ease-in-out 0.5s;
+    }
+
+    @keyframes floatTextLeft {
+      0%, 100% { transform: translateZ(95px) rotateX(-38deg) rotateY(5deg) translateY(0); }
+      50% { transform: translateZ(110px) rotateX(-38deg) rotateY(5deg) translateY(-8px); }
+    }
+
+    @keyframes floatTextRight {
+      0%, 100% { transform: translateZ(95px) rotateX(-38deg) rotateY(-5deg) translateY(0); }
+      50% { transform: translateZ(110px) rotateX(-38deg) rotateY(-5deg) translateY(-8px); }
     }
 
     @media (max-width: 768px) {
-      #leftContentWrap, #rightContentWrap {
-        transform: translateZ(35px) rotateX(-15deg) rotateY(0deg);
+      #leftContentWrap {
+        transform: translateZ(65px) rotateX(-24deg) rotateY(0deg);
+        animation: floatTextMobileLeft 3.5s infinite ease-in-out;
+      }
+      #rightContentWrap {
+        transform: translateZ(65px) rotateX(-24deg) rotateY(0deg);
+        animation: floatTextMobileRight 3.5s infinite ease-in-out 0.5s;
+      }
+      @keyframes floatTextMobileLeft {
+        0%, 100% { transform: translateZ(65px) rotateX(-24deg) translateY(0); }
+        50% { transform: translateZ(78px) rotateX(-24deg) translateY(-6px); }
+      }
+      @keyframes floatTextMobileRight {
+        0%, 100% { transform: translateZ(65px) rotateX(-24deg) translateY(0); }
+        50% { transform: translateZ(78px) rotateX(-24deg) translateY(-6px); }
       }
     }
 
