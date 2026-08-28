@@ -4,31 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <!-- Web App Fullscreen Meta -->
+  <!-- Web App Capabilities -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#060711">
+  <meta name="theme-color" content="#070812">
   <meta name="format-detection" content="telephone=no">
 
-  <title>3D VIP Invitation • Lễ Tốt Nghiệp & Du Ngoạn Đà Nẵng - Hội An</title>
+  <title>Origami Journey • Lễ Tốt Nghiệp & Du Ngoạn Đà Nẵng - Hội An</title>
 
-  <!-- Google Fonts: Luxury Editorial Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Yuji+Boku&display=swap" rel="stylesheet">
 
   <!-- Remix Icons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-  <!-- Three.js + GSAP + Canvas Confetti CDNs -->
+  <!-- Three.js + GSAP + Confetti CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     /* ============================================================
-       HOYOVERSE / MIHOYO 3D THEME DESIGN SYSTEM
+       ORIGAMI LUXURY 3D DESIGN SYSTEM
        ============================================================ */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -38,14 +38,17 @@
     }
 
     :root {
-      --bg-dark: #05060d;
+      --bg-dark: #070812;
+      --bg-origami-front: #171a2e;
+      --bg-origami-back: #0f111f;
       --gold-primary: #f5d372;
       --gold-bright: #ffe89e;
       --gold-dark: #b88a2e;
       --gold-gradient: linear-gradient(135deg, #fce38a 0%, #d4af37 40%, #ffdf79 70%, #aa771c 100%);
-      --cyan-lumina: #52e5ff;
+      --gold-foil: linear-gradient(135deg, rgba(245, 211, 114, 0.25) 0%, rgba(212, 175, 55, 0.05) 100%);
+      --cyan-glow: #52e5ff;
       --border-gold: rgba(245, 211, 114, 0.35);
-      --border-cyan: rgba(82, 229, 255, 0.4);
+      --border-origami: rgba(245, 211, 114, 0.45);
       --text-main: #f0f3fc;
       --text-muted: #959cb6;
       --font-display: 'Cinzel', serif;
@@ -62,35 +65,49 @@
       overflow: hidden;
       -webkit-user-select: none;
       user-select: none;
+      touch-action: none;
     }
 
-    /* Three.js Fullscreen Canvas */
-    #webgl-canvas {
+    /* Three.js 3D Origami Canvas */
+    #origami-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
       z-index: 1;
-      outline: none;
+      pointer-events: none;
     }
 
-    /* Background Ambient Gradients */
+    /* Ambient Background Atmosphere */
     .bg-nebula {
       position: fixed;
       inset: 0;
       background: 
-        radial-gradient(circle at 15% 15%, rgba(124, 77, 255, 0.2) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(82, 229, 255, 0.18) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 65%);
+        radial-gradient(circle at 10% 20%, rgba(124, 77, 255, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(82, 229, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .origami-grid-pattern {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(45deg, rgba(245, 211, 114, 0.03) 25%, transparent 25%), 
+        linear-gradient(-45deg, rgba(245, 211, 114, 0.03) 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, rgba(245, 211, 114, 0.03) 75%), 
+        linear-gradient(-45deg, transparent 75%, rgba(245, 211, 114, 0.03) 75%);
+      background-size: 60px 60px;
       pointer-events: none;
       z-index: 0;
     }
 
     /* ============================================================
-       TOP HEADER & AUDIO CONTROLS
+       TOP HEADER & SOUND
        ============================================================ */
-    .top-navbar {
+    .top-header {
       position: fixed;
       top: 0;
       left: 0;
@@ -100,20 +117,20 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(6, 7, 16, 0.7);
+      background: rgba(7, 8, 18, 0.75);
       border-bottom: 1px solid rgba(245, 211, 114, 0.2);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 100;
     }
 
-    .brand-group {
+    .brand-box {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .brand-emblem {
+    .origami-crane-icon {
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -121,12 +138,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #0d0f1a;
-      font-size: 18px;
+      color: #0c0e18;
+      font-size: 20px;
       box-shadow: 0 0 16px rgba(245, 211, 114, 0.5);
     }
 
-    .brand-text h3 {
+    .brand-title h3 {
       font-family: var(--font-display);
       font-size: 13px;
       font-weight: 800;
@@ -136,25 +153,19 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .brand-text p {
+    .brand-title p {
       font-size: 9.5px;
-      letter-spacing: 1.2px;
-      color: var(--cyan-lumina);
+      color: var(--cyan-glow);
+      letter-spacing: 1px;
       text-transform: uppercase;
       font-weight: 600;
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-nav-action {
+    .btn-audio {
       height: 36px;
       border-radius: 18px;
       border: 1px solid var(--border-gold);
-      background: rgba(25, 29, 52, 0.75);
+      background: rgba(25, 29, 52, 0.8);
       color: var(--gold-bright);
       font-size: 12px;
       font-weight: 600;
@@ -164,954 +175,937 @@
       padding: 0 14px;
       cursor: pointer;
       backdrop-filter: blur(8px);
-      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: all 0.25s ease;
     }
 
-    .btn-nav-action:hover {
+    .btn-audio:hover {
       background: rgba(245, 211, 114, 0.25);
-      border-color: var(--gold-bright);
-      box-shadow: 0 0 16px rgba(245, 211, 114, 0.4);
       transform: translateY(-2px);
     }
 
     /* ============================================================
-       INTRO / CLOSED ENVELOPE UI OVERLAY
+       ORIGAMI STEP TRACKER (STEP NAVIGATION)
        ============================================================ */
-    .intro-overlay {
+    .origami-stepper {
+      position: fixed;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13, 16, 32, 0.85);
+      border: 1px solid var(--border-gold);
+      padding: 6px 14px;
+      border-radius: 30px;
+      backdrop-filter: blur(12px);
+      z-index: 90;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 211, 114, 0.25);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .step-dot.active {
+      background: var(--gold-gradient);
+      color: #0b0d18;
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 14px rgba(245, 211, 114, 0.7);
+      transform: scale(1.15);
+    }
+
+    .step-dot.completed {
+      background: rgba(82, 229, 255, 0.2);
+      border-color: var(--cyan-glow);
+      color: var(--cyan-glow);
+    }
+
+    .step-line {
+      width: 14px;
+      height: 2px;
+      background: rgba(245, 211, 114, 0.2);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       ORIGAMI 3D FOLDING CARD STAGE (STORYBOOK)
+       ============================================================ */
+    .origami-stage {
       position: fixed;
       inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 20px 90px;
+      perspective: 1600px;
       z-index: 10;
+    }
+
+    .origami-book {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 65vh;
+      max-height: 560px;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Single Origami Story Page Panel */
+    .origami-page {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(155deg, rgba(24, 28, 54, 0.95) 0%, rgba(13, 15, 30, 0.98) 100%);
+      border: 1.5px solid var(--border-origami);
+      border-radius: 24px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.9),
+        0 0 35px rgba(245, 211, 114, 0.2),
+        inset 0 0 25px rgba(245, 211, 114, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: space-between;
-      padding: 90px 20px 40px;
-      pointer-events: none;
-      transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s ease;
-    }
-
-    .intro-overlay.hidden {
+      transform-origin: left center;
+      transition: all 0.75s cubic-bezier(0.25, 1, 0.5, 1);
       opacity: 0;
-      transform: scale(0.95);
+      pointer-events: none;
+      transform: rotateY(70deg) translateZ(-60px) scale(0.9);
+      overflow: hidden;
+    }
+
+    .origami-page.current {
+      opacity: 1;
+      pointer-events: auto;
+      transform: rotateY(0deg) translateZ(0) scale(1);
+      z-index: 5;
+    }
+
+    .origami-page.passed {
+      opacity: 0;
+      pointer-events: none;
+      transform: rotateY(-90deg) translateZ(40px) scale(0.88);
+      z-index: 1;
+    }
+
+    /* Origami Paper Crease & Foil Geometry Watermark */
+    .origami-crease-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 30px;
+      width: 1px;
+      background: linear-gradient(180deg, transparent 0%, rgba(245, 211, 114, 0.25) 50%, transparent 100%);
       pointer-events: none;
     }
 
-    .intro-header {
+    .origami-corner-decor {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--gold-primary);
+      pointer-events: none;
+    }
+    .corner-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+    .corner-br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+    /* Page Content Typography */
+    .page-header {
+      position: relative;
       text-align: center;
-      pointer-events: auto;
-      max-width: 600px;
     }
 
-    .intro-badge {
+    .page-chapter-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 16px;
-      border-radius: 20px;
-      background: rgba(245, 211, 114, 0.12);
-      border: 1px solid var(--border-gold);
       font-family: var(--font-display);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      color: var(--gold-bright);
       letter-spacing: 2px;
+      color: var(--cyan-glow);
       text-transform: uppercase;
-      margin-bottom: 12px;
-      box-shadow: 0 0 15px rgba(245, 211, 114, 0.25);
+      margin-bottom: 6px;
     }
 
-    .intro-title {
+    .page-main-title {
       font-family: var(--font-serif);
-      font-size: clamp(24px, 4.5vw, 42px);
+      font-size: clamp(20px, 4vw, 26px);
       font-weight: 800;
       line-height: 1.25;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8));
+      margin-bottom: 4px;
     }
 
-    .intro-subtitle {
-      font-size: 13px;
-      color: #b0b7d3;
-      letter-spacing: 1px;
-    }
-
-    /* Bottom Interactive Trigger Controls */
-    .intro-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      pointer-events: auto;
-    }
-
-    .btn-open-3d {
-      padding: 14px 34px;
-      border-radius: 30px;
-      border: none;
-      background: var(--gold-gradient);
-      color: #080914;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.6),
-        0 0 25px rgba(245, 211, 114, 0.5);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      animation: pulseBtn 2s infinite ease-in-out;
-    }
-
-    @keyframes pulseBtn {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 211, 114, 0.4); }
-      50% { transform: scale(1.04); box-shadow: 0 0 35px rgba(245, 211, 114, 0.8); }
-    }
-
-    .btn-open-3d:hover {
-      transform: scale(1.08) translateY(-2px);
-    }
-
-    .hint-scroll {
-      font-size: 11.5px;
-      color: var(--cyan-lumina);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      letter-spacing: 1px;
-      opacity: 0.85;
-      animation: bounceHint 2s infinite ease-in-out;
-    }
-
-    @keyframes bounceHint {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(5px); }
-    }
-
-    /* ============================================================
-       REVEALED 3D ITINERARY MODAL / FULLSCREEN CARD
-       ============================================================ */
-    .itinerary-container {
-      position: fixed;
-      inset: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 76px 16px 20px;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.92) translateY(30px);
-      transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .itinerary-container.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1) translateY(0);
-    }
-
-    .card-modal {
-      width: 100%;
-      max-width: 860px;
-      max-height: 86vh;
-      background: linear-gradient(160deg, rgba(20, 24, 46, 0.94) 0%, rgba(10, 12, 26, 0.98) 100%);
-      border: 1.5px solid var(--border-gold);
-      border-radius: 28px;
-      box-shadow: 
-        0 30px 70px rgba(0, 0, 0, 0.9),
-        0 0 45px rgba(245, 211, 114, 0.25),
-        inset 0 0 30px rgba(245, 211, 114, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Header */
-    .card-modal-header {
-      padding: 20px 24px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
-      background: rgba(14, 17, 34, 0.6);
-      flex-shrink: 0;
-    }
-
-    .header-left-title h2 {
-      font-family: var(--font-serif);
-      font-size: clamp(18px, 2.5vw, 24px);
-      font-weight: 800;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .header-left-title p {
-      font-size: 11.5px;
-      color: var(--text-muted);
-    }
-
-    .btn-fold-back {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border-gold);
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--gold-bright);
-      font-size: 11.5px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-fold-back:hover {
-      background: rgba(245, 211, 114, 0.2);
-    }
-
-    /* Tab Filter Bar */
-    .tab-bar {
-      display: flex;
-      padding: 10px 24px;
-      gap: 8px;
-      background: rgba(10, 12, 22, 0.7);
-      border-bottom: 1px solid rgba(245, 211, 114, 0.1);
-      overflow-x: auto;
-      flex-shrink: 0;
-    }
-
-    .tab-item {
-      padding: 7px 16px;
-      border-radius: 12px;
-      border: none;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
+    .page-subtitle {
       font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.25s;
+      color: var(--text-muted);
     }
 
-    .tab-item.active {
+    .page-divider {
+      width: 44px;
+      height: 2px;
       background: var(--gold-gradient);
-      color: #0b0d18;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(245, 211, 114, 0.35);
+      margin: 8px auto 0;
+      border-radius: 2px;
     }
 
-    /* Scrollable Card Body */
-    .card-modal-body {
+    /* Page Body Scrollable Cards */
+    .page-content-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 24px;
+      margin: 12px 0;
+      padding-right: 6px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       scrollbar-width: thin;
       scrollbar-color: rgba(245, 211, 114, 0.3) transparent;
-      -webkit-overflow-scrolling: touch;
     }
 
-    .card-modal-body::-webkit-scrollbar {
-      width: 5px;
+    .page-content-scroll::-webkit-scrollbar {
+      width: 4px;
     }
-    .card-modal-body::-webkit-scrollbar-thumb {
+    .page-content-scroll::-webkit-scrollbar-thumb {
       background: rgba(245, 211, 114, 0.3);
       border-radius: 10px;
     }
 
-    /* Day Blocks */
-    .day-card {
-      background: rgba(25, 30, 56, 0.75);
+    /* Event Card Item */
+    .origami-event-item {
+      background: rgba(18, 22, 44, 0.85);
       border: 1px solid rgba(245, 211, 114, 0.2);
-      border-radius: 18px;
-      padding: 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.3s;
+      border-radius: 16px;
+      padding: 14px;
+      backdrop-filter: blur(8px);
+      position: relative;
     }
 
-    .day-card.highlight {
+    .origami-event-item.highlight-gold {
       border: 1.5px solid var(--gold-primary);
-      background: linear-gradient(165deg, rgba(38, 42, 78, 0.9) 0%, rgba(18, 20, 40, 0.95) 100%);
-      box-shadow: 0 0 30px rgba(245, 211, 114, 0.2);
+      background: linear-gradient(160deg, rgba(38, 42, 78, 0.9) 0%, rgba(18, 20, 42, 0.95) 100%);
+      box-shadow: 0 0 20px rgba(245, 211, 114, 0.25);
     }
 
-    .day-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
-      padding-bottom: 8px;
-    }
-
-    .day-title {
-      font-family: var(--font-display);
-      font-size: 13.5px;
+    .event-time-badge {
+      font-size: 11px;
       font-weight: 700;
       color: var(--gold-bright);
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
+      gap: 5px;
+    }
+
+    .event-main-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #e4e8f7;
+    }
+
+    .event-sub-steps {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-left: 2px;
+    }
+
+    .event-step {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #bac3dd;
+      display: flex;
+      align-items: flex-start;
       gap: 6px;
     }
 
-    .guest-pill {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 9px;
-      border-radius: 10px;
-      background: rgba(82, 229, 255, 0.12);
-      color: var(--cyan-lumina);
-      border: 1px solid var(--border-cyan);
+    .event-step i {
+      color: var(--cyan-glow);
+      margin-top: 2px;
+      font-size: 12px;
     }
 
-    /* Timeline */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-left: 14px;
-      position: relative;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 3px;
-      top: 6px;
-      bottom: 6px;
-      width: 2px;
-      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(82, 229, 255, 0.2) 100%);
-    }
-
-    .timeline-item {
-      position: relative;
-    }
-
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -15px;
-      top: 5px;
-      width: 7px;
-      height: 7px;
+    /* Cover Chapter 0 Specifics */
+    .cover-monogram {
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
-      background: var(--gold-primary);
-      box-shadow: 0 0 8px var(--gold-primary);
+      background: var(--gold-gradient);
+      margin: 10px auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      color: #0e101c;
+      box-shadow: 0 0 30px rgba(245, 211, 114, 0.6);
+      animation: floatCrane 3s infinite ease-in-out;
     }
 
-    .slot-title {
-      font-size: 11.5px;
+    @keyframes floatCrane {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .cover-intro-text {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #ccd3eb;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    /* Location chips */
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .loc-tag {
+      font-size: 10.5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(82, 229, 255, 0.1);
+      border: 1px solid rgba(82, 229, 255, 0.25);
+      color: var(--cyan-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ============================================================
+       BOTTOM INTERACTIVE CONTROL BAR
+       ============================================================ */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 76px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(7, 8, 18, 0.85);
+      border-top: 1px solid rgba(245, 211, 114, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+
+    .btn-origami-nav {
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 22px;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 13px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-prev {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 211, 114, 0.3);
       color: var(--gold-bright);
-      margin-bottom: 3px;
+    }
+
+    .btn-prev:disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .btn-next {
+      background: var(--gold-gradient);
+      color: #0b0d18;
+      box-shadow: 0 0 20px rgba(245, 211, 114, 0.4);
+    }
+
+    .btn-next:hover, .btn-prev:hover {
+      transform: scale(1.05);
+    }
+
+    .swipe-hint {
+      font-size: 11px;
+      color: var(--cyan-glow);
+      letter-spacing: 0.5px;
+      opacity: 0.8;
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
-    .slot-desc {
-      font-size: 12.5px;
-      line-height: 1.5;
-      color: #e2e6f6;
-    }
-
-    .sub-bullets {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .sub-bullet {
-      font-size: 11.5px;
-      color: #b8c0db;
-      line-height: 1.45;
-    }
-
-    .sub-bullet i {
-      color: var(--cyan-lumina);
-      margin-right: 4px;
-    }
-
-    /* Footer Buttons */
-    .card-modal-footer {
-      padding: 14px 24px;
-      background: rgba(10, 12, 24, 0.85);
-      border-top: 1px solid rgba(245, 211, 114, 0.15);
-      display: flex;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .btn-footer {
-      flex: 1;
-      padding: 11px 16px;
-      border-radius: 12px;
-      font-size: 12.5px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-footer-gold {
-      background: var(--gold-gradient);
-      color: #0b0d16;
-      box-shadow: 0 4px 15px rgba(245, 211, 114, 0.35);
-    }
-
-    .btn-footer-outline {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border: 1px solid var(--border-gold);
-    }
-
     /* Toast */
     .toast-box {
       position: fixed;
-      bottom: 24px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%) translateY(40px);
-      background: rgba(18, 22, 42, 0.96);
-      border: 1px solid var(--gold-primary);
-      padding: 10px 22px;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(16, 20, 42, 0.96);
+      border: 1.5px solid var(--gold-primary);
+      padding: 14px 28px;
       border-radius: 30px;
       color: #fff;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       z-index: 2000;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(245, 211, 114, 0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px rgba(245, 211, 114, 0.5);
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
     }
     .toast-box.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translate(-50%, -50%) scale(1);
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Glow -->
+  <!-- Ambient Background -->
   <div class="bg-nebula"></div>
+  <div class="origami-grid-pattern"></div>
 
-  <!-- Three.js Canvas -->
-  <canvas id="webgl-canvas"></canvas>
+  <!-- Three.js Realtime 3D Origami Canvas -->
+  <canvas id="origami-canvas"></canvas>
 
-  <!-- Top Navbar -->
-  <header class="top-navbar">
-    <div class="brand-group">
-      <div class="brand-emblem">
-        <i class="ri-graduation-cap-fill"></i>
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="brand-box">
+      <div class="origami-crane-icon">
+        <i class="ri-medal-2-fill"></i>
       </div>
-      <div class="brand-text">
-        <h3>LỄ TỐT NGHIỆP 2026</h3>
-        <p>3D Web Event • Đà Nẵng - Hội An</p>
+      <div class="brand-title">
+        <h3>ORIGAMI INVITATION</h3>
+        <p>Lễ Tốt Nghiệp & Du Ngoạn 2026</p>
       </div>
     </div>
-    <div class="nav-actions">
-      <button class="btn-nav-action" onclick="toggleSound()">
-        <i class="ri-volume-up-fill" id="soundIcon"></i>
-        <span id="soundText">BGM Chime</span>
-      </button>
-      <button class="btn-nav-action" onclick="triggerOpen3D()">
-        <i class="ri-mail-open-fill"></i> Mở Thiệp
-      </button>
-    </div>
+
+    <button class="btn-audio" onclick="toggleAudio()">
+      <i class="ri-music-2-fill" id="audioIcon"></i>
+      <span id="audioText">Bật Chime</span>
+    </button>
   </header>
 
-  <!-- Closed 3D Envelope UI Overlay -->
-  <div class="intro-overlay" id="introOverlay">
-    <div class="intro-header">
-      <div class="intro-badge">
-        <i class="ri-vip-crown-2-fill"></i> THƯ MỜI DANH DỰ VIP
-      </div>
-      <h1 class="intro-title">ĐẠI LỄ TỐT NGHIỆP</h1>
-      <p class="intro-subtitle">Hành Trình Du Ngoạn Đà Nẵng – Phố Cổ Hội An (11 - 13/08)</p>
+  <!-- Step Tracker -->
+  <nav class="origami-stepper">
+    <div class="step-dot active" onclick="goToStep(0)">0</div>
+    <div class="step-line"></div>
+    <div class="step-dot" onclick="goToStep(1)">1</div>
+    <div class="step-line"></div>
+    <div class="step-dot" onclick="goToStep(2)">2</div>
+    <div class="step-line"></div>
+    <div class="step-dot" onclick="goToStep(3)">3</div>
+    <div class="step-line"></div>
+    <div class="step-dot" onclick="goToStep(4)">4</div>
+  </nav>
+
+  <!-- 3D Origami Stage & Story Pages -->
+  <main class="origami-stage" id="origamiStage">
+    <div class="origami-book" id="origamiBook">
+
+      <!-- ============================================================
+           CHAPTER 0: BÌA NIÊM PHONG ORIGAMI
+           ============================================================ -->
+      <article class="origami-page current" data-page="0">
+        <div class="origami-corner-decor corner-tl"></div>
+        <div class="origami-corner-decor corner-tr"></div>
+        <div class="origami-corner-decor corner-bl"></div>
+        <div class="origami-corner-decor corner-br"></div>
+        <div class="origami-crease-line"></div>
+
+        <div class="page-header">
+          <div class="page-chapter-tag"><i class="ri-sparkling-fill"></i> BƯỚC KHỞI ĐẦU</div>
+          <h1 class="page-main-title">THƯ MỜI DANH DỰ</h1>
+          <p class="page-subtitle">Nghệ thuật gấp giấy Origami • Lễ Tốt Nghiệp 2026</p>
+          <div class="page-divider"></div>
+        </div>
+
+        <div class="page-content-scroll" style="justify-content: center; align-items: center;">
+          <div class="cover-monogram">
+            <i class="ri-graduation-cap-fill"></i>
+          </div>
+          <p class="cover-intro-text">
+            Trân trọng kính mời <b>Gia Đình & Bạn Bè</b> cùng mở từng lớp gấp Origami để khám phá trọn vẹn hành trình 3 ngày kỷ niệm tại Đà Nẵng & Hội An.
+          </p>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="btn-origami-nav btn-next" style="width: 100%; justify-content: center;" onclick="nextStep()">
+            <span>GẤP MỞ LÁ THƯ ĐẦU TIÊN</span> <i class="ri-arrow-right-line"></i>
+          </button>
+        </div>
+      </article>
+
+      <!-- ============================================================
+           CHAPTER 1: NGÀY 1 (HỘI AN)
+           ============================================================ -->
+      <article class="origami-page" data-page="1">
+        <div class="origami-corner-decor corner-tl"></div>
+        <div class="origami-corner-decor corner-tr"></div>
+        <div class="origami-corner-decor corner-bl"></div>
+        <div class="origami-corner-decor corner-br"></div>
+        <div class="origami-crease-line"></div>
+
+        <div class="page-header">
+          <div class="page-chapter-tag"><i class="ri-map-pin-2-fill"></i> CHƯƠNG 1 • NGÀY 11/08</div>
+          <h2 class="page-main-title">ĐÀ NẴNG – PHỐ CỔ HỘI AN</h2>
+          <p class="page-subtitle">Đoàn 7 người • Đón đoàn & Du ngoạn hoàng hôn</p>
+          <div class="page-divider"></div>
+        </div>
+
+        <div class="page-content-scroll">
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa</div>
+            <div class="event-main-desc">Đón đoàn về khách sạn nhận phòng/gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
+          </div>
+
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-ancient-gate-fill"></i> 15h30 - 21h00 • Chiều - Tối: Hội An</div>
+            <div class="event-sub-steps">
+              <div class="event-step"><i class="ri-car-fill"></i><span><b>15h30:</b> Xe đón đoàn 7 người đi Hội An (~40 phút).</span></div>
+              <div class="event-step"><i class="ri-camera-lens-fill"></i><span><b>16h30:</b> Dạo bộ phố cổ, check-in Chùa Cầu, giàn hoa giấy.</span></div>
+              <div class="event-step"><i class="ri-restaurant-fill"></i><span><b>18h00:</b> Ăn tối đặc sản (cơm gà, cao lầu, bánh bao bánh vạc).</span></div>
+              <div class="event-step"><i class="ri-sailboat-fill"></i><span><b>19h00:</b> Thuyền sông Hoài, thả hoa đăng, uống nước Mót, kem ống.</span></div>
+              <div class="event-step"><i class="ri-hotel-bed-fill"></i><span><b>21h00:</b> Xe đón về lại khách sạn Đà Nẵng nghỉ ngơi.</span></div>
+            </div>
+            <div class="chips-row">
+              <span class="loc-tag"><i class="ri-map-pin-line"></i> Chùa Cầu</span>
+              <span class="loc-tag"><i class="ri-cup-line"></i> Nước Mót</span>
+              <span class="loc-tag"><i class="ri-fire-fill"></i> Hoa Đăng</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 11px; color: var(--text-muted);">Trang 1 / 4</span>
+          <button class="btn-origami-nav btn-next" onclick="nextStep()">
+            <span>Xem Ngày 2</span> <i class="ri-arrow-right-line"></i>
+          </button>
+        </div>
+      </article>
+
+      <!-- ============================================================
+           CHAPTER 2: NGÀY 2 (ĐẠI LỄ TỐT NGHIỆP - TÂM ĐIỂM)
+           ============================================================ -->
+      <article class="origami-page" data-page="2">
+        <div class="origami-corner-decor corner-tl"></div>
+        <div class="origami-corner-decor corner-tr"></div>
+        <div class="origami-corner-decor corner-bl"></div>
+        <div class="origami-corner-decor corner-br"></div>
+        <div class="origami-crease-line"></div>
+
+        <div class="page-header">
+          <div class="page-chapter-tag" style="color: #ffd700;"><i class="ri-sparkling-fill"></i> CHƯƠNG 2 • TÂM ĐIỂM (12/08)</div>
+          <h2 class="page-main-title" style="color: #ffd700;">LỄ TỐT NGHIỆP & TIỆC MỪNG</h2>
+          <p class="page-subtitle">Sơn Trà, Biển Mỹ Khê & Cầu Rồng Sông Hàn</p>
+          <div class="page-divider"></div>
+        </div>
+
+        <div class="page-content-scroll">
+          <div class="origami-event-item highlight-gold">
+            <div class="event-time-badge" style="color: #ffd700;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
+            <div class="event-main-desc">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
+          </div>
+
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-goblet-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan</div>
+            <div class="event-main-desc">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
+          </div>
+
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-sun-cloudy-fill"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Mỹ Khê</div>
+            <div class="event-main-desc">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn biển tuyệt đẹp.</div>
+          </div>
+
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-moon-clear-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc Hải Sản & Cầu Rồng</div>
+            <div class="event-sub-steps">
+              <div class="event-step"><i class="ri-restaurant-2-fill"></i><span>Ăn tối hải sản & ẩm thực địa phương (12 – 17 người).</span></div>
+              <div class="event-step"><i class="ri-sparkling-line"></i><span>Dạo mát Sông Hàn, check-in Cầu Tình Yêu, xem Cầu Rồng và Chợ đêm.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 11px; color: var(--text-muted);">Trang 2 / 4</span>
+          <button class="btn-origami-nav btn-next" onclick="nextStep()">
+            <span>Xem Ngày 3</span> <i class="ri-arrow-right-line"></i>
+          </button>
+        </div>
+      </article>
+
+      <!-- ============================================================
+           CHAPTER 3: NGÀY 3 (ĐẶC SẢN & TẠM BIỆT)
+           ============================================================ -->
+      <article class="origami-page" data-page="3">
+        <div class="origami-corner-decor corner-tl"></div>
+        <div class="origami-corner-decor corner-tr"></div>
+        <div class="origami-corner-decor corner-bl"></div>
+        <div class="origami-corner-decor corner-br"></div>
+        <div class="origami-crease-line"></div>
+
+        <div class="page-header">
+          <div class="page-chapter-tag"><i class="ri-shopping-bag-3-fill"></i> CHƯƠNG 3 • NGÀY 13/08</div>
+          <h2 class="page-main-title">ĐẶC SẢN & TẠM BIỆT</h2>
+          <p class="page-subtitle">Chợ Hàn • Công Viên APEC • Kết thúc hành trình</p>
+          <div class="page-divider"></div>
+        </div>
+
+        <div class="page-content-scroll">
+          <div class="origami-event-item">
+            <div class="event-time-badge"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Đặc Sản & Check-in</div>
+            <div class="event-main-desc">Ăn sáng bún chả cá Đà Nẵng trứ danh ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng thân yêu!</div>
+            <div class="chips-row">
+              <span class="loc-tag"><i class="ri-store-2-line"></i> Chợ Hàn</span>
+              <span class="loc-tag"><i class="ri-plant-line"></i> Công Viên APEC</span>
+              <span class="loc-tag"><i class="ri-gift-line"></i> Chả Bò, Tré</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 11px; color: var(--text-muted);">Trang 3 / 4</span>
+          <button class="btn-origami-nav btn-next" onclick="nextStep()">
+            <span>Xác Nhận Tham Dự</span> <i class="ri-arrow-right-line"></i>
+          </button>
+        </div>
+      </article>
+
+      <!-- ============================================================
+           CHAPTER 4: TRANG KẾT ORIGAMI (XÁC NHẬN & CHIA SẺ)
+           ============================================================ -->
+      <article class="origami-page" data-page="4">
+        <div class="origami-corner-decor corner-tl"></div>
+        <div class="origami-corner-decor corner-tr"></div>
+        <div class="origami-corner-decor corner-bl"></div>
+        <div class="origami-corner-decor corner-br"></div>
+        <div class="origami-crease-line"></div>
+
+        <div class="page-header">
+          <div class="page-chapter-tag"><i class="ri-vip-diamond-fill"></i> HOÀN TẤT HÀNH TRÌNH</div>
+          <h2 class="page-main-title">HẸN GẶP LẠI TẠI ĐÀ NẴNG</h2>
+          <p class="page-subtitle">Sự hiện diện của bạn là niềm vinh hạnh lớn nhất</p>
+          <div class="page-divider"></div>
+        </div>
+
+        <div class="page-content-scroll" style="justify-content: center; align-items: center; text-align: center;">
+          <div class="cover-monogram" style="background: radial-gradient(circle, #52e5ff, #1d4ed8);">
+            <i class="ri-shield-check-fill" style="color: #fff;"></i>
+          </div>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6; max-width: 320px;">
+            Hãy bấm nút bên dưới để xác nhận sự hiện diện của bạn và sao chép lịch trình lưu vào điện thoại!
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button class="btn-origami-nav btn-next" style="width: 100%; justify-content: center;" onclick="confirmRSVP()">
+            <i class="ri-checkbox-circle-fill"></i> XÁC NHẬN THAM DỰ
+          </button>
+          <button class="btn-origami-nav btn-prev" style="width: 100%; justify-content: center;" onclick="copySchedule()">
+            <i class="ri-share-forward-line"></i> Sao Chép Lịch Trình
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="bottom-bar">
+    <button class="btn-origami-nav btn-prev" id="btnPrev" onclick="prevStep()">
+      <i class="ri-arrow-left-line"></i> Gấp Lại
+    </button>
+    
+    <div class="swipe-hint">
+      <i class="ri-drag-move-fill"></i> Cuộn hoặc vuốt để lật trang Origami
     </div>
 
-    <div class="intro-controls">
-      <button class="btn-open-3d" onclick="triggerOpen3D()">
-        <i class="ri-sparkling-fill"></i> MỞ THIỆP 3D NGAY
-      </button>
-      <div class="hint-scroll">
-        <i class="ri-mouse-line"></i> Cuộn chuột hoặc vuốt màn hình để mở thiệp 3D
-      </div>
-    </div>
-  </div>
+    <button class="btn-origami-nav btn-next" id="btnNext" onclick="nextStep()">
+      <span>Tiếp Tục</span> <i class="ri-arrow-right-line"></i>
+    </button>
+  </footer>
 
-  <!-- Revealed Itinerary Card Modal -->
-  <div class="itinerary-container" id="itineraryContainer">
-    <div class="card-modal">
-      
-      <!-- Modal Header -->
-      <div class="card-modal-header">
-        <div class="header-left-title">
-          <h2>LỄ TỐT NGHIỆP & CHUYẾN DU NGOẠN</h2>
-          <p>Hành trình 3 Ngày 2 Đêm • Đà Nẵng – Hội An</p>
-        </div>
-        <button class="btn-fold-back" onclick="triggerClose3D()">
-          <i class="ri-arrow-go-back-line"></i> Đóng Thiệp 3D
-        </button>
-      </div>
-
-      <!-- Tab Filters -->
-      <div class="tab-bar">
-        <button class="tab-item active" onclick="filterModalDay('all', this)"><i class="ri-grid-fill"></i> Tất cả lịch trình</button>
-        <button class="tab-item" onclick="filterModalDay('day1', this)"><i class="ri-ancient-gate-fill"></i> Ngày 1 (Hội An)</button>
-        <button class="tab-item" onclick="filterModalDay('day2', this)"><i class="ri-graduation-cap-fill"></i> Ngày 2 (Lễ Chính)</button>
-        <button class="tab-item" onclick="filterModalDay('day3', this)"><i class="ri-shopping-bag-3-fill"></i> Ngày 3 (Đặc sản)</button>
-      </div>
-
-      <!-- Scrollable Itinerary Body -->
-      <div class="card-modal-body">
-        
-        <!-- NGÀY 1 -->
-        <div class="day-card" data-day="day1">
-          <div class="day-header">
-            <div class="day-title"><i class="ri-map-pin-2-fill"></i> NGÀY 1 (11/08): ĐÀ NẴNG – HỘI AN</div>
-            <span class="guest-pill"><i class="ri-group-line"></i> Đoàn 7 người</span>
-          </div>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa: Đón đoàn & Ăn trưa</div>
-              <div class="slot-desc">Đón đoàn về khách sạn nhận phòng/gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
-            </div>
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-sun-foggy-fill"></i> 15h30 - 21h00 • Chiều - Tối: Khám phá Phố Cổ Hội An</div>
-              <div class="sub-bullets">
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>15h30:</b> Xe đón đoàn 7 người xuất phát đi Hội An (~40 phút).</div>
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>16h30:</b> Dạo bộ ngắm phố cổ hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</div>
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>18h00:</b> Ăn tối đặc sản Hội An (cơm gà, cao lầu, bánh bao bánh vạc).</div>
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>19h00:</b> Thuyền sông Hoài, thả hoa đăng lung linh, uống nước Mót, ăn kem ống.</div>
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i><b>21h00:</b> Xe đón cả nhà về lại khách sạn Đà Nẵng nghỉ ngơi.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- NGÀY 2 (HIGHLIGHT) -->
-        <div class="day-card highlight" data-day="day2">
-          <div class="day-header">
-            <div class="day-title" style="color: #ffd700;"><i class="ri-graduation-cap-fill" style="color: #ffd700;"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP & TIỆC MỪNG</div>
-            <span class="guest-pill" style="background: rgba(245, 211, 114, 0.25); color: #ffd700;"><i class="ri-sparkling-fill"></i> Sự Kiện Chính</span>
-          </div>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="slot-title" style="color: #ffd700;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
-              <div class="slot-desc">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
-            </div>
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-restaurant-2-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Tốt Nghiệp</div>
-              <div class="slot-desc">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
-            </div>
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-sun-cloudy-fill"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
-              <div class="slot-desc">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn biển rực rỡ.</div>
-            </div>
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-goblet-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Cầu Rồng Sông Hàn</div>
-              <div class="sub-bullets">
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i>Ăn tối hải sản & ẩm thực địa phương cùng gia đình & bạn bè (12 – 17 người).</div>
-                <div class="sub-bullet"><i class="ri-arrow-right-s-fill"></i>Dạo mát ngắm cảnh lung linh Sông Hàn, check-in Cầu Tình Yêu, xem Cầu Rồng và ghé Chợ đêm.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- NGÀY 3 -->
-        <div class="day-card" data-day="day3">
-          <div class="day-header">
-            <div class="day-title"><i class="ri-shopping-bag-3-fill"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT</div>
-            <span class="guest-pill">Mua sắm & Check-in</span>
-          </div>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="slot-title"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Chợ Hàn & APEC Park</div>
-              <div class="slot-desc">Ăn sáng bún chả cá Đà Nẵng ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng!</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Footer Buttons -->
-      <div class="card-modal-footer">
-        <button class="btn-footer btn-footer-gold" onclick="confirmRSVP()">
-          <i class="ri-checkbox-circle-fill"></i> Xác Nhận Tham Dự
-        </button>
-        <button class="btn-footer btn-footer-outline" onclick="copySchedule()">
-          <i class="ri-share-forward-line"></i> Chia Sẻ Lịch Trình
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Toast Box -->
+  <!-- Toast -->
   <div class="toast-box" id="toastBox">Thông báo</div>
 
   <script>
     /* ============================================================
-       THREE.JS REAL-TIME 3D INTERACTIVE SCENE
+       THREE.JS 3D ORIGAMI CRANE & FLOATING PAPER FLAKES SCENE
        ============================================================ */
-    const canvas = document.getElementById('webgl-canvas');
+    const canvas = document.getElementById('origami-canvas');
     const scene = new THREE.Scene();
-    
-    // Camera
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 8.5);
 
-    // Renderer
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 9);
+
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xfff1d6, 1.2);
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xfff5e6, 1.4);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffd700, 2.2);
-    dirLight1.position.set(5, 8, 6);
-    scene.add(dirLight1);
+    const goldLight = new THREE.DirectionalLight(0xf5d372, 2.5);
+    goldLight.position.set(4, 6, 5);
+    scene.add(goldLight);
 
-    const pointLight = new THREE.PointLight(0x52e5ff, 2.5, 15);
-    pointLight.position.set(-4, -2, 4);
-    scene.add(pointLight);
+    const cyanLight = new THREE.PointLight(0x52e5ff, 2, 12);
+    cyanLight.position.set(-4, -3, 3);
+    scene.add(cyanLight);
 
-    // 3D Metallic Materials
-    const darkPaperMaterial = new THREE.MeshStandardMaterial({
-      color: 0x141624,
-      roughness: 0.35,
-      metalness: 0.65
-    });
+    // 3D Origami Geometry (Geometric Faceted Paper Plane/Crane)
+    const origamiGroup = new THREE.Group();
+    scene.add(origamiGroup);
 
-    const goldTrimMaterial = new THREE.MeshStandardMaterial({
+    // Origami Paper Material
+    const paperMatGold = new THREE.MeshStandardMaterial({
       color: 0xf5d372,
-      roughness: 0.2,
-      metalness: 0.9,
-      emissive: 0x553e10,
-      emissiveIntensity: 0.2
+      roughness: 0.35,
+      metalness: 0.8,
+      flatShading: true,
+      side: THREE.DoubleSide
     });
 
-    const waxSealMaterial = new THREE.MeshStandardMaterial({
-      color: 0xd4af37,
-      roughness: 0.15,
-      metalness: 0.95,
-      emissive: 0x664810,
-      emissiveIntensity: 0.4
+    const paperMatBlue = new THREE.MeshStandardMaterial({
+      color: 0x1e2448,
+      roughness: 0.4,
+      metalness: 0.6,
+      flatShading: true,
+      side: THREE.DoubleSide
     });
 
-    // Envelope 3D Group
-    const envelopeGroup = new THREE.Group();
-    scene.add(envelopeGroup);
+    // 3D Origami Facets
+    const origamiGeo = new THREE.ConeGeometry(2.2, 3.2, 4);
+    const origamiMesh = new THREE.Mesh(origamiGeo, paperMatGold);
+    origamiMesh.rotation.x = Math.PI / 3;
+    origamiGroup.add(origamiMesh);
 
-    // 1. Envelope Back Plate
-    const envWidth = 4.2;
-    const envHeight = 2.8;
-    const backGeo = new THREE.BoxGeometry(envWidth, envHeight, 0.06);
-    const backMesh = new THREE.Mesh(backGeo, darkPaperMaterial);
-    envelopeGroup.add(backMesh);
+    // 3D Floating Origami Paper Flakes
+    const flakeCount = 45;
+    const flakeGeo = new THREE.BufferGeometry();
+    const flakePositions = new Float32Array(flakeCount * 3);
 
-    // Gold border frame around envelope back
-    const frameGeo = new THREE.BoxGeometry(envWidth + 0.08, envHeight + 0.08, 0.04);
-    const frameMesh = new THREE.Mesh(frameGeo, goldTrimMaterial);
-    frameMesh.position.z = -0.02;
-    envelopeGroup.add(frameMesh);
-
-    // 2. Envelope Front Pouch (Lower triangle)
-    const pouchGeo = new THREE.ConeGeometry(envWidth * 0.72, envHeight * 0.6, 3);
-    const pouchMesh = new THREE.Mesh(pouchGeo, darkPaperMaterial);
-    pouchMesh.rotation.z = Math.PI;
-    pouchMesh.position.set(0, -0.4, 0.06);
-    envelopeGroup.add(pouchMesh);
-
-    // 3. Top Flap (Hinged to unfold in 3D)
-    const flapPivot = new THREE.Group();
-    flapPivot.position.set(0, envHeight / 2, 0.04);
-    envelopeGroup.add(flapPivot);
-
-    const flapGeo = new THREE.ConeGeometry(envWidth * 0.72, envHeight * 0.65, 3);
-    const flapMesh = new THREE.Mesh(flapGeo, darkPaperMaterial);
-    flapMesh.position.set(0, -envHeight * 0.3, 0);
-    flapPivot.add(flapMesh);
-
-    // 4. Golden Wax Seal on Flap
-    const sealGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.08, 32);
-    const sealMesh = new THREE.Mesh(sealGeo, waxSealMaterial);
-    sealMesh.rotation.x = Math.PI / 2;
-    sealMesh.position.set(0, -envHeight * 0.45, 0.06);
-    flapPivot.add(sealMesh);
-
-    // 5. Letter Card inside envelope
-    const letterGeo = new THREE.BoxGeometry(envWidth * 0.9, envHeight * 0.9, 0.03);
-    const letterMesh = new THREE.Mesh(letterGeo, goldTrimMaterial);
-    letterMesh.position.set(0, 0, 0.02);
-    envelopeGroup.add(letterMesh);
-
-    // 6. Floating 3D Gold Particles & Crystals
-    const particleCount = 70;
-    const particleGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const scales = new Float32Array(particleCount);
-
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 14;
-      positions[i + 1] = (Math.random() - 0.5) * 10;
-      positions[i + 2] = (Math.random() - 0.5) * 8;
+    for (let i = 0; i < flakeCount * 3; i += 3) {
+      flakePositions[i] = (Math.random() - 0.5) * 16;
+      flakePositions[i + 1] = (Math.random() - 0.5) * 12;
+      flakePositions[i + 2] = (Math.random() - 0.5) * 8;
     }
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    flakeGeo.setAttribute('position', new THREE.BufferAttribute(flakePositions, 3));
 
-    const particleMat = new THREE.PointsMaterial({
+    const flakeMat = new THREE.PointsMaterial({
       color: 0xffe89e,
-      size: 0.12,
+      size: 0.15,
       transparent: true,
-      opacity: 0.8
+      opacity: 0.75
     });
-    const starField = new THREE.Points(particleGeo, particleMat);
-    scene.add(starField);
+    const flakeParticles = new THREE.Points(flakeGeo, flakeMat);
+    scene.add(flakeParticles);
 
-    // Responsive Canvas Resize
-    function onWindowResize() {
+    function onResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
-      if (window.innerWidth < 768) {
-        camera.position.z = 10.5; // pull camera further on mobile
-      } else {
-        camera.position.z = 8.5;
-      }
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
-    window.addEventListener('resize', onWindowResize);
-    onWindowResize();
+    window.addEventListener('resize', onResize);
 
     /* ============================================================
-       GSAP 3D UNWRAPPING & FOLDING ANIMATIONS
+       STEP BY STEP SEQUENTIAL ORIGAMI STORY SYSTEM
        ============================================================ */
-    let isOpen = false;
-    const introOverlay = document.getElementById('introOverlay');
-    const itineraryContainer = document.getElementById('itineraryContainer');
+    let currentStep = 0;
+    const totalSteps = 5;
+    const pages = document.querySelectorAll('.origami-page');
+    const stepDots = document.querySelectorAll('.step-dot');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
 
-    function triggerOpen3D() {
-      if (isOpen) return;
-      isOpen = true;
-      playChime();
-
-      // Fade out intro HUD
-      introOverlay.classList.add('hidden');
-
-      // 1. Unfold Envelope Flap in 3D (Rotation X)
-      gsap.to(flapPivot.rotation, {
-        x: Math.PI,
-        duration: 1.1,
-        ease: "power2.inOut"
+    function updateStepUI() {
+      pages.forEach((page, idx) => {
+        page.classList.remove('current', 'passed');
+        if (idx === currentStep) {
+          page.classList.add('current');
+        } else if (idx < currentStep) {
+          page.classList.add('passed');
+        }
       });
 
-      // 2. Slide letter upwards and scale towards camera
-      gsap.to(letterMesh.position, {
-        y: 2.2,
-        z: 0.6,
-        duration: 1.2,
-        delay: 0.4,
+      stepDots.forEach((dot, idx) => {
+        dot.classList.remove('active', 'completed');
+        if (idx === currentStep) {
+          dot.classList.add('active');
+        } else if (idx < currentStep) {
+          dot.classList.add('completed');
+        }
+      });
+
+      btnPrev.disabled = currentStep === 0;
+      if (currentStep === totalSteps - 1) {
+        btnNext.innerHTML = '<span>Xong</span> <i class="ri-check-line"></i>';
+      } else {
+        btnNext.innerHTML = '<span>Tiếp Tục</span> <i class="ri-arrow-right-line"></i>';
+      }
+
+      // Animate 3D Origami Geometry rotation on step change
+      playCreaseSound();
+      gsap.to(origamiGroup.rotation, {
+        y: currentStep * (Math.PI / 2.5),
+        x: Math.sin(currentStep) * 0.4 + 0.3,
+        duration: 0.85,
         ease: "power2.out"
       });
-
-      // 3. Move envelope down and fade out into background
-      gsap.to(envelopeGroup.position, {
-        y: -1.2,
-        z: -1.5,
-        duration: 1.4,
-        ease: "power2.out"
-      });
-
-      // 4. Reveal Itinerary Glass Modal with Confetti
-      setTimeout(() => {
-        itineraryContainer.classList.add('active');
-        celebrateSparkles();
-      }, 900);
     }
 
-    function triggerClose3D() {
-      if (!isOpen) return;
-      isOpen = false;
-      itineraryContainer.classList.remove('active');
+    function nextStep() {
+      if (currentStep < totalSteps - 1) {
+        currentStep++;
+        updateStepUI();
+      } else {
+        confirmRSVP();
+      }
+    }
 
-      // Fold everything back in 3D
-      gsap.to(letterMesh.position, {
-        y: 0,
-        z: 0.02,
-        duration: 0.9,
-        ease: "power2.inOut"
-      });
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        updateStepUI();
+      }
+    }
 
-      gsap.to(flapPivot.rotation, {
-        x: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: "power2.inOut"
-      });
-
-      gsap.to(envelopeGroup.position, {
-        y: 0,
-        z: 0,
-        duration: 1,
-        ease: "power2.out"
-      });
-
-      setTimeout(() => {
-        introOverlay.classList.remove('hidden');
-      }, 600);
+    function goToStep(step) {
+      if (step >= 0 && step < totalSteps) {
+        currentStep = step;
+        updateStepUI();
+      }
     }
 
     /* ============================================================
-       SCROLL & TOUCH GESTURE BINDINGS
+       WHEEL & SWIPE GESTURES
        ============================================================ */
-    // Mouse Wheel
+    let isTransitioning = false;
     window.addEventListener('wheel', (e) => {
-      if (e.deltaY > 25 && !isOpen) {
-        triggerOpen3D();
+      if (isTransitioning) return;
+      if (e.deltaY > 30 && currentStep < totalSteps - 1) {
+        isTransitioning = true;
+        nextStep();
+        setTimeout(() => isTransitioning = false, 600);
+      } else if (e.deltaY < -30 && currentStep > 0) {
+        isTransitioning = true;
+        prevStep();
+        setTimeout(() => isTransitioning = false, 600);
       }
     }, { passive: true });
 
-    // Touch Swipe
+    let touchStartX = 0;
     let touchStartY = 0;
     window.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
       const touchEndY = e.changedTouches[0].clientY;
-      if (touchStartY - touchEndY > 40 && !isOpen) {
-        triggerOpen3D();
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
+
+      // Horizontal swipe or vertical swipe
+      if (Math.abs(diffX) > 40 || Math.abs(diffY) > 50) {
+        if (diffX > 40 || diffY > 50) {
+          nextStep();
+        } else {
+          prevStep();
+        }
       }
     }, { passive: true });
 
-    // Interactive 3D Mouse Parallax Tilt
-    let mouseX = 0, mouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.6;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.6;
-    });
-
     /* ============================================================
-       MAIN RENDER LOOP
-       ============================================================ */
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Subtle float & rotation for 3D envelope
-      if (!isOpen) {
-        envelopeGroup.rotation.y = THREE.MathUtils.lerp(envelopeGroup.rotation.y, mouseX, 0.05);
-        envelopeGroup.rotation.x = THREE.MathUtils.lerp(envelopeGroup.rotation.x, mouseY, 0.05);
-        envelopeGroup.position.y = Math.sin(Date.now() * 0.002) * 0.08;
-      }
-
-      // Rotate background 3D crystals
-      starField.rotation.y += 0.001;
-      starField.rotation.x += 0.0005;
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    /* ============================================================
-       AUDIO & INTERACTIVE ACTIONS
+       AUDIO: ORIGAMI PAPER SOUND EFFECT & CHIME
        ============================================================ */
     let audioCtx = null;
-    let isSoundOn = false;
-    function playChime() {
+    let isAudioOn = false;
+
+    function playCreaseSound() {
+      if (!isAudioOn) return;
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-        notes.forEach((freq, idx) => {
+        // Delicate crisp chime
+        const freqs = [659.25, 880.00, 1174.66];
+        freqs.forEach((f, i) => {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
-          gain.gain.setValueAtTime(0.001, audioCtx.currentTime + idx * 0.12);
-          gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + idx * 0.12 + 0.05);
-          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + idx * 0.12 + 0.8);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, audioCtx.currentTime + i * 0.08);
+          gain.gain.setValueAtTime(0.001, audioCtx.currentTime + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + i * 0.08 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + i * 0.08 + 0.5);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + idx * 0.12);
-          osc.stop(audioCtx.currentTime + idx * 0.12 + 0.9);
+          osc.start(audioCtx.currentTime + i * 0.08);
+          osc.stop(audioCtx.currentTime + i * 0.08 + 0.55);
         });
       } catch (e) {}
     }
 
-    function toggleSound() {
-      isSoundOn = !isSoundOn;
-      const soundIcon = document.getElementById('soundIcon');
-      const soundText = document.getElementById('soundText');
-      if (isSoundOn) {
-        soundIcon.className = "ri-volume-up-fill";
-        soundText.innerText = "Bật Chime";
-        playChime();
-        showToast("✨ Âm thanh sự kiện đã kích hoạt!");
+    function toggleAudio() {
+      isAudioOn = !isAudioOn;
+      const audioIcon = document.getElementById('audioIcon');
+      const audioText = document.getElementById('audioText');
+      if (isAudioOn) {
+        audioIcon.className = "ri-volume-up-fill";
+        audioText.innerText = "Bật Âm";
+        playCreaseSound();
+        showToast("✨ Âm thanh Origami đã kích hoạt!");
       } else {
-        soundIcon.className = "ri-volume-mute-fill";
-        soundText.innerText = "Tắt Âm";
+        audioIcon.className = "ri-volume-mute-fill";
+        audioText.innerText = "Tắt Âm";
         showToast("Đã tắt âm thanh.");
       }
     }
 
-    function celebrateSparkles() {
+    /* ============================================================
+       CELEBRATION & TOAST
+       ============================================================ */
+    function confirmRSVP() {
       confetti({
-        particleCount: 80,
-        spread: 90,
+        particleCount: 90,
+        spread: 80,
         origin: { y: 0.6 },
         colors: ['#f5d372', '#ffe89e', '#52e5ff', '#ffffff']
       });
-    }
-
-    function filterModalDay(dayKey, btn) {
-      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const cards = document.querySelectorAll('.day-card');
-      cards.forEach(c => {
-        if (dayKey === 'all' || c.getAttribute('data-day') === dayKey) {
-          gsap.to(c, { display: 'flex', opacity: 1, scale: 1, duration: 0.3 });
-        } else {
-          gsap.to(c, { display: 'none', opacity: 0, scale: 0.95, duration: 0.2 });
-        }
-      });
-    }
-
-    function confirmRSVP() {
-      celebrateSparkles();
-      showToast("🎉 Chúc mừng bạn đã xác nhận tham dự thành công!");
+      showToast("🎉 Xác nhận thành công! Hẹn gặp lại bạn tại Đà Nẵng!");
     }
 
     function copySchedule() {
       const text = `🎓 THƯ MỜI LỄ TỐT NGHIỆP & DU NGOẠN ĐÀ NẴNG - HỘI AN (11 - 13/08)\n` +
-        `📍 Ngày 1 (11/08): Đón đoàn, Check-in KS, Phố cổ Hội An, Sông Hoài\n` +
-        `📍 Ngày 2 (12/08): Lễ Tốt Nghiệp, Tiệc mừng (12-17 người), Sơn Trà & Sông Hàn\n` +
+        `📍 Ngày 1 (11/08): Đón đoàn, Phố cổ Hội An, Sông Hoài, Hoa đăng\n` +
+        `📍 Ngày 2 (12/08): Đại Lễ Tốt Nghiệp, Tiệc mừng (12-17 người), Sơn Trà & Sông Hàn\n` +
         `📍 Ngày 3 (13/08): Bún chả cá, Đặc sản Chợ Hàn, Check-in APEC!`;
       
       if (navigator.clipboard) {
@@ -1119,7 +1113,7 @@
           showToast("📋 Đã sao chép lịch trình vào bộ nhớ tạm!");
         });
       } else {
-        showToast("✨ Hãy chia sẻ link Web 3D này nhé!");
+        showToast("✨ Hãy chia sẻ đường dẫn này nhé!");
       }
     }
 
@@ -1127,8 +1121,19 @@
       const box = document.getElementById('toastBox');
       box.innerText = msg;
       box.classList.add('show');
-      setTimeout(() => box.classList.remove('show'), 3500);
+      setTimeout(() => box.classList.remove('show'), 3200);
     }
+
+    /* ============================================================
+       RENDER LOOP
+       ============================================================ */
+    function render() {
+      requestAnimationFrame(render);
+      origamiMesh.rotation.z += 0.003;
+      flakeParticles.rotation.y += 0.0008;
+      renderer.render(scene, camera);
+    }
+    render();
   </script>
 </body>
 </html>
