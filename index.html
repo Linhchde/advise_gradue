@@ -4,30 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <!-- Web App Capabilities (Zalo, Safari, Chrome Fullscreen) -->
+  <!-- Web App Metadata -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0b0b0f">
+  <meta name="theme-color" content="#080914">
   <meta name="format-detection" content="telephone=no">
 
-  <title>VIP Invitation • Lễ Tốt Nghiệp & Hành Trình Kỷ Niệm</title>
+  <title>Hành Trình Vinh Quang • Lễ Tốt Nghiệp & Du Ngoạn Đà Nẵng - Hội An</title>
 
-  <!-- Google Fonts: Luxury Editorial Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Remix Icons for crisp UI icons -->
+  <!-- Remix Icons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-  <!-- GSAP & ScrollTrigger CDN -->
+  <!-- GSAP & Canvas Confetti -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     /* ============================================================
-       RESET & BASE CONFIGURATION
+       HOYOVERSE / MIHOYO LUXURY SCI-FI FANTASY THEME DESIGN SYSTEM
        ============================================================ */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -37,17 +37,20 @@
     }
 
     :root {
-      --bg-dark: #090a0f;
-      --bg-card: #12131a;
-      --bg-glass: rgba(22, 24, 34, 0.78);
-      --gold-primary: #d4af37;
-      --gold-light: #fbe69e;
-      --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-      --gold-gradient-soft: linear-gradient(135deg, #d4af37, #f7df8b, #c4962c);
-      --gold-border: rgba(212, 175, 55, 0.35);
-      --text-main: #f0f0f5;
-      --text-muted: #9ba1b6;
-      --accent-rose: #ff758c;
+      --bg-dark: #06070f;
+      --bg-card: rgba(14, 16, 28, 0.85);
+      --bg-panel: rgba(20, 24, 44, 0.7);
+      --gold-primary: #f5d372;
+      --gold-bright: #ffe89e;
+      --gold-dark: #b88a2e;
+      --gold-gradient: linear-gradient(135deg, #fce38a 0%, #d4af37 40%, #ffdf79 70%, #aa771c 100%);
+      --gold-gradient-glow: linear-gradient(135deg, #ffe279, #d4af37, #996515);
+      --cyan-lumina: #52e5ff;
+      --indigo-lumina: #7c4dff;
+      --border-gold: rgba(245, 211, 114, 0.35);
+      --border-cyan: rgba(82, 229, 255, 0.4);
+      --text-main: #f0f3fc;
+      --text-muted: #959cb6;
       --font-display: 'Cinzel', serif;
       --font-serif: 'Playfair Display', serif;
       --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -55,23 +58,17 @@
 
     html, body {
       width: 100%;
-      min-height: 100%;
+      min-height: 100vh;
       background-color: var(--bg-dark);
       color: var(--text-main);
       font-family: var(--font-sans);
       overflow-x: hidden;
       -webkit-user-select: none;
       user-select: none;
-      -webkit-touch-callout: none;
     }
 
-    body {
-      touch-action: pan-y;
-      overscroll-behavior: none;
-    }
-
-    /* Background Ambient Canvas & Glow */
-    #sparkle-canvas {
+    /* Ambient Background Animated Galaxy & Shimmer Grid */
+    #ambient-canvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -79,846 +76,1014 @@
       height: 100vh;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.6;
     }
 
-    .ambient-glow {
+    .bg-nebula {
       position: fixed;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-      filter: blur(50px);
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(124, 77, 255, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(82, 229, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
-      top: 15%;
-      left: 50%;
-      transform: translateX(-50%);
+    }
+
+    .bg-cyber-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(245, 211, 114, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245, 211, 114, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* ============================================================
-       SCROLL CONTAINER & PIN VIEWPORT
+       TOP NAVIGATION & EVENT CONTROLS
        ============================================================ */
-    .scroll-track {
-      position: relative;
-      width: 100%;
-      height: 280vh; /* Provides scroll space for scrub */
-    }
-
-    .pin-viewport {
+    .top-navbar {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
-      perspective: 1200px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    /* Master Card Stage (Mobile Aspect Ratio & Frame) */
-    .card-stage {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      height: 90dvh;
-      max-height: 780px;
-      border-radius: 28px;
-      pointer-events: auto;
-      transform-style: preserve-3d;
-    }
-
-    /* ============================================================
-       LAYER 1: VIP INVITATION CONTENT (UNDERNEATH)
-       ============================================================ */
-    .invitation-card {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, #1c1d28 0%, #101118 70%, #0a0b10 100%);
-      border: 1px solid var(--gold-border);
-      border-radius: 28px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.7),
-        0 0 35px rgba(212, 175, 55, 0.12),
-        inset 0 0 20px rgba(212, 175, 55, 0.05);
-      opacity: 0;
-      transform: scale(0.92) translateZ(0);
-      will-change: transform, opacity;
-      z-index: 10;
-    }
-
-    /* Card Luxury Header Banner */
-    .card-header {
-      position: relative;
-      padding: 24px 20px 14px 20px;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-      flex-shrink: 0;
-    }
-
-    .vip-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 14px;
-      border-radius: 50px;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .main-title {
-      font-family: var(--font-serif);
-      font-size: 23px;
-      font-weight: 700;
-      line-height: 1.25;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
-
-    .sub-title {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-
-    .gold-divider {
-      width: 50px;
-      height: 2px;
-      margin: 10px auto 2px;
-      background: var(--gold-gradient);
-      border-radius: 2px;
-    }
-
-    /* Scrollable Itinerary Inside Card */
-    .card-body {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(212,175,55,0.3) transparent;
-      user-select: text;
-      -webkit-user-select: text;
-    }
-
-    .card-body::-webkit-scrollbar {
-      width: 4px;
-    }
-    .card-body::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.3);
-      border-radius: 10px;
-    }
-
-    /* Itinerary Day Section */
-    .day-block {
-      background: rgba(24, 26, 36, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 18px;
-      padding: 16px;
-      position: relative;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-      transition: border-color 0.3s ease;
-    }
-
-    .day-block:hover {
-      border-color: rgba(212, 175, 55, 0.45);
-    }
-
-    .day-badge {
+      right: 0;
+      height: 68px;
+      padding: 0 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px dashed rgba(212, 175, 55, 0.2);
+      background: rgba(8, 9, 20, 0.75);
+      border-bottom: 1px solid rgba(245, 211, 114, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
     }
 
-    .day-badge-title {
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0d0f1a;
+      font-size: 20px;
+      box-shadow: 0 0 16px rgba(245, 211, 114, 0.6);
+      position: relative;
+    }
+
+    .brand-text h3 {
       font-family: var(--font-display);
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--cyan-lumina);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-sound, .btn-claim-top {
+      height: 38px;
+      border-radius: 19px;
+      border: 1px solid var(--border-gold);
+      background: rgba(25, 29, 52, 0.8);
+      color: var(--gold-bright);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .btn-sound:hover, .btn-claim-top:hover {
+      background: rgba(245, 211, 114, 0.2);
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 20px rgba(245, 211, 114, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-claim-top {
+      background: var(--gold-gradient);
+      color: #0b0c14;
       font-weight: 700;
-      color: var(--gold-light);
+      border: none;
+      box-shadow: 0 0 15px rgba(245, 211, 114, 0.4);
+    }
+
+    /* ============================================================
+       MAIN APP CONTAINER (DESKTOP & MOBILE RESPONSIVE)
+       ============================================================ */
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 96px 20px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ============================================================
+       HERO BANNER (HOYOVERSE STYLE EVENT BANNER)
+       ============================================================ */
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(20, 24, 48, 0.9) 0%, rgba(10, 12, 24, 0.95) 100%);
+      border: 1.5px solid var(--border-gold);
+      padding: 40px 32px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(245, 211, 114, 0.12),
+        inset 0 0 30px rgba(245, 211, 114, 0.05);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    /* Tech accents & corner ornaments */
+    .ornament-corner {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--gold-primary);
+      pointer-events: none;
+    }
+    .ornament-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+    .ornament-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+    .ornament-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+    .ornament-br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(245, 211, 114, 0.12);
+      border: 1px solid var(--border-gold);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: glowBadge 3s infinite alternate;
+    }
+
+    @keyframes glowBadge {
+      0% { box-shadow: 0 0 10px rgba(245, 211, 114, 0.2); }
+      100% { box-shadow: 0 0 20px rgba(245, 211, 114, 0.6); }
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      line-height: 1.2;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
+    }
+
+    .hero-desc {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 24px;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .stat-pill {
+      background: rgba(26, 31, 56, 0.8);
+      border: 1px solid rgba(82, 229, 255, 0.25);
+      border-radius: 14px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-pill i {
+      font-size: 20px;
+      color: var(--cyan-lumina);
+    }
+
+    .stat-pill-info .stat-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-pill-info .stat-lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Hero Right: 3D Hologram Graduation Crest */
+    .hero-crest-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+    }
+
+    .crest-card-3d {
+      width: 230px;
+      height: 310px;
+      border-radius: 20px;
+      background: linear-gradient(160deg, rgba(35, 40, 75, 0.9) 0%, rgba(16, 18, 35, 0.95) 100%);
+      border: 2px solid var(--gold-primary);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(245, 211, 114, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.2s cubic-bezier(0.1, 0.5, 0.1, 1);
+      cursor: pointer;
+    }
+
+    .crest-icon-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffe279 0%, #b88a2e 70%, #704f0d 100%);
+      box-shadow: 0 0 25px rgba(245, 211, 114, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      color: #12131f;
+      margin-bottom: 16px;
+      animation: floatBadge 3.5s infinite ease-in-out;
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .crest-card-3d h4 {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .crest-card-3d p {
+      font-size: 11px;
+      color: var(--cyan-lumina);
+      font-weight: 600;
+    }
+
+    .crest-glow-ring {
+      position: absolute;
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(245, 211, 114, 0.3);
+      pointer-events: none;
+      animation: rotateRing 24s infinite linear;
+    }
+
+    @keyframes rotateRing {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================================
+       INTERACTIVE EVENT ITINERARY DASHBOARD (HOYOVERSE TABS & TILES)
+       ============================================================ */
+    .dashboard-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
+      padding-bottom: 14px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(82, 229, 255, 0.15);
+      border: 1px solid var(--border-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan-lumina);
+      font-size: 18px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    /* Interactive Tab Switcher */
+    .day-tab-switcher {
+      display: flex;
+      gap: 8px;
+      background: rgba(14, 16, 28, 0.85);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid rgba(245, 211, 114, 0.2);
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .day-badge-title i {
-      color: var(--gold-primary);
-      font-size: 15px;
+    .tab-btn.active {
+      background: var(--gold-gradient);
+      color: #0b0c16;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(245, 211, 114, 0.4);
     }
 
-    .guest-count {
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffd285;
-      font-weight: 600;
+    /* Itinerary Grid Panels */
+    .itinerary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
     }
 
-    /* Timeline items */
-    .timeline {
+    .day-panel {
+      position: relative;
+      background: linear-gradient(170deg, rgba(22, 26, 48, 0.85) 0%, rgba(13, 15, 28, 0.95) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 22px;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      position: relative;
-      padding-left: 14px;
+      gap: 18px;
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .timeline::before {
+    .day-panel:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-bright);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(245, 211, 114, 0.25);
+    }
+
+    .day-panel.highlight-event {
+      border: 1.5px solid var(--gold-bright);
+      background: linear-gradient(170deg, rgba(36, 38, 70, 0.9) 0%, rgba(16, 18, 35, 0.95) 100%);
+      box-shadow: 0 0 35px rgba(245, 211, 114, 0.25);
+    }
+
+    .panel-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(245, 211, 114, 0.15);
+      padding-bottom: 12px;
+    }
+
+    .panel-date-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold-bright);
+    }
+
+    .panel-group-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(82, 229, 255, 0.12);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan-lumina);
+    }
+
+    /* Timeline Items in Panel */
+    .panel-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .panel-timeline::before {
       content: '';
       position: absolute;
-      left: 3px;
-      top: 6px;
-      bottom: 6px;
+      left: 4px;
+      top: 8px;
+      bottom: 8px;
       width: 2px;
-      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(212, 175, 55, 0.1) 100%);
-      border-radius: 2px;
+      background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(82, 229, 255, 0.3) 100%);
     }
 
-    .timeline-item {
+    .time-event {
       position: relative;
     }
 
-    .timeline-item::before {
+    .time-event::before {
       content: '';
       position: absolute;
-      left: -15px;
+      left: -18px;
       top: 5px;
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--gold-primary);
-      box-shadow: 0 0 8px var(--gold-primary);
+      box-shadow: 0 0 10px var(--gold-primary);
     }
 
-    .time-slot {
-      font-size: 11px;
+    .time-header {
+      font-size: 12px;
       font-weight: 700;
-      color: #f7df8b;
-      margin-bottom: 3px;
+      color: var(--gold-bright);
+      margin-bottom: 4px;
       display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .time-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #e0e4f4;
+    }
+
+    .sub-bullet-list {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-left: 4px;
+    }
+
+    .sub-bullet {
+      font-size: 12px;
+      line-height: 1.45;
+      color: #b3bad4;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .sub-bullet i {
+      color: var(--cyan-lumina);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Location Shortcut Tags */
+    .loc-tags {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(245, 211, 114, 0.15);
+    }
+
+    .loc-chip {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #ccd2eb;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-flex;
       align-items: center;
       gap: 4px;
     }
 
-    .time-detail {
-      font-size: 12.5px;
-      line-height: 1.45;
-      color: #e4e7ec;
-    }
-
-    .sub-steps {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding-left: 6px;
-    }
-
-    .sub-step {
-      font-size: 11.5px;
-      color: #bcc3d4;
-      line-height: 1.4;
-      position: relative;
-    }
-
-    .sub-step i {
+    .loc-chip i {
       color: var(--gold-primary);
-      margin-right: 4px;
-      font-size: 11px;
-    }
-
-    /* Highlight pill for graduation */
-    .highlight-glow {
-      background: radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.15) 0%, rgba(24, 26, 36, 0.95) 70%);
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
-    }
-
-    .grad-star {
-      color: #ffd700;
-      animation: pulseStar 1.8s infinite ease-in-out;
-    }
-
-    @keyframes pulseStar {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.25); opacity: 1; }
-    }
-
-    /* Bottom Action Bar */
-    .card-footer {
-      padding: 12px 18px 16px;
-      background: linear-gradient(0deg, rgba(10, 11, 16, 0.95) 0%, rgba(10, 11, 16, 0) 100%);
-      display: flex;
-      gap: 10px;
-      flex-shrink: 0;
-      border-top: 1px solid rgba(212, 175, 55, 0.15);
-    }
-
-    .btn-action {
-      flex: 1;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      transition: all 0.25s ease;
-    }
-
-    .btn-gold {
-      background: var(--gold-gradient);
-      color: #121318;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-gold:active {
-      transform: scale(0.97);
-    }
-
-    .btn-outline {
-      background: rgba(255, 255, 255, 0.06);
-      color: #f0f0f5;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-outline:active {
-      background: rgba(255, 255, 255, 0.12);
     }
 
     /* ============================================================
-       LAYER 2: PAPER COVER (SLIDING OVERLAY WITH SHADOW)
+       HOYOVERSE POPUP MODAL (PASS CARD / CLAIM INVITATION)
        ============================================================ */
-    .paper-cover {
-      position: absolute;
-      inset: 0;
-      border-radius: 28px;
-      background: linear-gradient(160deg, #1f202b 0%, #15161f 50%, #0d0e14 100%);
-      border: 1.5px solid rgba(212, 175, 55, 0.4);
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 32px 24px 28px;
-      text-align: center;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(212, 175, 55, 0.15),
-        inset 0 0 30px rgba(0, 0, 0, 0.5);
-      cursor: pointer;
-      transform-origin: top center;
-      will-change: transform, box-shadow;
-      overflow: hidden;
-    }
-
-    /* Gold foil border inner */
-    .cover-inner-frame {
-      position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 18px;
-      pointer-events: none;
-    }
-
-    .cover-corner-ornament {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      border: 1.5px solid var(--gold-primary);
-    }
-    .corner-tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
-    .corner-tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
-    .corner-bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
-    .corner-br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
-
-    /* Cover Top Badge */
-    .cover-top {
-      position: relative;
-      z-index: 2;
-    }
-
-    .wax-seal {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffd700 0%, #b8860b 60%, #8b6508 100%);
-      box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.6),
-        0 0 15px rgba(212, 175, 55, 0.5),
-        inset 0 2px 4px rgba(255, 255, 255, 0.6),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .wax-seal i {
-      font-size: 32px;
-      color: #2b1d03;
-      filter: drop-shadow(0 1px 1px rgba(255,255,255,0.4));
-    }
-
-    .cover-sub {
-      font-family: var(--font-display);
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--gold-light);
-      margin-bottom: 6px;
-      opacity: 0.9;
-    }
-
-    .cover-title {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1.25;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
-    }
-
-    .cover-desc {
-      font-size: 13px;
-      color: #a0a6bd;
-      line-height: 1.6;
-      max-width: 280px;
-      margin: 0 auto;
-    }
-
-    .cover-destinations {
-      margin-top: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 30px;
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      font-size: 11.5px;
-      color: #f7df8b;
-      font-weight: 500;
-    }
-
-    /* Cover Bottom Prompt / Pull Hint */
-    .cover-bottom {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding-bottom: 8px;
-    }
-
-    .pull-text {
-      font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      animation: pulseText 2s infinite ease-in-out;
-    }
-
-    .pull-arrow-wrapper {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-    }
-
-    .pull-arrow-wrapper i {
-      font-size: 22px;
-      color: var(--gold-light);
-      animation: bounceArrow 1.6s infinite ease-in-out;
-    }
-
-    .pull-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1px solid var(--gold-primary);
-      opacity: 0.4;
-      animation: ringSpread 2s infinite ease-out;
-    }
-
-    @keyframes bounceArrow {
-      0%, 100% { transform: translateY(-4px); }
-      50% { transform: translateY(4px); }
-    }
-
-    @keyframes pulseText {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; text-shadow: 0 0 10px rgba(212, 175, 55, 0.6); }
-    }
-
-    @keyframes ringSpread {
-      0% { transform: scale(0.9); opacity: 0.7; }
-      100% { transform: scale(1.4); opacity: 0; }
-    }
-
-    /* Fixed floating top status pill for scroll guide */
-    .scroll-guide-pill {
+    .modal-overlay {
       position: fixed;
-      top: calc(env(safe-area-inset-top, 12px) + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      background: rgba(18, 19, 26, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 11px;
-      color: var(--gold-light);
+      inset: 0;
+      background: rgba(4, 5, 12, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
       display: flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
       pointer-events: auto;
     }
 
-    .scroll-guide-pill.fade-out {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-10px);
-      pointer-events: none;
+    .passcard-container {
+      width: 100%;
+      max-width: 440px;
+      background: linear-gradient(160deg, #1d213d 0%, #101224 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(245, 211, 114, 0.35);
+      position: relative;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
     }
 
-    /* Toast Notification for Interactivity */
-    .toast-msg {
-      position: fixed;
-      bottom: calc(env(safe-area-inset-bottom, 16px) + 20px);
-      left: 50%;
-      transform: translateX(-50%) translateY(50px);
-      background: rgba(20, 22, 30, 0.95);
-      border: 1px solid var(--gold-primary);
+    .modal-overlay.active .passcard-container {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
-      padding: 10px 20px;
-      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .pass-stamp {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      color: #0c0e18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 0 20px rgba(245, 211, 114, 0.6);
+    }
+
+    .passcard-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 800;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .passcard-sub {
       font-size: 12px;
-      font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(212, 175, 55, 0.3);
-      z-index: 999;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .input-guest-name {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: rgba(9, 11, 22, 0.8);
+      border: 1px solid var(--border-gold);
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+      margin-bottom: 16px;
+      font-family: var(--font-sans);
+      transition: border-color 0.3s;
+    }
+
+    .input-guest-name:focus {
+      border-color: var(--cyan-lumina);
+      box-shadow: 0 0 15px rgba(82, 229, 255, 0.3);
+    }
+
+    .btn-modal-confirm {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      border: none;
+      background: var(--gold-gradient);
+      color: #0b0d18;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(245, 211, 114, 0.4);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-modal-confirm:active {
+      transform: scale(0.97);
+    }
+
+    /* Toast */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(40px);
+      background: rgba(18, 22, 42, 0.96);
+      border: 1px solid var(--gold-primary);
+      padding: 12px 24px;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 2000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(245, 211, 114, 0.4);
       opacity: 0;
       pointer-events: none;
-      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .toast-msg.show {
-      transform: translateX(-50%) translateY(0);
+    .toast-box.show {
       opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE ADAPTATION (DESKTOP / LAPTOP / MOBILE)
+       ============================================================ */
+    @media (max-width: 900px) {
+      .hero-banner {
+        grid-template-columns: 1fr;
+        padding: 28px 20px;
+        text-align: center;
+      }
+      .hero-desc {
+        margin: 0 auto 20px auto;
+      }
+      .hero-stats {
+        justify-content: center;
+      }
+      .hero-crest-container {
+        display: none; /* Hide heavy 3D card on compact mobile for cleaner view */
+      }
+      .section-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .day-tab-switcher {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .tab-btn {
+        flex: 1;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Animated Canvas -->
-  <canvas id="sparkle-canvas"></canvas>
-  <div class="ambient-glow"></div>
+  <!-- Ambient Animated Nebula & Canvas -->
+  <div class="bg-nebula"></div>
+  <div class="bg-cyber-grid"></div>
+  <canvas id="ambient-canvas"></canvas>
 
-  <!-- Top Floating State Pill -->
-  <div class="scroll-guide-pill" id="guidePill">
-    <i class="ri-scroll-to-bottom-line"></i>
-    <span>Cuộn màn hình để mở thiệp</span>
-  </div>
+  <!-- Top Navbar -->
+  <header class="top-navbar">
+    <div class="brand-group">
+      <div class="brand-emblem">
+        <i class="ri-graduation-cap-fill"></i>
+      </div>
+      <div class="brand-text">
+        <h3>LỄ TỐT NGHIỆP 2026</h3>
+        <p>Hành trình Đà Nẵng – Hội An</p>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-sound" id="btnSound" onclick="toggleSound()">
+        <i class="ri-volume-up-fill" id="soundIcon"></i>
+        <span id="soundText">BGM Chime</span>
+      </button>
+      <button class="btn-claim-top" onclick="openPassModal()">
+        <i class="ri-vip-diamond-fill"></i> Điểm Danh
+      </button>
+    </div>
+  </header>
 
-  <!-- Main Scroll Track for GSAP ScrollTrigger Scrub -->
-  <div class="scroll-track">
-    <div class="pin-viewport">
-      <div class="card-stage" id="cardStage">
+  <!-- Main App Wrapper -->
+  <main class="app-wrapper">
 
-        <!-- ============================================================
-             UNDERNEATH LAYER: VIP INVITATION DETAILS
-             ============================================================ -->
-        <div class="invitation-card" id="invitationCard">
-          
-          <!-- Card Header -->
-          <div class="card-header">
-            <div class="vip-tag">
-              <i class="ri-vip-crown-2-fill"></i> VIP INVITATION
-            </div>
-            <h1 class="main-title">LỄ TỐT NGHIỆP & CHUYẾN ĐI</h1>
-            <p class="sub-title">Đà Nẵng – Hội An • Hành Trình 3 Ngày Kỷ Niệm</p>
-            <div class="gold-divider"></div>
-          </div>
+    <!-- Hero Banner: Event Spotlight (HoYoverse Aesthetic) -->
+    <section class="hero-banner" id="heroBanner">
+      <div class="ornament-corner ornament-tl"></div>
+      <div class="ornament-corner ornament-tr"></div>
+      <div class="ornament-corner ornament-bl"></div>
+      <div class="ornament-corner ornament-br"></div>
 
-          <!-- Card Body: Itinerary -->
-          <div class="card-body" id="cardBody">
-            
-            <!-- NGÀY 1 -->
-            <div class="day-block">
-              <div class="day-badge">
-                <div class="day-badge-title">
-                  <i class="ri-map-pin-2-fill"></i> NGÀY 1 (11/08): ĐÀ NẴNG – HỘI AN
-                </div>
-                <span class="guest-count"><i class="ri-group-line"></i> Đoàn 7 người</span>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa</div>
-                  <div class="time-detail">Đón đoàn về khách sạn nhận phòng & gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-time-line"></i> 15h30 - 21h00 • Chiều - Tối: Khám Phá Hội An</div>
-                  <div class="sub-steps">
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>15h30:</b> Xe đón đoàn 7 người xuất phát đi Hội An (~40 phút).</div>
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>16h30:</b> Dạo bộ ngắm phố cổ lúc hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</div>
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>18h00:</b> Ăn tối đặc sản Hội An (cơm gà, cao lầu, bánh bao bánh vạc).</div>
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>19h00:</b> Đi thuyền ngắm phố đèn lồng & thả hoa đăng trên sông Hoài, uống nước Mót, ăn kem ống.</div>
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>21h00:</b> Xe đón cả nhà về lại khách sạn Đà Nẵng nghỉ ngơi.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- NGÀY 2 (HIGH-LIGHT DAY) -->
-            <div class="day-block highlight-glow">
-              <div class="day-badge">
-                <div class="day-badge-title" style="color: #ffd700;">
-                  <i class="ri-graduation-cap-fill grad-star"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP & TIỆC MỪNG
-                </div>
-                <span class="guest-count" style="background: rgba(212,175,55,0.25); color: #fff;"><i class="ri-sparkling-fill"></i> Sự Kiện Chính</span>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item">
-                  <div class="time-slot" style="color: #ffd700;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
-                  <div class="time-detail">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-restaurant-2-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Mừng Tốt Nghiệp</div>
-                  <div class="time-detail">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-sun-cloudy-line"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
-                  <div class="time-detail">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ngắm toàn cảnh vịnh ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn rực rỡ.</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-goblet-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Phố Đêm Sông Hàn</div>
-                  <div class="sub-steps">
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>Ăn tối:</b> Thưởng thức hải sản tươi sống & ẩm thực địa phương cùng gia đình, bạn bè (12 – 17 người).</div>
-                    <div class="sub-step"><i class="ri-arrow-right-s-fill"></i><b>Dạo mát:</b> Ngắm cảnh lung linh đôi bờ Sông Hàn, check-in Cầu Tình Yêu, chiêm ngưỡng Cầu Rồng và ghé Chợ đêm.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- NGÀY 3 -->
-            <div class="day-block">
-              <div class="day-badge">
-                <div class="day-badge-title">
-                  <i class="ri-shopping-bag-3-fill"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT
-                </div>
-                <span class="guest-count">Thư giãn</span>
-              </div>
-              <div class="timeline">
-                <div class="timeline-item">
-                  <div class="time-slot"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Đặc sản & Check-in</div>
-                  <div class="time-detail">Ăn sáng bún chả cá Đà Nẵng trứ danh ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng thân yêu!</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Card Footer Actions -->
-          <div class="card-footer">
-            <button class="btn-action btn-gold" id="btnConfirm" onclick="showToast('✨ Đã lưu thiệp mời vào danh sách của bạn!')">
-              <i class="ri-checkbox-circle-fill"></i> Xác nhận tham dự
-            </button>
-            <button class="btn-action btn-outline" id="btnShare" onclick="copySchedule()">
-              <i class="ri-share-forward-line"></i> Chia sẻ
-            </button>
-          </div>
-
+      <div class="hero-content">
+        <div class="hero-badge-tag">
+          <i class="ri-sparkling-2-fill"></i> SỰ KIỆN ĐẶC BIỆT • 11 - 13/08
         </div>
+        <h1 class="hero-title">ĐẠI LỄ TỐT NGHIỆP & CHUYẾN DU NGOẠN</h1>
+        <p class="hero-desc">
+          Trân trọng kính mời gia đình và những người bạn thân thương cùng tề tựu tại thành phố biển Đà Nẵng & Phố cổ Hội An, chia sẻ niềm vui trong cột mốc vinh quang tốt nghiệp đại học.
+        </p>
 
-        <!-- ============================================================
-             OVERLAY LAYER: SHADOW EVENT PULL-TAB / PAPER COVER
-             ============================================================ -->
-        <div class="paper-cover" id="paperCover" onclick="tapToToggle()">
-          
-          <div class="cover-inner-frame"></div>
-          <div class="cover-corner-ornament corner-tl"></div>
-          <div class="cover-corner-ornament corner-tr"></div>
-          <div class="cover-corner-ornament corner-bl"></div>
-          <div class="cover-corner-ornament corner-br"></div>
-
-          <!-- Cover Header / Monogram -->
-          <div class="cover-top">
-            <div class="wax-seal">
-              <i class="ri-graduation-cap-fill"></i>
-            </div>
-            <div class="cover-sub">GRADUATION CEREMONY</div>
-            <h2 class="cover-title">THƯ MỜI DANH DỰ</h2>
-            <p class="cover-desc">Trân trọng kính mời Quý Gia Đình & Bạn Bè cùng tề tựu chung vui trong khoảnh khắc ý nghĩa.</p>
-            <div class="cover-destinations">
-              <i class="ri-map-pin-line"></i> Đà Nẵng – Hội An (11 - 13/08)
+        <div class="hero-stats">
+          <div class="stat-pill">
+            <i class="ri-calendar-event-fill"></i>
+            <div class="stat-pill-info">
+              <div class="stat-val">3 Ngày 2 Đêm</div>
+              <div class="stat-lbl">Thời Gian</div>
             </div>
           </div>
-
-          <!-- Cover Bottom Pull Tab / Animated Arrow -->
-          <div class="cover-bottom">
-            <div class="pull-text">Vuốt xuống để mở thiệp</div>
-            <div class="pull-arrow-wrapper">
-              <div class="pull-ring"></div>
-              <i class="ri-arrow-down-double-line"></i>
+          <div class="stat-pill">
+            <i class="ri-map-pin-2-fill"></i>
+            <div class="stat-pill-info">
+              <div class="stat-val">Đà Nẵng – Hội An</div>
+              <div class="stat-lbl">Địa Điểm</div>
             </div>
           </div>
-
+          <div class="stat-pill">
+            <i class="ri-team-fill"></i>
+            <div class="stat-pill-info">
+              <div class="stat-val">Gia Đình & Bạn Bè</div>
+              <div class="stat-lbl">Khách Mời VIP</div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Right 3D Tilt Card (Active on PC/Laptop) -->
+      <div class="hero-crest-container">
+        <div class="crest-glow-ring"></div>
+        <div class="crest-card-3d" id="crestCard" onclick="celebrateSparkles()">
+          <div class="crest-icon-box">
+            <i class="ri-award-fill"></i>
+          </div>
+          <h4>CHỨNG NHẬN VIP</h4>
+          <p>TỐT NGHIỆP DANH DỰ</p>
+          <div style="margin-top: 14px; font-size: 11px; color: var(--gold-bright); border: 1px dashed var(--border-gold); padding: 4px 10px; border-radius: 8px;">
+            Nhấp để chúc mừng 🎉
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Itinerary Dashboard -->
+    <section class="dashboard-section">
+      <div class="section-header-bar">
+        <div class="section-title-wrap">
+          <div class="section-icon"><i class="ri-route-line"></i></div>
+          <h2 class="section-title">LỊCH TRÌNH CHI TIẾT (3 NGÀY)</h2>
+        </div>
+        
+        <div class="day-tab-switcher">
+          <button class="tab-btn active" onclick="filterDay('all', this)"><i class="ri-grid-fill"></i> Tất cả</button>
+          <button class="tab-btn" onclick="filterDay('day1', this)"><i class="ri-ancient-gate-fill"></i> Ngày 1</button>
+          <button class="tab-btn" onclick="filterDay('day2', this)"><i class="ri-graduation-cap-fill"></i> Ngày 2 (Chính)</button>
+          <button class="tab-btn" onclick="filterDay('day3', this)"><i class="ri-shopping-bag-3-fill"></i> Ngày 3</button>
+        </div>
+      </div>
+
+      <!-- Day Panels -->
+      <div class="itinerary-grid">
+
+        <!-- NGÀY 1 -->
+        <article class="day-panel" data-day="day1">
+          <div class="panel-top-row">
+            <div class="panel-date-tag">
+              <i class="ri-map-pin-line"></i> NGÀY 1 (11/08): HỘI AN
+            </div>
+            <span class="panel-group-badge"><i class="ri-group-line"></i> Đoàn 7 người</span>
+          </div>
+
+          <div class="panel-timeline">
+            <div class="time-event">
+              <div class="time-header"><i class="ri-time-line"></i> 11h30 - 13h30 • Trưa</div>
+              <div class="time-desc">Đón đoàn về khách sạn nhận phòng/gửi đồ ➔ Ăn trưa nhẹ đặc sản (Bánh tráng cuốn thịt heo / Mì Quảng) ➔ Nghỉ ngơi hồi sức.</div>
+            </div>
+
+            <div class="time-event">
+              <div class="time-header"><i class="ri-sun-foggy-fill"></i> 15h30 - 21h00 • Chiều - Tối: Phố Cổ Hội An</div>
+              <div class="sub-bullet-list">
+                <div class="sub-bullet"><i class="ri-car-fill"></i><span><b>15h30:</b> Xe đón đoàn 7 người đi Hội An (~40 phút).</span></div>
+                <div class="sub-bullet"><i class="ri-camera-lens-fill"></i><span><b>16h30:</b> Dạo bộ ngắm hoàng hôn, check-in Chùa Cầu, giàn hoa giấy.</span></div>
+                <div class="sub-bullet"><i class="ri-restaurant-fill"></i><span><b>18h00:</b> Ăn tối đặc sản (cơm gà, cao lầu, bánh bao bánh vạc).</span></div>
+                <div class="sub-bullet"><i class="ri-sailboat-fill"></i><span><b>19h00:</b> Thuyền sông Hoài, thả hoa đăng, nước Mót, kem ống.</span></div>
+                <div class="sub-bullet"><i class="ri-hotel-bed-fill"></i><span><b>21h00:</b> Xe đón về lại khách sạn Đà Nẵng nghỉ ngơi.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="loc-tags">
+            <span class="loc-chip"><i class="ri-building-line"></i> KS Đà Nẵng</span>
+            <span class="loc-chip"><i class="ri-ancient-gate-line"></i> Chùa Cầu</span>
+            <span class="loc-chip"><i class="ri-cup-line"></i> Nước Mót</span>
+          </div>
+        </article>
+
+        <!-- NGÀY 2: HIGHLIGHT -->
+        <article class="day-panel highlight-event" data-day="day2">
+          <div class="panel-top-row">
+            <div class="panel-date-tag" style="color: #ffe89e;">
+              <i class="ri-graduation-cap-fill" style="color: #ffd700;"></i> NGÀY 2 (12/08): LỄ TỐT NGHIỆP
+            </div>
+            <span class="panel-group-badge" style="background: rgba(245, 211, 114, 0.2); color: #ffd700;">
+              <i class="ri-sparkling-fill"></i> Sự Kiện Chính
+            </span>
+          </div>
+
+          <div class="panel-timeline">
+            <div class="time-event">
+              <div class="time-header" style="color: #ffe89e;"><i class="ri-award-fill"></i> 07h30 - 11h30 • Sáng: Đại Lễ Tốt Nghiệp</div>
+              <div class="time-desc">Tham dự <b>Lễ Tốt Nghiệp</b> trang trọng & chụp ảnh kỷ niệm tại trường đại học.</div>
+            </div>
+
+            <div class="time-event">
+              <div class="time-header"><i class="ri-goblet-fill"></i> 11h30 - 14h00 • Trưa: Tiệc Liên Hoan Mừng</div>
+              <div class="time-desc">Tiệc mừng ấm cúng cùng gia đình & bạn bè <b>(Đoàn 12 – 17 người)</b> tại nhà hàng sang trọng ➔ Về khách sạn nghỉ ngơi.</div>
+            </div>
+
+            <div class="time-event">
+              <div class="time-header"><i class="ri-sun-cloudy-fill"></i> 15h30 - 17h30 • Chiều: Sơn Trà & Biển Mỹ Khê</div>
+              <div class="time-desc">Viếng Chùa Linh Ứng (Bán đảo Sơn Trà) ➔ Tắm biển Mỹ Khê & ngắm hoàng hôn biển tuyệt đẹp.</div>
+            </div>
+
+            <div class="time-event">
+              <div class="time-header"><i class="ri-moon-clear-fill"></i> 18h30 - 21h30 • Tối: Đại Tiệc & Cầu Rồng Sông Hàn</div>
+              <div class="sub-bullet-list">
+                <div class="sub-bullet"><i class="ri-restaurant-2-fill"></i><span>Ăn tối hải sản & ẩm thực địa phương cùng gia đình & bạn bè (12 – 17 người).</span></div>
+                <div class="sub-bullet"><i class="ri-road-map-fill"></i><span>Dạo mát Sông Hàn, check-in Cầu Tình Yêu, Cầu Rồng và Chợ đêm.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="loc-tags">
+            <span class="loc-chip"><i class="ri-graduation-cap-line"></i> Trường ĐH</span>
+            <span class="loc-chip"><i class="ri-temp-hot-line"></i> Chùa Linh Ứng</span>
+            <span class="loc-chip"><i class="ri-water-flash-line"></i> Cầu Rồng Sông Hàn</span>
+          </div>
+        </article>
+
+        <!-- NGÀY 3 -->
+        <article class="day-panel" data-day="day3">
+          <div class="panel-top-row">
+            <div class="panel-date-tag">
+              <i class="ri-gift-line"></i> NGÀY 3 (13/08): ĐẶC SẢN & TẠM BIỆT
+            </div>
+            <span class="panel-group-badge">Mua sắm</span>
+          </div>
+
+          <div class="panel-timeline">
+            <div class="time-event">
+              <div class="time-header"><i class="ri-time-line"></i> 08h00 - 10h30 • Sáng: Đặc sản Chợ Hàn & APEC</div>
+              <div class="time-desc">Ăn sáng bún chả cá Đà Nẵng ➔ Ghé Chợ Hàn mua quà đặc sản (chả bò, tré, mực rim, bánh khô mè) ➔ Check-in Công viên APEC ➔ Tạm biệt Đà Nẵng!</div>
+            </div>
+          </div>
+
+          <div class="loc-tags">
+            <span class="loc-chip"><i class="ri-store-2-line"></i> Chợ Hàn</span>
+            <span class="loc-chip"><i class="ri-plant-line"></i> Công Viên APEC</span>
+            <span class="loc-chip"><i class="ri-flight-takeoff-line"></i> Sân Bay ĐN</span>
+          </div>
+        </article>
 
       </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Pass Modal (Claim / RSVP) -->
+  <div class="modal-overlay" id="passModal">
+    <div class="passcard-container">
+      <button class="modal-close-btn" onclick="closePassModal()"><i class="ri-close-line"></i></button>
+      
+      <div class="pass-stamp">
+        <i class="ri-shield-star-fill"></i>
+      </div>
+      <h3 class="passcard-title">XÁC NHẬN THAM DỰ</h3>
+      <p class="passcard-sub">Nhập tên của bạn để tạo Thẻ Khách Mời Danh Dự</p>
+
+      <input type="text" id="guestNameInput" class="input-guest-name" placeholder="Ví dụ: Bác Nam / Bạn Hoàng..." />
+
+      <button class="btn-modal-confirm" onclick="confirmGuest()">
+        <i class="ri-check-double-fill"></i> Tạo Thẻ & Xác Nhận Ngay
+      </button>
     </div>
   </div>
 
-  <!-- Toast Notification element -->
-  <div class="toast-msg" id="toastMsg">Thông báo</div>
+  <!-- Toast Element -->
+  <div class="toast-box" id="toastBox">Thông báo</div>
 
   <script>
-    // Register GSAP ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-
-    // DOM Elements
-    const paperCover = document.getElementById('paperCover');
-    const invitationCard = document.getElementById('invitationCard');
-    const guidePill = document.getElementById('guidePill');
-    const toastMsg = document.getElementById('toastMsg');
-    let isOpenedManually = false;
-
     /* ============================================================
-       GSAP SCROLL-DRIVEN TIMELINE (SCRUB)
+       AMBIENT PARTICLES & METEOR CANVAS (HOYOVERSE STYLE)
        ============================================================ */
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".scroll-track",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1, // Smooth scrub matching finger speed
-        onUpdate: (self) => {
-          if (self.progress > 0.08) {
-            guidePill.classList.add('fade-out');
-          } else {
-            guidePill.classList.remove('fade-out');
-          }
-        }
-      }
-    });
-
-    // 1. Physical paper cover elevates, tilts, expands shadow, and slides upwards away
-    tl.to(paperCover, {
-      yPercent: -108,
-      scale: 0.96,
-      rotateX: 14,
-      boxShadow: "0 60px 100px rgba(0, 0, 0, 0.95), 0 25px 45px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.4)",
-      ease: "power2.out",
-      duration: 1
-    }, 0);
-
-    // 2. Underlying VIP Card scales up from 0.92 to 1 and fades in smoothly
-    tl.to(invitationCard, {
-      opacity: 1,
-      scale: 1,
-      ease: "power2.out",
-      duration: 0.85
-    }, 0.15);
-
-    // 3. Stagger animate the day blocks inside the card as it opens
-    tl.from(".day-block", {
-      y: 25,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "power2.out",
-      duration: 0.6
-    }, 0.35);
-
-    /* ============================================================
-       TAP TO TOGGLE (QUICK CLICK / TAP EXPERIENCE)
-       ============================================================ */
-    function tapToToggle() {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      window.scrollTo({
-        top: scrollHeight * 0.9,
-        behavior: 'smooth'
-      });
-    }
-
-    function showToast(msg) {
-      toastMsg.innerText = msg;
-      toastMsg.classList.add('show');
-      setTimeout(() => {
-        toastMsg.classList.remove('show');
-      }, 3000);
-    }
-
-    function copySchedule() {
-      const text = `🎓 THƯ MỜI LỄ TỐT NGHIỆP & CHUYẾN ĐI ĐÀ NẴNG - HỘI AN\n` +
-        `📅 Ngày 11 - 13/08\n` +
-        `📍 Ngày 1 (11/08): Đón đoàn, Check-in, Phố cổ Hội An\n` +
-        `📍 Ngày 2 (12/08): Lễ Tốt Nghiệp, Tiệc Mừng, Sơn Trà & Sông Hàn\n` +
-        `📍 Ngày 3 (13/08): Chợ Hàn đặc sản, APEC Park, Tạm biệt Đà Nẵng!`;
-      
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast("📋 Đã sao chép lịch trình chi tiết!");
-        }).catch(() => {
-          showToast("✨ Hãy chụp ảnh màn hình hoặc gửi link này nhé!");
-        });
-      } else {
-        showToast("✨ Hãy chia sẻ link Web App này!");
-      }
-    }
-
-    /* ============================================================
-       FLOATING GOLDEN SPARKLES CANVAS ANIMATION
-       ============================================================ */
-    const canvas = document.getElementById('sparkle-canvas');
+    const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
-
     let particles = [];
+
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -926,23 +1091,24 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    class Sparkle {
+    class StarParticle {
       constructor() {
         this.reset();
       }
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.8;
-        this.speedY = Math.random() * -0.6 - 0.2;
-        this.speedX = (Math.random() - 0.5) * 0.4;
-        this.opacity = Math.random() * 0.7 + 0.2;
-        this.fadeSpeed = Math.random() * 0.008 + 0.003;
+        this.size = Math.random() * 2.2 + 0.6;
+        this.speedY = Math.random() * -0.5 - 0.15;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.color = Math.random() > 0.4 ? '#f5d372' : '#52e5ff';
+        this.opacity = Math.random() * 0.8 + 0.2;
+        this.fade = Math.random() * 0.006 + 0.002;
       }
       update() {
         this.y += this.speedY;
         this.x += this.speedX;
-        this.opacity -= this.fadeSpeed;
+        this.opacity -= this.fade;
         if (this.opacity <= 0 || this.y < 0) {
           this.reset();
           this.y = canvas.height + 10;
@@ -951,26 +1117,144 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(247, 223, 139, ${this.opacity})`;
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = "#d4af37";
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = this.color;
         ctx.fill();
+        ctx.globalAlpha = 1;
       }
     }
 
-    for (let i = 0; i < 40; i++) {
-      particles.push(new Sparkle());
+    for (let i = 0; i < 55; i++) {
+      particles.push(new StarParticle());
     }
 
-    function animateSparkles() {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
         p.update();
         p.draw();
       });
-      requestAnimationFrame(animateSparkles);
+      requestAnimationFrame(animate);
     }
-    animateSparkles();
+    animate();
+
+    /* ============================================================
+       3D MOUSE TILT ON PC/LAPTOP FOR HERO CREST
+       ============================================================ */
+    const crestCard = document.getElementById('crestCard');
+    if (crestCard) {
+      document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 900) return;
+        const rect = crestCard.getBoundingClientRect();
+        const cardX = rect.left + rect.width / 2;
+        const cardY = rect.top + rect.height / 2;
+        const angleX = (e.clientY - cardY) / 25;
+        const angleY = (cardX - e.clientX) / 25;
+        crestCard.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+      });
+    }
+
+    /* ============================================================
+       INTERACTIVE TAB FILTERING
+       ============================================================ */
+    function filterDay(dayKey, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const panels = document.querySelectorAll('.day-panel');
+      panels.forEach(p => {
+        if (dayKey === 'all' || p.getAttribute('data-day') === dayKey) {
+          gsap.to(p, { display: 'flex', opacity: 1, scale: 1, duration: 0.35 });
+        } else {
+          gsap.to(p, { display: 'none', opacity: 0, scale: 0.95, duration: 0.2 });
+        }
+      });
+    }
+
+    /* ============================================================
+       SYNTHESIZED CHIME AUDIO (NO EXTERNAL AUDIO FILE NEEDED)
+       ============================================================ */
+    let audioCtx = null;
+    let isSoundOn = false;
+    function playChime() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
+          gain.gain.setValueAtTime(0.001, audioCtx.currentTime + idx * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + idx * 0.12 + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + idx * 0.12 + 0.8);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(audioCtx.currentTime + idx * 0.12);
+          osc.stop(audioCtx.currentTime + idx * 0.12 + 0.9);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    function toggleSound() {
+      isSoundOn = !isSoundOn;
+      const soundIcon = document.getElementById('soundIcon');
+      const soundText = document.getElementById('soundText');
+      if (isSoundOn) {
+        soundIcon.className = "ri-volume-up-fill";
+        soundText.innerText = "Bật Chime";
+        playChime();
+        showToast("✨ Âm thanh sự kiện đã kích hoạt!");
+      } else {
+        soundIcon.className = "ri-volume-mute-fill";
+        soundText.innerText = "Tắt Âm";
+        showToast("Đã tắt âm thanh.");
+      }
+    }
+
+    /* ============================================================
+       CONFETTI CELEBRATION
+       ============================================================ */
+    function celebrateSparkles() {
+      if (isSoundOn) playChime();
+      confetti({
+        particleCount: 70,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#f5d372', '#ffe89e', '#52e5ff', '#ffffff']
+      });
+      showToast("🎉 Chúc mừng tân cử nhân! Cùng đếm ngược ngày hội tụ!");
+    }
+
+    /* ============================================================
+       MODAL & RSVP GUEST REGISTRATION
+       ============================================================ */
+    const passModal = document.getElementById('passModal');
+    function openPassModal() {
+      passModal.classList.add('active');
+    }
+    function closePassModal() {
+      passModal.classList.remove('active');
+    }
+
+    function confirmGuest() {
+      const name = document.getElementById('guestNameInput').value.trim();
+      const guestName = name ? name : "Quý Khách Quý";
+      closePassModal();
+      celebrateSparkles();
+      showToast(`✨ Chào mừng [${guestName}] đã xác nhận tham dự!`);
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      box.innerText = msg;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 3500);
+    }
   </script>
 </body>
 </html>
