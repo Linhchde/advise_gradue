@@ -571,11 +571,11 @@
     }
 
     /* ============================================================
-       ORGANIC FLOATING TEXT (POP-UP UPRIGHT & PURE Z-AXIS FLOAT)
+       ORGANIC FLOATING TEXT (NO ROTATE • PURE Z-AXIS ELEVATION)
        ============================================================ */
     #leftContentWrap {
-      transform: translateZ(95px) rotateX(-48deg) rotateY(0deg);
-      transform-origin: bottom center;
+      transform: translateZ(95px);
+      transform-origin: center center;
       background: transparent;
       border: none;
       padding: 0;
@@ -586,8 +586,8 @@
     }
 
     #rightContentWrap {
-      transform: translateZ(95px) rotateX(-48deg) rotateY(0deg);
-      transform-origin: bottom center;
+      transform: translateZ(95px);
+      transform-origin: center center;
       background: transparent;
       border: none;
       padding: 0;
@@ -598,31 +598,31 @@
     }
 
     @keyframes floatTextLeft {
-      0%, 100% { transform: translateZ(95px) rotateX(-48deg) translateY(0); }
-      50% { transform: translateZ(118px) rotateX(-48deg) translateY(-8px); }
+      0%, 100% { transform: translateZ(95px) translateY(0); }
+      50% { transform: translateZ(120px) translateY(-8px); }
     }
 
     @keyframes floatTextRight {
-      0%, 100% { transform: translateZ(95px) rotateX(-48deg) translateY(0); }
-      50% { transform: translateZ(118px) rotateX(-48deg) translateY(-8px); }
+      0%, 100% { transform: translateZ(95px) translateY(0); }
+      50% { transform: translateZ(120px) translateY(-8px); }
     }
 
     @media (max-width: 768px) {
       #leftContentWrap {
-        transform: translateZ(65px) rotateX(-32deg) rotateY(0deg);
+        transform: translateZ(65px);
         animation: floatTextMobileLeft 3.5s infinite ease-in-out;
       }
       #rightContentWrap {
-        transform: translateZ(65px) rotateX(-32deg) rotateY(0deg);
+        transform: translateZ(65px);
         animation: floatTextMobileRight 3.5s infinite ease-in-out 0.5s;
       }
       @keyframes floatTextMobileLeft {
-        0%, 100% { transform: translateZ(65px) rotateX(-32deg) translateY(0); }
-        50% { transform: translateZ(82px) rotateX(-32deg) translateY(-6px); }
+        0%, 100% { transform: translateZ(65px) translateY(0); }
+        50% { transform: translateZ(85px) translateY(-6px); }
       }
       @keyframes floatTextMobileRight {
-        0%, 100% { transform: translateZ(65px) rotateX(-32deg) translateY(0); }
-        50% { transform: translateZ(82px) rotateX(-32deg) translateY(-6px); }
+        0%, 100% { transform: translateZ(65px) translateY(0); }
+        50% { transform: translateZ(85px) translateY(-6px); }
       }
     }
 
