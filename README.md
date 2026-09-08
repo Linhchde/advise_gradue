@@ -1,6 +1,6 @@
 # Thư Mời Lễ Tốt Nghiệp • Cao Hoàng Linh
 
-Website thư mời lễ tốt nghiệp chuyên ngành **Kỹ sư phần mềm**, thiết kế theo phong cách thiệp FPT University với giấy kem, khung vàng, vòm xanh và dải ruy-băng cam–xanh. Three.js dựng phong bì, con dấu sáp, mũ tốt nghiệp cùng hiệu ứng ánh sáng và chuyển động.
+Website thư mời lễ tốt nghiệp chuyên ngành **Kỹ sư phần mềm**, được thiết kế bằng HTML, CSS, JavaScript và Three.js. Giao diện tối ưu cho cả máy tính lẫn điện thoại, có mô hình mũ tốt nghiệp 3D, hiệu ứng chuyển động nhẹ, lịch trình và nút lưu sự kiện vào lịch.
 
 ## Thông tin sự kiện
 
@@ -10,34 +10,39 @@ Website thư mời lễ tốt nghiệp chuyên ngành **Kỹ sư phần mềm**,
 
 ## Chạy trên máy tính
 
-Từ thư mục gốc dự án, chạy:
+Website không cần bước build. Từ thư mục repository, chạy:
 
 ```bash
-python -m http.server 8000
+python -m http.server 8000 -d dist
 ```
 
 Sau đó mở `http://localhost:8000`.
 
-Bạn cũng có thể mở thư mục bằng Live Server trong VS Code.
+## Triển khai trên Vercel
 
-## Triển khai lên Vercel
+Repository đã có sẵn `vercel.json`, vì vậy không cần cài thư viện hay chạy lệnh build.
+Chỉ cần import repository vào Vercel và triển khai với cấu hình mặc định. Vercel sẽ phục vụ
+trực tiếp thư mục `dist`.
 
-Dự án đã sẵn sàng triển khai:
-- **Qua Vercel Dashboard**: Kết nối repository GitHub `advise_gradue` trên [vercel.com](https://vercel.com) và bấm Deploy.
-- **Qua Vercel CLI**:
-  ```bash
-  npx vercel --prod
-  ```
+Nếu gửi liên kết cho gia đình, hãy tắt **Vercel Authentication** trong phần
+**Project Settings → Deployment Protection** để người nhận không bị chuyển tới màn hình đăng nhập.
 
-## Cấu trúc thư mục
+## Cấu trúc
 
 ```text
-├── index.html            # Trang thiệp mời chính
-├── assets/
-│   ├── app.js            # Logic đếm ngược, lưu lịch .ics, chia sẻ liên kết
-│   ├── styles.css        # Thiết kế & responsive
-│   └── three-scene.js    # Mô hình 3D Three.js (mũ tốt nghiệp, con dấu sáp)
-├── vercel.json           # Cấu hình tối ưu Vercel & cache header
-├── .gitignore            # Loại trừ file nhạy cảm
-└── README.md
+dist/
+├── index.html
+└── assets/
+    ├── app.js
+    ├── styles.css
+    └── three-scene.js
 ```
+
+## Tùy chỉnh nhanh
+
+- Nội dung thư mời và lịch trình: `dist/index.html`
+- Màu sắc, bố cục, responsive: `dist/assets/styles.css`
+- Đếm ngược và file lịch: `dist/assets/app.js`
+- Mô hình, ánh sáng và chuyển động 3D: `dist/assets/three-scene.js`
+
+Three.js được ghim phiên bản `0.180.0` để giao diện ổn định khi triển khai.
